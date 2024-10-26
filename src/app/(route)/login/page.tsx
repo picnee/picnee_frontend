@@ -1,6 +1,27 @@
-"use client";
+import React from "react";
 
-const LoginPage = () => {
-  return <p>login</p>;
+import Image from "next/image";
+import { OAuthType } from "@/app/lib/SocialLoginData";
+import OAuthBox from "@/app/components/ui/login/OAuthBox";
+
+const page = () => {
+  return (
+    <div className="flex justify-center items-center flex-col gap-5 h-[100vh] w-full">
+      {OAuthType.map((item) => (
+        <OAuthBox key={item.name} name={item.name}>
+          <span className="font-medium w-[120px]">Sign Up {item.name}</span>
+          <Image
+            src={item.iconSrc}
+            alt="loginIcon"
+            width={40}
+            height={40}
+            className="object-cover"
+            priority
+          />
+        </OAuthBox>
+      ))}
+    </div>
+  );
 };
-export default LoginPage;
+
+export default page;
