@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AuthProvider from "./providers/AuthProvider";
+import './styles/global.css'
 
 export const metadata: Metadata = {
   title: "Create Next App",
