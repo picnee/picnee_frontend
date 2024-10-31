@@ -1,8 +1,7 @@
 import NextAuth, { NextAuthOptions, Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import NaverProvider from "next-auth/providers/naver";
-import KakaoProvider from "next-auth/providers/kakao"
-
+import KakaoProvider from "next-auth/providers/kakao";
 
 // 기본 Session 및 JWT 타입을 확장
 interface CustomUser {
@@ -93,12 +92,10 @@ const authOptions: NextAuthOptions = {
       return customSession;
     },
     async signIn({ user, account, profile, email }) {
-      console.log(user, account, profile, email)
-      return true
+      console.log(user, account, profile, email);
+      return true;
     },
   },
-
-  
 };
 
 const handler = NextAuth(authOptions);

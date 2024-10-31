@@ -2,7 +2,7 @@ import React from "react";
 
 import Image from "next/image";
 import { OAuthType } from "@/app/lib/SocialLoginData";
-import OAuthBox from "@/app/components/ui/login/OAuthBox";
+import OAuthBox from "@/app/(route)/login/_components/OAuthBox";
 
 const page = () => {
   return (
