@@ -12,7 +12,7 @@ const OAuthBox = ({
 }) => {
   return (
     <div
-      className="relative flex items-center border-[1px] border-neutral-300 rounded-md px-5 py-2 hover:bg-neutral-300 hover:text-black transition-colors cursor-pointer"
+      className="relative flex items-center border border-neutral-300 rounded-md px-5 py-2 hover:bg-neutral-300 hover:text-black transition-colors cursor-pointer"
       onClick={() => signIn(name, { redirect: true, callbackUrl: "/" })}
     >
       {children}
