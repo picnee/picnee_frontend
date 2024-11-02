@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Divider from "@/app/components/common/Divider";
 import FormInput from "@/app/components/common/FormInput";
-import SearchBox from "@/app/components/common/SearchBox";
+
 
 interface FieldValue {
   email: string;
@@ -136,7 +136,6 @@ export default function LoginPage() {
           <GrayButtonBox width="394px" height="48px" text="카카오로 계속하기" onClick={() => goLoginPage('kakao')} />
           <GrayButtonBox width="394px" height="48px" text="네이버로 계속하기" onClick={() => goLoginPage('naver')} />
           <GrayButtonBox width="394px" height="48px" text="구글로 계속하기" onClick={() => goLoginPage('google')} />
-          <SearchBox width="394px" height="48px" placeholder="이메일 찾기" />
         </div>
       </main>
     </div>
