@@ -131,7 +131,13 @@ export default function SignUpForm() {
 
       <div className="space-y-1">
         <label className={labelClassName}>생년월일</label>
-        <input {...register("birthDate", { required: '생일은 필수값입니다.' })}
+        <input {...register("birthDate", {
+          required: '생일은 필수값입니다.',
+          setValueAs: (value: string) => {
+            if (!value) return value;
+            return value.replace(/-/g, '').slice(2);
+          }
+        })}
           type="date"
           className={inputClassName}
         />
