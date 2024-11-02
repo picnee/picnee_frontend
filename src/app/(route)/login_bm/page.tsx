@@ -1,8 +1,45 @@
 'use client'
 
+import GrayButtonBox from "@/app/components/common/GrayButtonBox";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import Divider from "@/app/components/common/Divider";
+import FormInput from "@/app/components/common/FormInput";
+import SearchBox from "@/app/components/common/SearchBox";
+
+interface FieldValue {
+  email: string;
+  password: string;
+  remember?: boolean;
+}
+
 export default function LoginPage() {
+  // todo: 서버주소 관리 할 곳 찾아보기
+  const SERVER_URL = 'http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080'
+
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FieldValue>();
+
   const goLoginPage = (provider: string) => {
     window.open(`http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/${provider}`, '_self');
+  }
+
+  const loginEvent = async (data: FieldValue) => {
+    try {
+      // todo: 로그인상태를 어떻게 관리할지 고민해보기
+      const response = await axios.post(`${SERVER_URL}/users/login`, data);
+      if (response.status === 200) {
+        router.push('/');
+      }
+      console.log(data)
+    } catch (error) {
+      console.error('로그인 중 오류가 발생했습니다:', error);
+    }
   }
 
   return (
@@ -24,21 +61,39 @@ export default function LoginPage() {
         </h1>
 
         {/* Form */}
-        <form className="w-full max-w-[393px] space-y-4">
-          <input
-            type="email"
+        <form onSubmit={handleSubmit(loginEvent)} className="w-full max-w-[393px] space-y-4">
+          <FormInput
+            name="email"
             placeholder="이메일"
-            className="w-full h-[47px] px-4 border border-[#E8E9EB] rounded-lg focus:outline-none"
+            type="email"
+            register={register}
+            rules={{
+              required: "이메일은 필수입니다",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "올바른 이메일 형식이 아닙니다"
+              }
+            }}
+            error={errors.email}
           />
-          <input
-            type="password"
+          <FormInput
+            name="password"
             placeholder="비밀번호"
-            className="w-full h-[47px] px-4 border border-[#E8E9EB] rounded-lg focus:outline-none"
+            type="password"
+            register={register}
+            rules={{
+              required: "비밀번호는 필수입니다",
+              minLength: {
+                value: 8,
+                message: "비밀번호는 최소 8자 이상이어야 합니다"
+              }
+            }}
+            error={errors.password}
           />
-
           {/* Remember Me */}
           <div className="flex items-center gap-2">
             <input
+              {...register("remember")}
               type="checkbox"
               id="remember"
               className="w-4 h-4 border border-[#697175] rounded"
@@ -49,12 +104,7 @@ export default function LoginPage() {
           </div>
 
           {/* Login Button */}
-          <button
-            type="button"
-            className="w-full h-12 bg-[#E8E9EB] rounded-lg text-black"
-          >
-            로그인
-          </button>
+          <GrayButtonBox width="394px" height="48px" text="로그인" type="submit" />
 
           {/* Find ID/PW */}
           <div className="text-center">
@@ -67,45 +117,27 @@ export default function LoginPage() {
           </div>
 
           {/* Divider */}
-          <div className="flex items-center">
-            <div className="flex-grow h-px bg-[#E8E9EB]"></div>
-            <div className="px-4 text-sm text-[#697175]">또는</div>
-            <div className="flex-grow h-px bg-[#E8E9EB]"></div>
-          </div>
+          <Divider text="또는" />
+
           {/* Sign Up Link */}
           <div className="text-center">
             <button
               type="button"
+              onClick={() => router.push('/sign')}
               className="flex h-12 py-[11px] justify-center items-center gap-2.5 w-full text-sm text-[#697175] hover:underline rounded-lg border border-[#E8E9EB]"
             >
               이메일로 회원가입
             </button>
           </div>
-          {/* Social Login Buttons */}
-          <div className="space-y-3">
-            <button
-              type="button"
-              onClick={() => goLoginPage('kakao')}
-              className="w-full h-12 bg-[#E8E9EB] hover:bg-[#FEE500] rounded-lg transition-colors"
-            >
-              카카오로 계속하기
-            </button>
-            <button
-              type="button"
-              onClick={() => goLoginPage('naver')}
-              className="w-full h-12 bg-[#E8E9EB] hover:bg-[#03C75A] rounded-lg hover:text-white transition-colors"
-            >
-              네이버로 계속하기
-            </button>
-            <button
-              type="button"
-              onClick={() => goLoginPage('google')}
-              className="w-full h-12 bg-[#E8E9EB] hover:bg-[#3367D6] rounded-lg transition-colors hover:text-white"
-            >
-              구글로 계속하기
-            </button>
-          </div>
         </form>
+
+        {/* Social Login Buttons */}
+        <div className="space-y-3 mt-[40px]">
+          <GrayButtonBox width="394px" height="48px" text="카카오로 계속하기" onClick={() => goLoginPage('kakao')} />
+          <GrayButtonBox width="394px" height="48px" text="네이버로 계속하기" onClick={() => goLoginPage('naver')} />
+          <GrayButtonBox width="394px" height="48px" text="구글로 계속하기" onClick={() => goLoginPage('google')} />
+          <SearchBox width="394px" height="48px" placeholder="이메일 찾기" />
+        </div>
       </main>
     </div>
   );
