@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 interface FieldValue {
   email: string;
@@ -23,10 +24,18 @@ export default function SignUpForm() {
   } = useForm<FieldValue>();
 
   const [data, setData] = useState("");
+  const SERVER_URL = 'http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080'
 
-  function submit(data: FieldValue) {
-    setData(JSON.stringify(data))
-    console.log(data)
+
+  async function submit(data: FieldValue) {
+    try {
+      const response = await axios.post(`${SERVER_URL}/users`, data);
+      console.log(response.data)
+      setData(JSON.stringify(response.data));
+    } catch (error) {
+      console.error('회원가입 중 오류가 발생했습니다:', error);
+      setData(JSON.stringify({ error: '회원가입에 실패했습니다.' }));
+    }
   }
 
   const inputClassName = "w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ease-in-out text-gray-700"
@@ -114,8 +123,8 @@ export default function SignUpForm() {
         <select {...register("gender", { required: '성별은 필수값입니다.' })}
           className={inputClassName}>
           <option value="">선택해주세요</option>
-          <option value="male">남성</option>
-          <option value="female">여성</option>
+          <option value="MALE">MALE</option>
+          <option value="FEMALE">FEMALE</option>
         </select>
         {errors?.gender && <p className={errorClassName}>{errors.gender.message}</p>}
       </div>
