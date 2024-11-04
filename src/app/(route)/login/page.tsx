@@ -1,10 +1,18 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 
 import Image from "next/image";
 import { OAuthType } from "@/app/lib/SocialLoginData";
 import OAuthBox from "@/app/(route)/login/_components/OAuthBox";
+import { fetchData } from "@/app/lib/axios";
 
 const page = () => {
+  const handleClickKakao = () => {
+    window.open(
+      `http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/kakao`
+    );
+  };
+
   return (
     <div className="flex justify-center items-center flex-col gap-5 h-[100vh] w-full">
       {OAuthType.map((item) => (
@@ -20,6 +28,7 @@ const page = () => {
           />
         </OAuthBox>
       ))}
+      <button onClick={handleClickKakao}>kakao</button>
     </div>
   );
 };
