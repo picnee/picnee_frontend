@@ -1,11 +1,13 @@
 'use client'
 
 import GrayButtonBox from "@/app/components/common/GrayButtonBox";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Divider from "@/app/components/common/Divider";
 import FormInput from "@/app/components/common/FormInput";
+
+import { fetchData } from "@/app/lib/axios";
+
 
 
 interface FieldValue {
@@ -16,7 +18,7 @@ interface FieldValue {
 
 export default function LoginPage() {
   // todo: 서버주소 관리 할 곳 찾아보기
-  const SERVER_URL = 'http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080'
+
 
   const router = useRouter();
   const {
@@ -31,14 +33,26 @@ export default function LoginPage() {
 
   const loginEvent = async (data: FieldValue) => {
     try {
-      // todo: 로그인상태를 어떻게 관리할지 고민해보기
-      const response = await axios.post(`${SERVER_URL}/users/login`, data);
-      if (response.status === 200) {
+      const response = await fetchData('/users/login', {
+        method: 'POST',
+        data
+      });
+
+      console.log('로그인 응답:', response);
+
+      if (response.accessToken) {
+        localStorage.setItem('accessToken', response.accessToken);
+        localStorage.setItem('refreshToken', response.refreshToken);
+
+        console.log('로그인 성공, 홈으로 이동 시도');
         router.push('/');
+      } else {
+        console.log('로그인 실패: 토큰이 없습니다');
+        alert('로그인에 실패했습니다.');
       }
-      console.log(data)
     } catch (error) {
       console.error('로그인 중 오류가 발생했습니다:', error);
+      alert('로그인 중 오류가 발생했습니다.');
     }
   }
 
