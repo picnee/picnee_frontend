@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import Divider from "@/app/components/common/Divider";
 import FormInput from "@/app/components/common/FormInput";
 import Cookies from 'js-cookie';
-import SomeComponent from "@/app/components/SomeComponent";
 import { fetchData } from "@/app/lib/axios";
 
 
@@ -66,7 +65,6 @@ export default function LoginPage() {
 
   return (
     <div className="w-full min-h-screen bg-white">
-      <SomeComponent />
       {/* Header */}
       <header className="flex items-center h-20 border-b border-[#E8E9EB]">
         <div className="mx-auto w-full max-w-[1200px] px-[120px] flex flex-row gap-5">
