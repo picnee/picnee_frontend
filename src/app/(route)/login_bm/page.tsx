@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Divider from "@/app/components/common/Divider";
 import FormInput from "@/app/components/common/FormInput";
-
+import Cookies from 'js-cookie';
+import SomeComponent from "@/app/components/SomeComponent";
 import { fetchData } from "@/app/lib/axios";
 
 
@@ -18,8 +19,6 @@ interface FieldValue {
 
 export default function LoginPage() {
   // todo: 서버주소 관리 할 곳 찾아보기
-
-
   const router = useRouter();
   const {
     register,
@@ -41,8 +40,17 @@ export default function LoginPage() {
       console.log('로그인 응답:', response);
 
       if (response.accessToken) {
-        localStorage.setItem('accessToken', response.accessToken);
-        localStorage.setItem('refreshToken', response.refreshToken);
+        Cookies.set('accessToken', response.accessToken, {
+          expires: 7, // 7일간 유지
+          secure: true, // HTTPS에서만 작동
+          sameSite: 'strict' // CSRF 방지
+        });
+
+        Cookies.set('refreshToken', response.refreshToken, {
+          expires: 30, // 30일간 유지
+          secure: true,
+          sameSite: 'strict'
+        });
 
         console.log('로그인 성공, 홈으로 이동 시도');
         router.push('/');
@@ -58,6 +66,7 @@ export default function LoginPage() {
 
   return (
     <div className="w-full min-h-screen bg-white">
+      <SomeComponent />
       {/* Header */}
       <header className="flex items-center h-20 border-b border-[#E8E9EB]">
         <div className="mx-auto w-full max-w-[1200px] px-[120px] flex flex-row gap-5">
