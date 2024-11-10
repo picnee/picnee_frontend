@@ -12,6 +12,79 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontSize: {
+        '6xl': [
+          '42px',
+          {
+            lineHeight: '54px',
+          },
+        ],
+        '5xl': [
+          '32px',
+          {
+            lineHeight: '46px',
+          },
+        ],
+        '4xl': [
+          '24px',
+          {
+            lineHeight: '34px',
+          },
+        ],
+        '3xl': [
+          '20px',
+          {
+            lineHeight: '30px',
+          },
+        ],
+        '2xl': [
+          '18px',
+          {
+            lineHeight: '28px',
+          },
+        ],
+        xl: [
+          '17px',
+          {
+            lineHeight: '27px',
+          },
+        ],
+        lg: [
+          '16px',
+          {
+            lineHeight: '26px',
+          },
+        ],
+        base: [
+          '15px',
+          {
+            lineHeight: '25px',
+          },
+        ],
+        sm: [
+          '14px',
+          {
+            lineHeight: '21px',
+          },
+        ],
+        xs: [
+          '13px',
+          {
+            lineHeight: '20px',
+          },
+        ],
+        '2xs': [
+          '12px',
+          {
+            lineHeight: '18px',
+          },
+        ],
+      },
+      borderRadius: {
+        md: '20px',
+        sm: '8px',
+        base: '16px',
+      },
     },
   },
   plugins: [],
