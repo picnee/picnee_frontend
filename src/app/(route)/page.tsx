@@ -1,4 +1,3 @@
-import Header from "@/app/components/common/Header";
 import LocationCard from "@/app/components/common/LocationCard";
 import MainCategoryBox from "@/app/components/common/MainCategoryBox";
 
@@ -36,7 +35,6 @@ const MainInputBox = () => {
 export default function Home() {
   return (
     <div>
-      <Header />
       <div className="w-[100vw] flex flex-col items-center ">
         <section className="w-[1280px] px-[40px] flex flex-col justify-center  gap-10 mt-16">
           <MainInputBox />
