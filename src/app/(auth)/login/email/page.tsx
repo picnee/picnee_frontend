@@ -1,14 +1,10 @@
 'use client'
 
-import GrayButtonBox from "@/app/components/common/GrayButtonBox";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import Divider from "@/app/components/common/Divider";
 import FormInput from "@/app/components/common/FormInput";
 import Cookies from 'js-cookie';
 import { fetchData } from "@/app/lib/axios";
-
-
 
 interface FieldValue {
   email: string;
@@ -17,17 +13,12 @@ interface FieldValue {
 }
 
 export default function LoginPage() {
-  // todo: 서버주소 관리 할 곳 찾아보기
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<FieldValue>();
-
-  const goLoginPage = (provider: string) => {
-    window.open(`http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/${provider}`, '_self');
-  }
 
   const loginEvent = async (data: FieldValue) => {
     try {
@@ -64,30 +55,20 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full min-h-screen bg-white">
-      {/* Header */}
-      <header className="flex items-center h-20 border-b border-[#E8E9EB]">
-        <div className="mx-auto w-full max-w-[1200px] px-[120px] flex flex-row gap-5">
-          <div className="w-[152px] h-10 bg-[#E8E9EB] flex items-center justify-center">
-          </div>
-          <span className="text-sm">로그인 및 회원가입</span>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="flex flex-col items-center px-4 mt-[60px] ">
-        <h1 className="text-center text-lg mb-[40px]">
-          일본 여행을 위한<br />
-          리뷰 서비스, 피크니
+    <main className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
+      <div className="w-full max-w-[394px]">
+        <h1 className="text-center text-2xl font-bold mb-[56px]">
+          이메일로 로그인
         </h1>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit(loginEvent)} className="w-full max-w-[393px] space-y-4">
+        <form onSubmit={handleSubmit(loginEvent)} className="">
+
           <FormInput
             name="email"
-            placeholder="이메일"
+            placeholder="이메일 입력"
             type="email"
             register={register}
+
             rules={{
               required: "이메일은 필수입니다",
               pattern: {
@@ -97,9 +78,10 @@ export default function LoginPage() {
             }}
             error={errors.email}
           />
+          <div className="mb-4"></div>
           <FormInput
             name="password"
-            placeholder="비밀번호"
+            placeholder="비밀번호 입력"
             type="password"
             register={register}
             rules={{
@@ -111,8 +93,9 @@ export default function LoginPage() {
             }}
             error={errors.password}
           />
+
           {/* Remember Me */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center mt-2">
             <input
               {...register("remember")}
               type="checkbox"
@@ -120,45 +103,42 @@ export default function LoginPage() {
               className="w-4 h-4 border border-[#697175] rounded"
             />
             <label htmlFor="remember" className="text-sm text-[#697175]">
-              로그인 유지
+              로그인 저장
             </label>
           </div>
 
-          {/* Login Button */}
-          <GrayButtonBox width="394px" height="48px" text="로그인" type="submit" />
-
-          {/* Find ID/PW */}
-          <div className="text-center">
+          {/* 버튼들을 감싸는 div 추가 */}
+          <div className="flex flex-col">
+            {/* Login Button */}
             <button
-              type="button"
-              className="text-sm text-[#697175] hover:underline"
+              type="submit"
+              className="w-full h-[48px] bg-[#F3F4F6] text-[#697175] rounded-lg mt-12"
             >
-              아이디 및 비밀번호 찾기
+              로그인
             </button>
-          </div>
 
-          {/* Divider */}
-          <Divider text="또는" />
-
-          {/* Sign Up Link */}
-          <div className="text-center">
+            {/* Sign Up Link */}
             <button
               type="button"
               onClick={() => router.push('/sign')}
-              className="flex h-12 py-[11px] justify-center items-center gap-2.5 w-full text-sm text-[#697175] hover:underline rounded-lg border border-[#E8E9EB]"
+              className="w-full h-[48px] border border-[#E8E9EB] text-[#697175] rounded-lg mt-4"
             >
               이메일로 회원가입
             </button>
           </div>
-        </form>
 
-        {/* Social Login Buttons */}
-        <div className="space-y-3 mt-[40px]">
-          <GrayButtonBox width="394px" height="48px" text="카카오로 계속하기" onClick={() => goLoginPage('kakao')} />
-          <GrayButtonBox width="394px" height="48px" text="네이버로 계속하기" onClick={() => goLoginPage('naver')} />
-          <GrayButtonBox width="394px" height="48px" text="구글로 계속하기" onClick={() => goLoginPage('google')} />
-        </div>
-      </main>
-    </div>
+          {/* Find ID/PW Links */}
+          <div className="flex justify-center gap-4 text-sm text-[#697175] mt-8">
+            <button type="button" className="hover:underline">
+              아이디 찾기
+            </button>
+            <span className="text-[#E8E9EB]">|</span>
+            <button type="button" className="hover:underline">
+              비밀번호 찾기
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
   );
 }

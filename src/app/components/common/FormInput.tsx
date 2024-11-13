@@ -30,7 +30,7 @@ export default function FormInput({
         {...register(name, rules)}
         type={type}
         placeholder={placeholder}
-        className="w-full h-[47px] px-4 border border-[#E8E9EB] rounded-lg focus:outline-none"
+        className=" w-full h-[47px] px-4 border border-[#E8E9EB] rounded-lg focus:outline-none"
       />
       {error && (
         <p className="text-red-500 text-xs">{error.message}</p>
