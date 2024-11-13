@@ -3,7 +3,7 @@ import React from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 const LocalNavBar = ({
   type,

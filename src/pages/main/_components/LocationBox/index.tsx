@@ -1,4 +1,4 @@
-import LocationCard from "@/app/components/common/LocationCard";
+import LocationCard from "@/components/common/LocationCard";
 
 const LocationBox = () => {
   return (

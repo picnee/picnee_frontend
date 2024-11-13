@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import AuthProvider from "@/app/providers/AuthProvider";
-import "@/app/styles/global.css";
-import Header from "../components/common/Header";
+import AuthProvider from "@/providers/AuthProvider";
+import "@/styles/global.css";
+import Header from "../../components/common/Header";
 
 export const metadata: Metadata = {
   title: "Picnee",

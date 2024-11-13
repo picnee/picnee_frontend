@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import FormInput from "@/app/components/common/FormInput";
+import FormInput from "@/components/common/FormInput";
 import Cookies from 'js-cookie';
-import { fetchData } from "@/app/lib/axios";
+import { fetchData } from "@/lib/axios";
 
 interface FieldValue {
   email: string;
