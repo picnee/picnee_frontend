@@ -34,7 +34,7 @@ export default function AuthLayout({
 
         {/* Content */}
         <main className="w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-white">
-          <div className="w-full max-w-[400px] px-4">
+          <div className="w-full  px-4">
             {children}
           </div>
         </main>
