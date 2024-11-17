@@ -17,7 +17,7 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isValid }
   } = useForm<FieldValue>();
 
   const loginEvent = async (data: FieldValue) => {
@@ -29,6 +29,7 @@ export default function LoginPage() {
 
       console.log('로그인 응답:', response);
 
+      // todo response 로 받아서 처리 
       if (response.accessToken) {
         Cookies.set('accessToken', response.accessToken, {
           expires: 7, // 7일간 유지
@@ -73,7 +74,7 @@ export default function LoginPage() {
               required: "이메일은 필수입니다",
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "올바른 이메일 형식이 아닙니다"
+                message: "올바른 이메일을 입력해주세요."
               }
             }}
             error={errors.email}
@@ -112,7 +113,11 @@ export default function LoginPage() {
             {/* Login Button */}
             <button
               type="submit"
-              className="w-full h-[48px] bg-[#F3F4F6] text-[#697175] rounded-lg mt-12"
+              className={`w-full h-[48px] rounded-lg mt-12 
+                ${isValid
+                  ? 'bg-black text-white'
+                  : 'bg-[#F3F4F6] text-[#697175]'
+                }`}
             >
               로그인
             </button>
