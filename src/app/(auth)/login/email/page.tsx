@@ -30,17 +30,17 @@ export default function LoginPage() {
       console.log('로그인 응답:', response);
 
       // todo response 로 받아서 처리 
-      if (response.accessToken) {
-        Cookies.set('accessToken', response.accessToken, {
+      if (response.data.accessToken) {
+        Cookies.set('accessToken', response.data.accessToken, {
           expires: 7, // 7일간 유지
           secure: true, // HTTPS에서만 작동
-          sameSite: 'strict' // CSRF 방지
+          sameSite: 'None' // CSRF 방지
         });
 
-        Cookies.set('refreshToken', response.refreshToken, {
+        Cookies.set('refreshToken', response.data.refreshToken, {
           expires: 30, // 30일간 유지
           secure: true,
-          sameSite: 'strict'
+          sameSite: 'None'
         });
 
         console.log('로그인 성공, 홈으로 이동 시도');
