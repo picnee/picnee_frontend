@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
-import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/zustand/useAuthStore";
+
 
 const LocalNavBar = ({
   type,
@@ -42,12 +43,10 @@ const LocalNavBar = ({
   );
 };
 
-
-
 const Header = () => {
   const { isAuthenticated } = useAuth();
-  // 사용자 정보
-  const { data: session } = useSession();
+  const { user } = useAuthStore();
+
   // 페이지 이동
   const navigator = useRouter();
 
@@ -58,6 +57,8 @@ const Header = () => {
   const handleNav = (nav: string) => {
     navigator.push(nav);
   };
+  console.log('user', user);
+
   return (
     <header className="flex flex-col justify-center ">
       <div className="border-b w-[100vw] flex justify-center">
@@ -100,24 +101,12 @@ const Header = () => {
             </li>
           </ul>
           <div>
-            {session ? (
-              <div>
-                <p>안녕하세요, {session.user!.name}님!</p>
-                <button
-                  className="border border-black rounded-md p-[5px]"
-                  onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
-                >
-                  로그아웃
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={handleLogin}
-                className="border border-neutral-300 rounded-md py-2 px-3 hover:bg-neutral-100 transition-colors font-semibold hover:border-black/30"
-              >
-                {isAuthenticated ? "환영합니다!" : "로그인 및 회원가입"}
-              </button>
-            )}
+            <button
+              onClick={handleLogin}
+              className="border border-neutral-300 rounded-md py-2 px-3 hover:bg-neutral-100 transition-colors font-semibold hover:border-black/30"
+            >
+              {user ? `환영합니다! ${user?.name}님` : "로그인 및 회원가입"}
+            </button>
           </div>
         </nav>
       </div>
