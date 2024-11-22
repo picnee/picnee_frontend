@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import FormInput from "@/components/common/FormInput";
-import Cookies from 'js-cookie';
 import { fetchData } from "@/lib/axios";
+import { useAuth } from "@/hooks/useAuth"
 
 interface FieldValue {
   email: string;
@@ -14,6 +14,7 @@ interface FieldValue {
 
 export default function LoginPage() {
   const router = useRouter();
+  const { setCookies } = useAuth();
   const {
     register,
     handleSubmit,
@@ -26,23 +27,9 @@ export default function LoginPage() {
         method: 'POST',
         data
       });
-
       console.log('로그인 응답:', response);
-
-      // todo response 로 받아서 처리 
       if (response.data.accessToken) {
-        Cookies.set('accessToken', response.data.accessToken, {
-          expires: 7, // 7일간 유지
-          secure: true, // HTTPS에서만 작동
-          sameSite: 'None' // CSRF 방지
-        });
-
-        Cookies.set('refreshToken', response.data.refreshToken, {
-          expires: 30, // 30일간 유지
-          secure: true,
-          sameSite: 'None'
-        });
-
+        setCookies(response.data.accessToken, response.data.refreshToken);
         console.log('로그인 성공, 홈으로 이동 시도');
         router.push('/');
       } else {
@@ -125,7 +112,7 @@ export default function LoginPage() {
             {/* Sign Up Link */}
             <button
               type="button"
-              onClick={() => router.push('/sign')}
+              onClick={() => router.push('/login/signup')}
               className="w-full h-[48px] border border-[#E8E9EB] text-[#697175] rounded-lg mt-4"
             >
               이메일로 회원가입

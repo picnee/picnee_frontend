@@ -8,14 +8,15 @@ import MainInputBox from "./_components/MainInputBox";
 import { useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { fetchData } from "@/lib/axios";
-import { useAuthStore } from '@/store/zustand/useAuthStore'
-import Cookies from 'js-cookie';
+import { useUserStore } from "@/store/zustand/useUserStore"
+import { useAuth } from "@/hooks/useAuth"
 
 
 const Main = () => {
 
   const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser)
+  const setUser = useUserStore((state) => state.setUser)
+  const { setCookies } = useAuth();
   const loginEvent = useCallback(async (code: string) => {
     try {
       const response = await fetchData('/tokens', {
@@ -32,21 +33,14 @@ const Main = () => {
       }
 
       if (response.status === 201 || response.status === 200) {
-        Cookies.set('accessToken', response.data.accessToken, {
-          expires: 7, // 7일간 유지
-          secure: true, // HTTPS에서만 작동
-          sameSite: 'None' // CSRF 방지
-        });
-
-        Cookies.set('refreshToken', response.data.refreshToken, {
-          expires: 30, // 30일간 유지
-          secure: true,
-          sameSite: 'None'
-        });
+        setCookies(response.data.accessToken, response.data.refreshToken)
         setUser({
           name: response.data.userRes.nickName,
         });
-        router.push('/');
+        // 로그인 성공 시 히스토리 정리 후 홈으로 이동
+        // oauth 페이지에서 의도치 않은 에러방지 
+        window.history.replaceState(null, '', '/');
+        router.replace('/');
       } else {
         console.error('로그인 실패:', response.data);
         alert('로그인에 실패했습니다.');
@@ -55,7 +49,7 @@ const Main = () => {
       console.error('로그인 중 오류가 발생했습니다:', error);
       alert('로그인 중 오류가 발생했습니다.');
     }
-  }, [router, setUser]);
+  }, [router, setUser, setCookies]);
 
   useEffect(() => {
     const code = window.location.pathname.split("/")[1].replace('code=', '');
