@@ -15,10 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="w-[100vw]">
         <AuthProvider>
           <Header />
-          {children}
+          <div className="flex justify-center items-center w-full h-full">
+            <div className="w-[1440px] pl-[120px] pr-[120px]">{children}</div>
+          </div>
         </AuthProvider>
       </body>
     </html>
