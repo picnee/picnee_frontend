@@ -3,8 +3,6 @@ import { persist } from 'zustand/middleware'
 
 interface User {
   name: string;
-  accessToken?: string;
-  refreshToken?: string;
 }
 
 interface AuthState {
@@ -13,7 +11,7 @@ interface AuthState {
   clearUser: () => void;
 }
 
-export const useAuthStore = create<AuthState>()(
+export const useUserStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,

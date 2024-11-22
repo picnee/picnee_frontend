@@ -7,16 +7,33 @@ export const useAuth = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const accessToken = Cookies.get('ACCESS_TOKEN');
+    const accessToken = Cookies.get('accessToken');
     setIsAuthenticated(!!accessToken);
   }, []);
 
+  const setCookies = (accessToken: string, refreshToken: string) => {
+    Cookies.set('accessToken', accessToken, {
+      expires: 7, // 7일간 유지
+      secure: true, // HTTPS에서만 작동
+      sameSite: 'None' // CSRF 방지
+    });
+
+    Cookies.set('refreshToken', refreshToken, {
+      expires: 30, // 30일간 유지
+      secure: true,
+      sameSite: 'None'
+    });
+    setIsAuthenticated(true);
+  }
+
+
+
   const logout = () => {
-    Cookies.remove('ACCESS_TOKEN');
-    Cookies.remove('REFRESH_TOKEN');
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
     setIsAuthenticated(false);
     router.push('/login');
   };
 
-  return { isAuthenticated, logout };
+  return { isAuthenticated, logout, setCookies };
 }; 

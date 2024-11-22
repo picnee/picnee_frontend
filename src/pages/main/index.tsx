@@ -8,14 +8,15 @@ import MainInputBox from "./_components/MainInputBox";
 import { useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { fetchData } from "@/lib/axios";
-import { useAuthStore } from '@/store/zustand/useAuthStore'
-import Cookies from 'js-cookie';
+import { useUserStore } from "@/store/zustand/useUserStore"
+import { useAuth } from "@/hooks/useAuth"
 
 
 const Main = () => {
 
   const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser)
+  const setUser = useUserStore((state) => state.setUser)
+  const { setCookies } = useAuth();
   const loginEvent = useCallback(async (code: string) => {
     try {
       const response = await fetchData('/tokens', {
@@ -32,22 +33,14 @@ const Main = () => {
       }
 
       if (response.status === 201 || response.status === 200) {
-        alert('로그인에 성공했습니다.');
-        setTimeout(() => {
-          console.log('===================================')
-          const accessToken = Cookies.get('JSESSIONID');
-          const refreshToken = Cookies.get('REFRESH_TOKEN');
-          console.log('accessToken', accessToken)
-          console.log('refreshToken', refreshToken)
-          setUser({
-            name: response.data.nickName,
-            accessToken: accessToken as string,
-            refreshToken: refreshToken as string
-          });
-          console.log('==================================')
-          router.push('/');
-        }, 1000);
-
+        setCookies(response.data.accessToken, response.data.refreshToken)
+        setUser({
+          name: response.data.userRes.nickName,
+        });
+        // 로그인 성공 시 히스토리 정리 후 홈으로 이동
+        // oauth 페이지에서 의도치 않은 에러방지 
+        window.history.replaceState(null, '', '/');
+        router.replace('/');
       } else {
         console.error('로그인 실패:', response.data);
         alert('로그인에 실패했습니다.');
@@ -56,7 +49,7 @@ const Main = () => {
       console.error('로그인 중 오류가 발생했습니다:', error);
       alert('로그인 중 오류가 발생했습니다.');
     }
-  }, [router, setUser]);
+  }, [router, setUser, setCookies]);
 
   useEffect(() => {
     const code = window.location.pathname.split("/")[1].replace('code=', '');
