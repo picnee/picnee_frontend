@@ -3,7 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "@/hooks/useAuth";
-import { useAuthStore } from "@/store/zustand/useAuthStore";
+import { useUserStore } from "@/store/zustand/useUserStore";
 
 
 const LocalNavBar = ({
@@ -45,7 +45,7 @@ const LocalNavBar = ({
 
 const Header = () => {
   const { isAuthenticated } = useAuth();
-  const { user } = useAuthStore();
+  const { user } = useUserStore();
 
   // 페이지 이동
   const navigator = useRouter();
@@ -105,7 +105,7 @@ const Header = () => {
               onClick={handleLogin}
               className="border border-neutral-300 rounded-md py-2 px-3 hover:bg-neutral-100 transition-colors font-semibold hover:border-black/30"
             >
-              {user ? `환영합니다! ${user?.name}님` : "로그인 및 회원가입"}
+              {isAuthenticated ? `환영합니다! ${user?.name}님` : "로그인 및 회원가입"}
             </button>
           </div>
         </nav>
