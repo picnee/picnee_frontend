@@ -76,7 +76,7 @@ const Header = () => {
             </li>
             <li
               className="cursor-pointer transition-all duration-200 hover:text-black text-neutral-600"
-              onClick={() => handleNav("/")}
+              onClick={() => handleNav("/travelTalk")}
             >
               여행토크
             </li>
