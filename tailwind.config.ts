@@ -11,9 +11,12 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'gray-100':'#F1F3F6',
         'gray-150': '#E8E9EB', // 버튼 비활성화 색상
         'gray-200':'#D2D5D6', // 버튼 비활성화 border 색상
         'gray-300': '#B8BFC2', // 버튼 비활성화 텍스트 색상
+        'gray-400':'#A1A9AD',
+        'gray-500':'#828A8F'
       },
       fontSize: {
         '6xl': [
@@ -85,9 +88,16 @@ const config: Config = {
       },
       borderRadius: {
         md: '20px',
+        m: '10px',
         sm: '8px',
+        xs: '4px',
         base: '16px',
       },
+      fontWeight: {
+        600: '600',
+        400: '400',
+      },
+
     },
   },
   plugins: [],
