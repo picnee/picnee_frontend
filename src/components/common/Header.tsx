@@ -57,7 +57,7 @@ const Header = () => {
   const handleNav = (nav: string) => {
     navigator.push(nav);
   };
-  console.log('user', user);
+
 
   return (
     <header className="flex flex-col justify-center ">
