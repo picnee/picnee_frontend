@@ -1,5 +1,6 @@
 "use client";
 
+import CommonButton from "@/components/common/CommonButton";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -156,11 +157,7 @@ const RegistForm = () => {
         break;
     }
   };
-  // const handleChangeNickName = () => {
-  //   if (isduplCheck === "ing" || isduplCheck === "true") {
-  //     setIsDuplCheck("false");
-  //   }
-  // };
+
   const handleNicknameCheck = async () => {
     // 중복확인 api 호출
     const nickName = watch("nickname");
@@ -344,6 +341,25 @@ const RegistForm = () => {
     }
   };
 
+  const renderEmailProgress = () => {
+    const data = watch("email");
+    const pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const validateEmail = pattern.test(data);
+
+    switch (validateEmail) {
+      case true:
+        if (isEmailCheck === "false") {
+          return "solid_btn";
+        } else if (isEmailCheck === "ing") {
+          return "ghost_btn";
+        }
+      case false:
+        return "disabled_btn";
+      default:
+        return "solid_btn";
+    }
+  };
+
   useEffect(() => {
     let value = true;
     const requiredIds = ["isAge", "isUse", "isCollection"];
@@ -387,7 +403,7 @@ const RegistForm = () => {
             })}
             type="email"
             id="email"
-            className={`border rounded-sm border-zinc-300 w-[280px] h-[48px] px-6 py-4 ${
+            className={`border rounded-sm border-zinc-300 w-[270px] h-[48px] px-6 py-4 ${
               errors.email &&
               errors.email.type === "pattern" &&
               "focus:border-[#ff0000] focus:outline-none"
@@ -395,15 +411,15 @@ const RegistForm = () => {
             placeholder="이메일 입력"
             autoComplete="off"
           />
-          <button
+          <CommonButton
+            variant={renderEmailProgress()}
+            size="m"
+            marginBottom="0"
             onClick={() => handleCheckEmail(1)}
             disabled={!validateEmail()}
-            className={`w-[96px] bg-[#e8e9eb] rounded-sm text-[#B8BFC2] ${
-              validateEmail() && "bg-black text-[#ffffff]"
-            }`}
           >
-            인증하기
-          </button>
+            {isEmailCheck === "ing" ? "재전송" : "인증하기"}
+          </CommonButton>
         </div>
         {errors.email && errors.email.type === "pattern" && (
           <span className="text-[#ff0000] mt-2">
@@ -553,6 +569,7 @@ const RegistForm = () => {
           </ul>
         </div>
       </div>
+
       <input
         className={`mt-6 bg-[#e8e9eb] rounded-sm text-[#B8BFC2] w-full h-[56px] ${
           isRequired && "cursor-pointer bg-black text-[#ffffff]"
