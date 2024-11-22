@@ -16,6 +16,7 @@ interface CommonButtonType {
   hoverColor?: string;
   bgColor?: string;
   fontColor?: string;
+  onClick?: () => void;
 }
 
 const getButtonClasses = (
@@ -84,10 +85,18 @@ const CommonButton: React.FC<
   children,
   bgColor,
   fontColor,
+  onClick,
   ...props
 }) => {
   // Tailwind 클래스에서 유효한 색상값만 전달
   const buttonTextColor = fontColor ? `text-${fontColor}` : "";
+
+  const handleClickButton = () => {
+    if (onClick) {
+      console.log("dd");
+      onClick();
+    }
+  };
 
   return (
     <button
@@ -107,6 +116,7 @@ const CommonButton: React.FC<
         color:
           fontColor && !fontColor.startsWith("text-") ? fontColor : undefined,
       }}
+      onClick={handleClickButton}
       {...props}
     >
       {children}
