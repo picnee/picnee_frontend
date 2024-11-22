@@ -93,7 +93,6 @@ const Header = () => {
               <CommonButton
                 variant="ghost_btn"
                 onClick={handleLogin}
-                disabled
                 size="ls"
                 fontSize="14px"
               >
