@@ -32,22 +32,21 @@ const Main = () => {
       }
 
       if (response.status === 201 || response.status === 200) {
-        alert('로그인에 성공했습니다.');
-        setTimeout(() => {
-          console.log('===================================')
-          const accessToken = Cookies.get('JSESSIONID');
-          const refreshToken = Cookies.get('REFRESH_TOKEN');
-          console.log('accessToken', accessToken)
-          console.log('refreshToken', refreshToken)
-          setUser({
-            name: response.data.nickName,
-            accessToken: accessToken as string,
-            refreshToken: refreshToken as string
-          });
-          console.log('==================================')
-          router.push('/');
-        }, 1000);
+        Cookies.set('accessToken', response.data.accessToken, {
+          expires: 7, // 7일간 유지
+          secure: true, // HTTPS에서만 작동
+          sameSite: 'None' // CSRF 방지
+        });
 
+        Cookies.set('refreshToken', response.data.refreshToken, {
+          expires: 30, // 30일간 유지
+          secure: true,
+          sameSite: 'None'
+        });
+        setUser({
+          name: response.data.userRes.nickName,
+        });
+        router.push('/');
       } else {
         console.error('로그인 실패:', response.data);
         alert('로그인에 실패했습니다.');
