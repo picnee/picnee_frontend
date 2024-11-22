@@ -52,7 +52,6 @@ const RegistForm = () => {
     watch,
     formState: { errors },
   } = useForm<FormValue>({ mode: "onChange" });
-  //   const [passWordCheck, setPassWordCheck] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [lengthValid, setLengthValid] = useState(false); // 길이 유효성
   const [hasNumbers, setHasNumbers] = useState(false); // 숫자 유효성
@@ -67,8 +66,10 @@ const RegistForm = () => {
 
   const nickNameRef = useRef<string | null>(null);
   nickNameRef.current = watch("nickname");
+
   const passwordRef = useRef<string | null>(null);
   passwordRef.current = watch("password");
+
   const onSubmitHandler = async (data: FormValue) => {
     if (isduplCheck === "false" || isduplCheck === "duple") {
       setIsDuplCheck("ing");
@@ -126,11 +127,22 @@ const RegistForm = () => {
     }
   };
 
-  const handleCheckEmail = (step: number) => {
+  const handleCheckEmail = async (step: number) => {
     switch (step) {
       case 1:
-        setIsEmailCheck("ing");
-        return alert("이메일로 전송된 인증코드를 입력해주세요");
+        const emailData = watch("email");
+        const res = await axios.get(
+          "http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/users/email/exists",
+          { params: { email: decodeURIComponent(emailData) } }
+        );
+
+        if (res.data.exists) {
+          return alert("이미 가입된 이메일 입니다");
+        } else {
+          setIsEmailCheck("ing");
+          return alert("이메일로 전송된 인증코드를 입력해주세요");
+        }
+        break;
       case 2:
         const codeData = watch("code");
         if (codeData && codeData.length !== 6) {
@@ -149,16 +161,21 @@ const RegistForm = () => {
   //     setIsDuplCheck("false");
   //   }
   // };
-  const handleNicknameCheck = () => {
+  const handleNicknameCheck = async () => {
     // 중복확인 api 호출
-
-    const res = watch("nickname");
-    if (res === "biblee") {
+    const nickName = watch("nickname");
+    const res = await axios.get(
+      "http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/users/nickname/exists",
+      { params: { nickname: nickName } }
+    );
+    console.log("res", res.data.exists);
+    if (res.data.exists) {
       return setIsDuplCheck("duple");
     } else {
       return setIsDuplCheck("true");
     }
   };
+
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const password = e.target.value;
     setPassword(password);
@@ -225,6 +242,7 @@ const RegistForm = () => {
       </li>
     ));
   };
+
   const renderEmailCheckSection = () => {
     if (isEmailCheck === "ing" || isEmailCheck === "true") {
       return (
@@ -259,6 +277,7 @@ const RegistForm = () => {
       );
     }
   };
+
   const renderNickNameCheck = (isduplCheck: string) => {
     switch (isduplCheck) {
       case "true":
@@ -283,27 +302,6 @@ const RegistForm = () => {
         break;
     }
   };
-
-  useEffect(() => {
-    let value = true;
-    const requiredIds = ["isAge", "isUse", "isCollection"];
-    const emailData = watch("email");
-    const passWordData = watch("password");
-    const nickNameData = watch("nickname");
-    for (const id of requiredIds) {
-      if (!agreeCheckList.includes(id)) {
-        value = false;
-        break;
-      }
-    }
-
-    if (!emailData || !passWordData || !nickNameData) {
-      value = false;
-      return;
-    }
-
-    setIsRequired(value);
-  }, [agreeCheckList, watch]);
 
   const renderBorderColor = (section: string) => {
     switch (section) {
@@ -347,13 +345,34 @@ const RegistForm = () => {
   };
 
   useEffect(() => {
+    let value = true;
+    const requiredIds = ["isAge", "isUse", "isCollection"];
+    const emailData = watch("email");
+    const passWordData = watch("password");
+    const nickNameData = watch("nickname");
+    for (const id of requiredIds) {
+      if (!agreeCheckList.includes(id)) {
+        value = false;
+        break;
+      }
+    }
+
+    if (!emailData || !passWordData || !nickNameData) {
+      value = false;
+      return;
+    }
+
+    setIsRequired(value);
+  }, [agreeCheckList, watch]);
+
+  useEffect(() => {
     if (isduplCheck === "true") {
       return setIsDuplCheck("false");
     } else if (isduplCheck === "duple") {
       return;
     }
   }, [nickNameRef.current]);
-  console.log(isduplCheck);
+
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)} className="mt-16">
       <div className="flex flex-col">
@@ -391,6 +410,13 @@ const RegistForm = () => {
             올바른 이메일 형식이 아닙니다
           </span>
         )}
+        {/*  이메일 중복일 경우
+        {isEmailCheck === "duple" && (
+          <span className="text-[#ff0000] mt-2">
+            이미 가입된 이메일 입니다.
+          </span>
+        )} 
+         */}
 
         {renderEmailCheckSection()}
       </div>
@@ -408,14 +434,16 @@ const RegistForm = () => {
             type="text"
             id="nickname"
             className={renderBorderColor("nickname")}
-            placeholder="닉네임 입력"
+            placeholder="닉네임 입력 (2~20자)"
             autoComplete="off"
             disabled={isEmailCheck !== "true"}
             maxLength={21}
           />
           <input
             type="button"
-            className={`absolute top-1/4 right-4 ${watchText("nickname")}`}
+            className={`absolute top-1/4 right-4 cursor-pointer ${watchText(
+              "nickname"
+            )}`}
             onClick={handleNicknameCheck}
             value={"중복확인"}
           ></input>
