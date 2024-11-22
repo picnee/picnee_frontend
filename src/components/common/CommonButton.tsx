@@ -85,6 +85,7 @@ const CommonButton: React.FC<
   children,
   bgColor,
   fontColor,
+  width,
   onClick,
   ...props
 }) => {
@@ -112,6 +113,7 @@ const CommonButton: React.FC<
         marginLeft,
         marginTop,
         marginBottom,
+        width,
         // HEX 값이나 기타 색상 값이 들어오는 경우 인라인 스타일로 처리
         color:
           fontColor && !fontColor.startsWith("text-") ? fontColor : undefined,
