@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserStore } from "@/store/zustand/useUserStore";
-
+import CommonButton from "./CommonButton";
 
 const LocalNavBar = ({
   type,
@@ -58,14 +58,13 @@ const Header = () => {
     navigator.push(nav);
   };
 
-
   return (
     <header className="flex flex-col justify-center ">
-      <div className="border-b w-[100vw] flex justify-center">
-        <nav className="w-[1280px] h-[81px]  flex items-center justify-between px-[40px] ">
-          <ul className="w-[600px] grid grid-cols-5 gap-8 font-semibold  h-10 items-center text-center">
+      <div className="border-b w-[100vw] flex justify-center pt-[15px] pb-[15px]">
+        <nav className="w-[1280px] flex items-center justify-between px-[40px] ">
+          <ul className="w-[1280px] flex gap-[32px] font-semibold  h-10 items-center text-center">
             <li className="cursor-pointer">
-              <div className=" h-10 bg-neutral-200 rounded-lg text-sm flex justify-center items-center">
+              <div className="w-[120px] h-[32px] bg-neutral-200 rounded-lg text-sm flex justify-center items-center">
                 Picnee
               </div>
             </li>
@@ -75,39 +74,35 @@ const Header = () => {
             >
               지도
             </li>
-            <li className="cursor-pointer transition-all duration-200   group relative text-neutral-600 hover:text-black">
-              <div className="flex  items-center justify-center gap-1 ">
-                <span>여행</span>
-                <div className="group-hover:rotate-180 transition-transform">
-                  <IoIosArrowDown />
-                </div>
-              </div>
-              <LocalNavBar type="T" onClick={handleNav} />
-            </li>
-            <li className="cursor-pointer transition-all duration-200  group relative text-neutral-600 hover:text-black">
-              <div className="flex  items-center justify-center gap-1 ">
-                <span>리뷰</span>
-                <div className="group-hover:rotate-180 transition-transform">
-                  <IoIosArrowDown />
-                </div>
-              </div>
-              <LocalNavBar type="R" onClick={handleNav} />
-            </li>
             <li
               className="cursor-pointer transition-all duration-200 hover:text-black text-neutral-600"
               onClick={() => handleNav("/")}
             >
-              소셜 라운지
+              여행토크
             </li>
+            <div className="flex items-center justify-between mt-[18px] gap-[8px] ml-auto justify-items-end">
+              <CommonButton
+                variant="solid_btn"
+                size="ms"
+                bgColor="gray-150"
+                fontColor="black"
+                fontSize="14px"
+              >
+                리뷰 생성
+              </CommonButton>
+              <CommonButton
+                variant="ghost_btn"
+                onClick={handleLogin}
+                disabled
+                size="ls"
+                fontSize="14px"
+              >
+                {isAuthenticated
+                  ? `환영합니다! ${user?.name}님`
+                  : "로그인 및 회원가입"}
+              </CommonButton>
+            </div>
           </ul>
-          <div>
-            <button
-              onClick={handleLogin}
-              className="border border-neutral-300 rounded-md py-2 px-3 hover:bg-neutral-100 transition-colors font-semibold hover:border-black/30"
-            >
-              {isAuthenticated ? `환영합니다! ${user?.name}님` : "로그인 및 회원가입"}
-            </button>
-          </div>
         </nav>
       </div>
     </header>
