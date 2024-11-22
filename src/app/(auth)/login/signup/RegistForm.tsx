@@ -2,11 +2,14 @@
 
 import CommonButton from "@/components/common/CommonButton";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCircle, FaSquareFull } from "react-icons/fa6";
+import RegistErrorMsg from "./RegistErrorMsg";
+import EmailCheckSection from "./EmailCheckSection";
 
-interface FormValue {
+export interface RegistFormValue {
   nickname: string;
   email: string;
   password: string;
@@ -46,13 +49,14 @@ const NomalInputStyle =
   "rounded-sm w-[384px] h-[48px] px-6 py-4 border border-zinc-300";
 const ErrorInputStyle =
   "rounded-sm w-[384px] h-[48px] px-6 py-4 border border-[#ff0000] focus:outline-none";
+
 const RegistForm = () => {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormValue>({ mode: "onChange" });
+  } = useForm<RegistFormValue>({ mode: "onChange" });
   const [password, setPassword] = useState<string>("");
   const [lengthValid, setLengthValid] = useState(false); // 길이 유효성
   const [hasNumbers, setHasNumbers] = useState(false); // 숫자 유효성
@@ -64,18 +68,21 @@ const RegistForm = () => {
   const [isduplCheck, setIsDuplCheck] = useState<string>("false");
   const [isMarketing, setIsMarketing] = useState(false);
   const [isAlarm, setIsAlarm] = useState(false);
-
+  const [time, setTime] = useState(300);
+  const [isCounting, setIsCounting] = useState(false);
+  const { push } = useRouter();
   const nickNameRef = useRef<string | null>(null);
   nickNameRef.current = watch("nickname");
 
   const passwordRef = useRef<string | null>(null);
   passwordRef.current = watch("password");
 
-  const onSubmitHandler = async (data: FormValue) => {
+  const onSubmitHandler = async (data: RegistFormValue) => {
     if (isduplCheck === "false" || isduplCheck === "duple") {
       setIsDuplCheck("ing");
       return;
     }
+
     const submitData = {
       email: data.email,
       nickname: data.nickname,
@@ -83,12 +90,15 @@ const RegistForm = () => {
       isMarketing: isMarketing,
       isAlarm: isAlarm,
     };
+
     try {
-      const res = await axios.post(
+      await axios.post(
         "http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/users",
         submitData
       );
-      console.log(res);
+      console.log(submitData);
+      alert("회원가입이 완료되었습니다. 로그인 후 페이지로 이동합니다");
+      return push("/login");
     } catch (error) {
       console.log(error);
     }
@@ -132,18 +142,25 @@ const RegistForm = () => {
     switch (step) {
       case 1:
         const emailData = watch("email");
-        const res = await axios.get(
-          "http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/users/email/exists",
-          { params: { email: decodeURIComponent(emailData) } }
-        );
+        if (isEmailCheck === "false") {
+          const res = await axios.get(
+            "http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/users/email/exists",
+            { params: { email: decodeURIComponent(emailData) } }
+          );
 
-        if (res.data.exists) {
-          return alert("이미 가입된 이메일 입니다");
-        } else {
-          setIsEmailCheck("ing");
-          return alert("이메일로 전송된 인증코드를 입력해주세요");
+          if (res.data.exists) {
+            return alert("이미 가입된 이메일 입니다");
+          } else {
+            setIsEmailCheck("ing");
+            setIsCounting(true);
+            return alert("이메일로 전송된 인증코드를 입력해주세요");
+          }
+        } else if (isEmailCheck === "ing") {
+          setTime(300);
+          setIsCounting(true);
+          return;
         }
-        break;
+
       case 2:
         const codeData = watch("code");
         if (codeData && codeData.length !== 6) {
@@ -151,6 +168,7 @@ const RegistForm = () => {
         }
         // email 확인 api 호출
         setIsEmailCheck("true");
+        setIsCounting(false);
         return alert("인증이 완료되었습니다.");
 
       default:
@@ -205,7 +223,9 @@ const RegistForm = () => {
       case "code":
         const code = watch("code");
         if (code && code.length === 6) {
-          return "font-semibold text-black";
+          return `font-semibold ${
+            isEmailCheck === "true" ? "text-[#B8BFC2]" : "text-black"
+          }`;
         }
         return "text-gray-400";
       case "nickname":
@@ -215,7 +235,7 @@ const RegistForm = () => {
         }
         return "text-gray-400";
       default:
-        break;
+        return "";
     }
   };
 
@@ -229,7 +249,6 @@ const RegistForm = () => {
 
     return passwordGuideArray.map((data) => (
       <li className="flex items-center gap-2" key={data.text}>
-        {/* D2D5D6 */}
         <FaCircle
           width={18}
           height={18}
@@ -239,60 +258,22 @@ const RegistForm = () => {
       </li>
     ));
   };
-
-  const renderEmailCheckSection = () => {
-    if (isEmailCheck === "ing" || isEmailCheck === "true") {
-      return (
-        <div className="mt-4">
-          <div className={`relative`}>
-            <input
-              {...register("code", {
-                required: true,
-                maxLength: 6,
-                minLength: 6,
-              })}
-              type="text"
-              placeholder="인증코드 6자리"
-              className={`${NomalInputStyle} foucs:outline-none`}
-              autoComplete="off"
-              maxLength={6}
-            />
-            <button
-              className={` absolute top-1/4 right-4 ${watchText("code")}`}
-              onClick={() => handleCheckEmail(2)}
-            >
-              인증하기
-            </button>
-          </div>
-          <div className="flex justify-between items-center text-sm mt-[10px]">
-            <span className="text-[#828A8F] tracking-tighter">
-              이메일로 받은 인증코드를 입력해주세요.
-            </span>
-            <span className="text-[#ff0000]">유효시간 {"05:00"}</span>
-          </div>
-        </div>
-      );
-    }
-  };
-
   const renderNickNameCheck = (isduplCheck: string) => {
     switch (isduplCheck) {
       case "true":
         return (
-          <span className="mt-2 text-[#00D900]">사용 가능한 닉네임입니다.</span>
+          <span className="mt-2 text-[#00D900] text-sm">
+            사용 가능한 닉네임입니다.
+          </span>
         );
       case "duple":
-        return (
-          <span className="mt-2 text-[#FF0000]">사용 중인 닉네임입니다.</span>
-        );
+        return <RegistErrorMsg>사용 중인 닉네임입니다.</RegistErrorMsg>;
       case "ing":
         return (
           isduplCheck === "ing" &&
           watch("nickname")?.length >= 2 &&
           watch("nickname")?.length <= 20 && (
-            <span className="pl-1 mt-2 text-[#ff0000]">
-              중복여부를 확인해 주세요
-            </span>
+            <RegistErrorMsg>중복여부를 확인해 주세요</RegistErrorMsg>
           )
         );
       default:
@@ -395,7 +376,7 @@ const RegistForm = () => {
         <label htmlFor="email" className={labelStyle}>
           이메일
         </label>
-        <div className="flex justify-between ">
+        <div className="flex justify-between">
           <input
             {...register("email", {
               required: true,
@@ -422,19 +403,24 @@ const RegistForm = () => {
           </CommonButton>
         </div>
         {errors.email && errors.email.type === "pattern" && (
-          <span className="text-[#ff0000] mt-2">
-            올바른 이메일 형식이 아닙니다
-          </span>
+          <RegistErrorMsg>올바른 이메일 형식이 아닙니다</RegistErrorMsg>
         )}
-        {/*  이메일 중복일 경우
-        {isEmailCheck === "duple" && (
-          <span className="text-[#ff0000] mt-2">
-            이미 가입된 이메일 입니다.
-          </span>
-        )} 
-         */}
-
-        {renderEmailCheckSection()}
+        {/* {renderEmailCheckSection()} */}
+        {isEmailCheck === "ing" || isEmailCheck === "true" ? (
+          <EmailCheckSection
+            isEmailCheck={isEmailCheck}
+            register={register}
+            NomalInputStyle={NomalInputStyle}
+            handleCheckEmail={handleCheckEmail}
+            watchText={watchText}
+            time={time}
+            setTime={setTime}
+            isCounting={isCounting}
+            setIsCounting={setIsCounting}
+          ></EmailCheckSection>
+        ) : (
+          ""
+        )}
       </div>
       <div className="my-8 flex flex-col">
         <label htmlFor="nickname" className={labelStyle}>
@@ -466,11 +452,10 @@ const RegistForm = () => {
         </div>
         {errors.nickname &&
           ["maxLength", "minLength"].includes(errors.nickname.type) && (
-            <span className=" mt-2 text-[#ff0000] ">
+            <RegistErrorMsg>
               닉네임은 2~20자 사이로 입력해주세요.
-            </span>
+            </RegistErrorMsg>
           )}
-
         {
           /* 사용가능 or 사용중인 닉네임 일때 나올 텍스트 추가 */
           renderNickNameCheck(isduplCheck)
@@ -478,7 +463,7 @@ const RegistForm = () => {
       </div>
       <div className="flex flex-col gap-4">
         <div>
-          <label htmlFor="password" className={labelStyle}>
+          <label htmlFor="password" className={labelStyle + "inline-block"}>
             비밀번호
           </label>
           <input
@@ -517,9 +502,7 @@ const RegistForm = () => {
             disabled={!password}
           />
           {errors.password_confirm && (
-            <span className="text-[#ff0000] mt-2">
-              {errors.password_confirm.message}
-            </span>
+            <RegistErrorMsg>{errors.password_confirm.message}</RegistErrorMsg>
           )}
         </div>
       </div>
@@ -553,7 +536,7 @@ const RegistForm = () => {
                     {data.text}
                   </label>
                   {data.required ? (
-                    <span className="text-[#FF0000]">(필수)</span>
+                    <RegistErrorMsg>(필수)</RegistErrorMsg>
                   ) : (
                     <span className="text-[#B8BFC2]">(선택)</span>
                   )}
@@ -569,15 +552,17 @@ const RegistForm = () => {
           </ul>
         </div>
       </div>
-
-      <input
-        className={`mt-6 bg-[#e8e9eb] rounded-sm text-[#B8BFC2] w-full h-[56px] ${
-          isRequired && "cursor-pointer bg-black text-[#ffffff]"
-        }`}
+      <CommonButton
+        variant={isRequired ? "solid_btn" : "disabled_btn"}
+        width="384px"
+        size="l"
+        marginTop="1.5rem"
+        marginBottom="0"
         type="submit"
         disabled={!isRequired}
-        value={"회원가입하기"}
-      />
+      >
+        회원가입하기
+      </CommonButton>
     </form>
   );
 };
