@@ -11,6 +11,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'gray-150': '#E8E9EB', // 버튼 비활성화 색상
+        'gray-200':'#D2D5D6', // 버튼 비활성화 border 색상
+        'gray-300': '#B8BFC2', // 버튼 비활성화 텍스트 색상
       },
       fontSize: {
         '6xl': [
