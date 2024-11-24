@@ -97,7 +97,9 @@ const config: Config = {
         600: '600',
         400: '400',
       },
-
+      boxShadow: {
+        selectShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+      },
     },
   },
   plugins: [],
