@@ -8,9 +8,10 @@ interface PropsType {
     value: string;
   }[];
   setSelectedOption?: Dispatch<SetStateAction<string>>;
+  optionWidth?: string;
 }
 
-const SelectBox = ({ option, setSelectedOption }: PropsType) => {
+const SelectBox = ({ option, setSelectedOption, optionWidth }: PropsType) => {
   // 옵션 show/hide 플래크
   const [showOption, setShowOption] = useState<boolean>(false);
   // 현재 선택된 옵션
@@ -30,9 +31,9 @@ const SelectBox = ({ option, setSelectedOption }: PropsType) => {
 
   return (
     <>
-      <div className="relative w-full">
+      <div className="relative w-full cursor-pointer">
         <div
-          className="w-full h-[50px] border border-green-150 rounded-m pl-[24px] pt-[10px] appearance-none"
+          className="w-full h-[50px] border border-gray-150 rounded-m pl-[24px] pt-[10px] appearance-none"
           onClick={handleSelectBox}
         >
           <p className="font-600 text-3xl">{currentOption}</p>
@@ -46,7 +47,9 @@ const SelectBox = ({ option, setSelectedOption }: PropsType) => {
         </div>
       </div>
       {showOption && (
-        <div className="w-[100%] h-auto bg-white border border-gray-200 mt-[10px] rounded-m pt-[8px] pb-[32px] pl-[24px] pr-[24px] shadow-selectShadow">
+        <div
+          className={`absolute w-[${optionWidth}] h-auto bg-white border border-gray-200 mt-[10px] rounded-m pt-[8px] pb-[32px] pl-[24px] pr-[24px] shadow-selectShadow`}
+        >
           {option.map((item) => (
             <div
               key={item.key}

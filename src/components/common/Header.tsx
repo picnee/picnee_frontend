@@ -59,7 +59,7 @@ const Header = () => {
   };
 
   return (
-    <header className="flex flex-col justify-center ">
+    <header className="flex flex-col justify-center fixed bg-white z-[999] h-[73px]">
       <div className="border-b w-[100vw] flex justify-center pt-[15px] pb-[15px]">
         <nav className="w-[1280px] flex items-center justify-between px-[40px] ">
           <ul className="w-[1280px] flex gap-[32px] font-semibold  h-10 items-center text-center">
