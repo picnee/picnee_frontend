@@ -1,8 +1,8 @@
 "use client";
 
-import ArrowButton from "@/components/common/ArrowButton";
 import CardUI from "@/components/common/CardUI";
-import GrayButtonBox from "@/components/common/GrayButtonBox";
+import ArrowButton from "@/components/common/button/ArrowButton";
+import GrayButtonBox from "@/components/common/button/GrayButtonBox";
 
 const BestReviewRestaurant = () => {
   const bestReviewData = [

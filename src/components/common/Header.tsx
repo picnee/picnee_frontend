@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserStore } from "@/store/zustand/useUserStore";
-import CommonButton from "./CommonButton";
+import CommonButton from "./button/CommonButton";
 
 const LocalNavBar = ({
   type,

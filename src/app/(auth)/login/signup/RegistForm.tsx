@@ -1,6 +1,6 @@
 "use client";
 
-import CommonButton from "@/components/common/CommonButton";
+import CommonButton from "@/components/common/button/CommonButton";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";

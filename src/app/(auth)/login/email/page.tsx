@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import FormInput from "@/components/common/FormInput";
+import FormInput from "@/components/common/input/FormInput";
 import { fetchData } from "@/lib/axios";
-import { useAuth } from "@/hooks/useAuth"
+import { useAuth } from "@/hooks/useAuth";
 
 interface FieldValue {
   email: string;
@@ -18,29 +18,29 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid }
+    formState: { errors, isValid },
   } = useForm<FieldValue>();
 
   const loginEvent = async (data: FieldValue) => {
     try {
-      const response = await fetchData('/users/login', {
-        method: 'POST',
-        data
+      const response = await fetchData("/users/login", {
+        method: "POST",
+        data,
       });
-      console.log('로그인 응답:', response);
+      console.log("로그인 응답:", response);
       if (response.data.accessToken) {
         setCookies(response.data.accessToken, response.data.refreshToken);
-        console.log('로그인 성공, 홈으로 이동 시도');
-        router.push('/');
+        console.log("로그인 성공, 홈으로 이동 시도");
+        router.push("/");
       } else {
-        console.log('로그인 실패: 토큰이 없습니다');
-        alert('로그인에 실패했습니다.');
+        console.log("로그인 실패: 토큰이 없습니다");
+        alert("로그인에 실패했습니다.");
       }
     } catch (error) {
-      console.error('로그인 중 오류가 발생했습니다:', error);
-      alert('로그인 중 오류가 발생했습니다.');
+      console.error("로그인 중 오류가 발생했습니다:", error);
+      alert("로그인 중 오류가 발생했습니다.");
     }
-  }
+  };
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
@@ -50,19 +50,17 @@ export default function LoginPage() {
         </h1>
 
         <form onSubmit={handleSubmit(loginEvent)} className="">
-
           <FormInput
             name="email"
             placeholder="이메일 입력"
             type="email"
             register={register}
-
             rules={{
               required: "이메일은 필수입니다",
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "올바른 이메일을 입력해주세요."
-              }
+                message: "올바른 이메일을 입력해주세요.",
+              },
             }}
             error={errors.email}
           />
@@ -76,8 +74,8 @@ export default function LoginPage() {
               required: "비밀번호는 필수입니다",
               minLength: {
                 value: 8,
-                message: "비밀번호는 최소 8자 이상이어야 합니다"
-              }
+                message: "비밀번호는 최소 8자 이상이어야 합니다",
+              },
             }}
             error={errors.password}
           />
@@ -101,9 +99,10 @@ export default function LoginPage() {
             <button
               type="submit"
               className={`w-full h-[48px] rounded-lg mt-12 
-                ${isValid
-                  ? 'bg-black text-white'
-                  : 'bg-[#F3F4F6] text-[#697175]'
+                ${
+                  isValid
+                    ? "bg-black text-white"
+                    : "bg-[#F3F4F6] text-[#697175]"
                 }`}
             >
               로그인
@@ -112,7 +111,7 @@ export default function LoginPage() {
             {/* Sign Up Link */}
             <button
               type="button"
-              onClick={() => router.push('/login/signup')}
+              onClick={() => router.push("/login/signup")}
               className="w-full h-[48px] border border-[#E8E9EB] text-[#697175] rounded-lg mt-4"
             >
               이메일로 회원가입
