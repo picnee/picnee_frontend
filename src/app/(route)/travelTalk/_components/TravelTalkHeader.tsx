@@ -1,5 +1,5 @@
 "use client";
-import CommonButton from "@/components/common/CommonButton";
+import CommonButton from "@/components/common/button/CommonButton";
 import { useState } from "react";
 
 const TravelTalkHeader = () => {

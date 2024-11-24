@@ -1,11 +1,11 @@
-import React from "react"
+import React from "react";
 
 type IconProps = {
-  iconName: string
-}
+  iconName: string;
+};
 
 const Icon = (props: IconProps) => {
-  const { iconName } = props
+  const { iconName } = props;
   switch (iconName) {
     case "kakao":
       return (
@@ -22,7 +22,7 @@ const Icon = (props: IconProps) => {
             fill="black"
           />
         </svg>
-      )
+      );
     case "naver":
       return (
         <svg
@@ -62,7 +62,7 @@ const Icon = (props: IconProps) => {
             </clipPath>
           </defs>
         </svg>
-      )
+      );
     case "google":
       return (
         <svg
@@ -114,7 +114,7 @@ const Icon = (props: IconProps) => {
             fill="#EA4335"
           />
         </svg>
-      )
+      );
     case "close":
       return (
         <svg
@@ -129,11 +129,45 @@ const Icon = (props: IconProps) => {
             fill="#2B2B2B"
           />
         </svg>
-      )
+      );
+
+    case "downArrow":
+      return (
+        <svg
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.15617 6.55478L10.74 0.824939C10.8448 0.693986 10.7516 0.5 10.5839 0.5L1.41612 0.5C1.24842 0.5 1.15519 0.693987 1.25995 0.82494L5.84383 6.55478C5.92389 6.65486 6.07611 6.65486 6.15617 6.55478Z"
+            fill="#121314"
+            stroke="#121314"
+          />
+        </svg>
+      );
+
+    case "upArrow":
+      return (
+        <svg
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.84383 0.695217L1.25995 6.42506C1.15519 6.55601 1.24842 6.75 1.41613 6.75L10.5839 6.75C10.7516 6.75 10.8448 6.55601 10.74 6.42506L6.15617 0.695217C6.07611 0.595136 5.92389 0.595136 5.84383 0.695217Z"
+            fill="#121314"
+            stroke="#121314"
+          />
+        </svg>
+      );
 
     default:
-      return <div></div>
+      return <div></div>;
   }
-}
+};
 
-export default Icon
+export default Icon;
