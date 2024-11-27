@@ -22,29 +22,29 @@ const SelectBox = ({ option, setSelectedOption, optionWidth }: PropsType) => {
   };
 
   const handleSelectedOption = (value: string) => {
-    if (setSelectedOption) {
-      setSelectedOption(value); // 선택된 옵션 부모 컴포넌트에 전달
+    if (setSelectedOption && showOption) {
+      // 선택된 옵션 부모 컴포넌트에 전달
+      setSelectedOption(value);
+      // 현재 선택된 옵션 저장
+      setCurrentOption(value);
     }
-    setCurrentOption(value);
-    setShowOption(false); // 옵션 hide
+    setShowOption(false);
   };
 
+  /** 스크롤을 내리면 옵션 숨김 */
   useEffect(() => {
     const handleScroll = () => {
-      // 스크롤을 내리면 옵션 숨기기
       if (showOption) {
         setShowOption(false);
       }
     };
 
-    // window에 scroll 이벤트 리스너 추가
     window.addEventListener("scroll", handleScroll);
 
-    // cleanup 함수: 컴포넌트가 언마운트 될 때 이벤트 리스너 제거
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [showOption]); // showOption 값이 변경될 때마다 re-run
+  }, [showOption]);
 
   return (
     <>
