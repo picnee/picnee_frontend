@@ -22,7 +22,7 @@ const SelectBox = ({ option, setSelectedOption, optionWidth }: PropsType) => {
   };
 
   const handleSelectedOption = (value: string) => {
-    if (setSelectedOption && showOption) {
+    if (setSelectedOption) {
       // 선택된 옵션 부모 컴포넌트에 전달
       setSelectedOption(value);
       // 현재 선택된 옵션 저장
@@ -63,22 +63,24 @@ const SelectBox = ({ option, setSelectedOption, optionWidth }: PropsType) => {
           </span>
         </div>
       </div>
-      <div
-        className={`absolute h-auto bg-white border border-gray-200 mt-[10px] rounded-m pt-[8px] pb-[32px] pl-[24px] pr-[24px] shadow-selectShadow transition-all duration-300 ease-out transform ${
-          showOption ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ width: optionWidth }}
-      >
-        {option.map((item) => (
-          <div
-            key={item.key}
-            className="mt-[24px] cursor-pointer"
-            onClick={() => handleSelectedOption(item.value)}
-          >
-            <p className="font-600 text-3xl">{item.value}</p>
-          </div>
-        ))}
-      </div>
+      {showOption && (
+        <div
+          className={`absolute h-auto bg-white border border-gray-200 mt-[10px] rounded-m pt-[8px] pb-[32px] pl-[24px] pr-[24px] shadow-selectShadow transition-all duration-300 ease-out transform ${
+            showOption ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ width: optionWidth }}
+        >
+          {option.map((item) => (
+            <div
+              key={item.key}
+              className="mt-[24px] cursor-pointer"
+              onClick={() => handleSelectedOption(item.value)}
+            >
+              <p className="font-600 text-3xl">{item.value}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };
