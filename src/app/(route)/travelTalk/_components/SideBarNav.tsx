@@ -1,13 +1,24 @@
 "use client";
-import CheckBox from "@/components/common/checkbox/CheckBox";
+import MenuBox from "@/components/common/menu/MenuBox";
 import SelectBox from "@/components/common/select/SelectBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SideBarNav = () => {
   const [selectedCityOption, setSelectedCityOption] = useState<string>("");
-  const [selectedCategoryOption, setSelectedCategoryOption] =
-    useState<string>("");
-  const [selectedWriteOption, setSelectedWriteOption] = useState<string>("");
+  const [selectedCategoryMenu, setSelectedCategoryMenu] = useState<string>("");
+  const [selectedWriteMenu, setSelectedWriteMenu] = useState<string>("");
+
+  useEffect(() => {
+    if (selectedCategoryMenu !== "") {
+      setSelectedWriteMenu("");
+    }
+  }, [selectedCategoryMenu]);
+
+  useEffect(() => {
+    if (selectedWriteMenu !== "") {
+      setSelectedCategoryMenu("");
+    }
+  }, [selectedWriteMenu]);
 
   const cityOption = [
     { key: 1, value: "도쿄" },
@@ -43,18 +54,20 @@ const SideBarNav = () => {
       </div>
       <div className="mb-[16px]">
         <div className="w-[full] h-[auto] p-[16px] border border-gray-150 rounded-m">
-          <CheckBox
+          <MenuBox
             option={categoryOption}
-            setSelectedOption={setSelectedCategoryOption}
+            selectedOption={selectedCategoryMenu}
+            setSelectedOption={setSelectedCategoryMenu}
             isDefaultCheck={true}
           />
         </div>
       </div>
       <div>
         <div className="w-[full] h-[auto] p-[16px] border border-gray-150 rounded-m">
-          <CheckBox
+          <MenuBox
             option={writeOption}
-            setSelectedOption={setSelectedWriteOption}
+            selectedOption={selectedWriteMenu}
+            setSelectedOption={setSelectedWriteMenu}
             isDefaultCheck={false}
           />
         </div>
