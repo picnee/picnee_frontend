@@ -57,10 +57,11 @@ const TravelTalk = () => {
       time: "4",
     },
   ];
-  // 현재 선택된 페이지
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  // 페이지별 아이템 수
-  const itemsPerPage = 10;
+  // travelTalkHeader 관련 상태
+  const [selectedFilter, setSelectedFilter] = useState<string>("최신순");
+  // pagination 관련 상태
+  const [currentPage, setCurrentPage] = useState<number>(1); // 현재 선택된 페이지
+  const itemsPerPage = 10; // 페이지별 아이템 수
 
   // 더미 데이터
   const ITEMS = Array.from(
@@ -71,7 +72,10 @@ const TravelTalk = () => {
   return (
     <div className="pt-[72px] pb-[80px]">
       <div className="w-[1200px] fixed pt-[62px] h-[128px] bg-white z-[999]">
-        <TravelTalkHeader />
+        <TravelTalkHeader
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter}
+        />
       </div>
       <div className="grid grid-cols-4 gap-[24px] pt-[150px]">
         <div className="col-span-1">

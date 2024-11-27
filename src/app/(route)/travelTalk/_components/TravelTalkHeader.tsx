@@ -1,9 +1,13 @@
 "use client";
 import CommonButton from "@/components/common/button/CommonButton";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
-const TravelTalkHeader = () => {
-  const [selectedFilter, setSelectedFilter] = useState<string>("최신순");
+interface PropsType {
+  selectedFilter: string;
+  setSelectedFilter: Dispatch<SetStateAction<string>>;
+}
+
+const TravelTalkHeader = ({ selectedFilter, setSelectedFilter }: PropsType) => {
   // 검색필터
   const filter = ["최신순", "조회순", "댓글순"];
 
