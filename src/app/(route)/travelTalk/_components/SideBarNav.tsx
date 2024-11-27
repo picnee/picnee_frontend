@@ -1,13 +1,25 @@
 "use client";
 import MenuBox from "@/components/common/menu/MenuBox";
 import SelectBox from "@/components/common/select/SelectBox";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const SideBarNav = () => {
-  const [selectedCityOption, setSelectedCityOption] = useState<string>("");
-  const [selectedCategoryMenu, setSelectedCategoryMenu] = useState<string>("");
-  const [selectedWriteMenu, setSelectedWriteMenu] = useState<string>("");
+interface PropsType {
+  selectedCityOption: string;
+  setSelectedCityOption: Dispatch<SetStateAction<string>>;
+  selectedCategoryMenu: string;
+  setSelectedCategoryMenu: Dispatch<SetStateAction<string>>;
+  selectedWriteMenu: string;
+  setSelectedWriteMenu: Dispatch<SetStateAction<string>>;
+}
 
+const SideBarNav = ({
+  selectedCityOption,
+  setSelectedCityOption,
+  selectedCategoryMenu,
+  setSelectedCategoryMenu,
+  selectedWriteMenu,
+  setSelectedWriteMenu,
+}: PropsType) => {
   useEffect(() => {
     if (selectedCategoryMenu !== "") {
       setSelectedWriteMenu("");

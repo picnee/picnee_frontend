@@ -57,11 +57,15 @@ const TravelTalk = () => {
       time: "4",
     },
   ];
-  // travelTalkHeader 관련 상태
+  // TravelTalkHeader 관련 상태
   const [selectedFilter, setSelectedFilter] = useState<string>("최신순");
-  // pagination 관련 상태
+  // Pagination 관련 상태
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 선택된 페이지
   const itemsPerPage = 10; // 페이지별 아이템 수
+  // SideBarNav 관련 상태
+  const [selectedCityOption, setSelectedCityOption] = useState<string>("");
+  const [selectedCategoryMenu, setSelectedCategoryMenu] = useState<string>("");
+  const [selectedWriteMenu, setSelectedWriteMenu] = useState<string>("");
 
   // 더미 데이터
   const ITEMS = Array.from(
@@ -79,11 +83,18 @@ const TravelTalk = () => {
       </div>
       <div className="grid grid-cols-4 gap-[24px] pt-[150px]">
         <div className="col-span-1">
-          <SideBarNav />
+          <SideBarNav
+            selectedCityOption={selectedCityOption}
+            setSelectedCityOption={setSelectedCityOption}
+            selectedCategoryMenu={selectedCategoryMenu}
+            setSelectedCategoryMenu={setSelectedCategoryMenu}
+            selectedWriteMenu={selectedWriteMenu}
+            setSelectedWriteMenu={setSelectedWriteMenu}
+          />
         </div>
         <div className="col-span-3">
           {/* TalkList에 data prop 전달 */}
-          <TalkList data={dummyData} />
+          <TalkList data={dummyData} selectedWriteMenu={selectedWriteMenu} />
         </div>
         <div className="col-span-1"></div>
         <div className="col-span-3">

@@ -10,9 +10,10 @@ interface dataType {
 
 interface TalkListProps {
   data: dataType[];
+  selectedWriteMenu: string;
 }
 
-const TalkList = ({ data }: TalkListProps) => {
+const TalkList = ({ data, selectedWriteMenu }: TalkListProps) => {
   return (
     <>
       {data.map((item: dataType) => (
@@ -51,7 +52,8 @@ const TalkList = ({ data }: TalkListProps) => {
                 </div>
               </div>
               <p className="text-sm text-gray-500">
-                {item.nickname} &nbsp;・&nbsp; {item.time}시간 전
+                {selectedWriteMenu !== "내가 쓴 글" && `${item.nickname}  ・ `}
+                {item.time}시간 전
               </p>
             </div>
           </div>
