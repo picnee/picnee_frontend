@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { RegistFormValue } from "./RegistForm";
-import RegistErrorMsg from "./RegistErrorMsg";
 
 interface EmailCheckSProps {
   isEmailCheck: string;
@@ -33,6 +32,33 @@ const EmailCheckSection = ({
       2,
       "0"
     )}`;
+  };
+  const renderEmailCheckText = (isEmailCheck: string) => {
+    switch (isEmailCheck) {
+      case "true":
+        return (
+          <span className="mt-2 text-[#00D900]">인증이 완료되었습니다.</span>
+        );
+      case "error":
+        return (
+          <span className="text-[#ff0000]">올바르지 않은 인증코드 입니다.</span>
+        );
+
+      default:
+        return (
+          <>
+            {time === 0 ? (
+              <span className="text-[#ff0000] tracking-tighter">
+                유효시간이 만료되었습니다. <br></br> 인증을 다시해주세요
+              </span>
+            ) : (
+              <span className="text-[#828A8F] tracking-tighter">
+                이메일로 받은 인증코드를 입력해주세요.
+              </span>
+            )}
+          </>
+        );
+    }
   };
 
   useEffect(() => {
@@ -76,16 +102,10 @@ const EmailCheckSection = ({
         </button>
       </div>
 
-      <div className="flex justify-between items-center text-sm mt-[10px]">
-        {isEmailCheck === "true" ? (
-          <span className="mt-2 text-[#00D900]">인증이 완료되었습니다.</span>
-        ) : (
-          <>
-            <span className="text-[#828A8F] tracking-tighter">
-              이메일로 받은 인증코드를 입력해주세요.
-            </span>
-            <RegistErrorMsg>유효시간 {formatTime(time)}</RegistErrorMsg>
-          </>
+      <div className="flex justify-between items-center text-sm mt-2">
+        {renderEmailCheckText(isEmailCheck)}
+        {isEmailCheck !== "true" && (
+          <span className="text-[#ff0000]">유효시간 {formatTime(time)}</span>
         )}
       </div>
     </div>
