@@ -78,9 +78,8 @@ const RegistForm = () => {
   passwordRef.current = watch("password");
 
   const onSubmitHandler = async (data: RegistFormValue) => {
-    if (isduplCheck === "false" || isduplCheck === "duple") {
-      setIsDuplCheck("ing");
-      return;
+    if (isduplCheck !== "true") {
+      return setIsDuplCheck("ing");
     }
 
     const submitData = {
@@ -163,10 +162,14 @@ const RegistForm = () => {
 
       case 2:
         const codeData = watch("code");
+
         if (codeData && codeData.length !== 6) {
           return alert("인증코드 6자리를 입력해주세요");
         }
         // email 확인 api 호출
+        // if (!res) {
+        //   return setIsEmailCheck("error");
+        // }
         setIsEmailCheck("true");
         setIsCounting(false);
         return alert("인증이 완료되었습니다.");
@@ -287,7 +290,8 @@ const RegistForm = () => {
         if (
           (errors.nickname &&
             ["maxLength", "minLength"].includes(errors.nickname.type)) ||
-          isduplCheck === "duple"
+          isduplCheck === "duple" ||
+          isduplCheck === "ing"
         ) {
           return ErrorInputStyle;
         } else {
@@ -366,7 +370,7 @@ const RegistForm = () => {
     if (isduplCheck === "true") {
       return setIsDuplCheck("false");
     } else if (isduplCheck === "duple") {
-      return;
+      return setIsDuplCheck("false");
     }
   }, [nickNameRef.current]);
 
