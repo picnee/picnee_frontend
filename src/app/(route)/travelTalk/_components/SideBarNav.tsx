@@ -1,13 +1,36 @@
 "use client";
-import CheckBox from "@/components/common/checkbox/CheckBox";
+import MenuButton from "@/components/common/menu/MenuButton";
 import SelectBox from "@/components/common/select/SelectBox";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const SideBarNav = () => {
-  const [selectedCityOption, setSelectedCityOption] = useState<string>("");
-  const [selectedCategoryOption, setSelectedCategoryOption] =
-    useState<string>("");
-  const [selectedWriteOption, setSelectedWriteOption] = useState<string>("");
+interface PropsType {
+  selectedCityOption: string;
+  setSelectedCityOption: Dispatch<SetStateAction<string>>;
+  selectedCategoryMenu: string;
+  setSelectedCategoryMenu: Dispatch<SetStateAction<string>>;
+  selectedWriteMenu: string;
+  setSelectedWriteMenu: Dispatch<SetStateAction<string>>;
+}
+
+const SideBarNav = ({
+  selectedCityOption,
+  setSelectedCityOption,
+  selectedCategoryMenu,
+  setSelectedCategoryMenu,
+  selectedWriteMenu,
+  setSelectedWriteMenu,
+}: PropsType) => {
+  useEffect(() => {
+    if (selectedCategoryMenu !== "") {
+      setSelectedWriteMenu("");
+    }
+  }, [selectedCategoryMenu]);
+
+  useEffect(() => {
+    if (selectedWriteMenu !== "") {
+      setSelectedCategoryMenu("");
+    }
+  }, [selectedWriteMenu]);
 
   const cityOption = [
     { key: 1, value: "도쿄" },
@@ -43,18 +66,20 @@ const SideBarNav = () => {
       </div>
       <div className="mb-[16px]">
         <div className="w-[full] h-[auto] p-[16px] border border-gray-150 rounded-m">
-          <CheckBox
+          <MenuButton
             option={categoryOption}
-            setSelectedOption={setSelectedCategoryOption}
+            selectedOption={selectedCategoryMenu}
+            setSelectedOption={setSelectedCategoryMenu}
             isDefaultCheck={true}
           />
         </div>
       </div>
       <div>
         <div className="w-[full] h-[auto] p-[16px] border border-gray-150 rounded-m">
-          <CheckBox
+          <MenuButton
             option={writeOption}
-            setSelectedOption={setSelectedWriteOption}
+            selectedOption={selectedWriteMenu}
+            setSelectedOption={setSelectedWriteMenu}
             isDefaultCheck={false}
           />
         </div>
