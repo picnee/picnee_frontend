@@ -1,17 +1,53 @@
+import { Dispatch, SetStateAction } from "react";
 
 interface InputBoxProps {
-  width: string;
-  height: string;
   type: string;
   placeholder: string;
+  varient: "default" | "error";
+  value?: string;
+  setValue?: Dispatch<SetStateAction<string>>;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  maxLength?: number;
+  showTextLength?: boolean;
+  width: string;
+  height: string;
+  fontSize: string;
 }
 
-export default function InputBox({ width, height, type, placeholder }: InputBoxProps) {
+export default function InputBox({
+  type,
+  placeholder,
+  varient,
+  value,
+  setValue,
+  maxLength,
+  showTextLength = false,
+  width,
+  height,
+  fontSize,
+}: InputBoxProps) {
+  const handleChangeValue = (e: any) => {
+    if (setValue) setValue(e.target.value);
+  };
+
   return (
-    <input
-      type={type}
-      placeholder={placeholder}
-      className={`w-[${width}] h-[${height}] px-4 border border-[#E8E9EB] rounded-lg focus:outline-none`}
-    />
+    <>
+      <input
+        type={type}
+        placeholder={placeholder}
+        className={`w-[${width}] h-[${height}]  pl-[24px] rounded-sm box-border text-${fontSize} ${
+          varient === "default"
+            ? "border border-gray-150 placeholder-text-gray-300 focus:border-black focus:outline-none"
+            : "border border-red focus:border-red focus:outline-none"
+        } text-black`}
+        onChange={(e) => handleChangeValue(e)}
+        maxLength={maxLength}
+      />
+      {showTextLength && (
+        <div className="absolute right-[24px] bottom-[18px] text-2xl text-gray-400">
+          {value?.length || 0} / {maxLength || 0}
+        </div>
+      )}
+    </>
   );
 }
