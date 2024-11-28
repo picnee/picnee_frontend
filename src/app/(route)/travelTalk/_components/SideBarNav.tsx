@@ -1,5 +1,5 @@
 "use client";
-import MenuBox from "@/components/common/menu/MenuBox";
+import MenuButton from "@/components/common/menu/MenuButton";
 import SelectBox from "@/components/common/select/SelectBox";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
@@ -66,7 +66,7 @@ const SideBarNav = ({
       </div>
       <div className="mb-[16px]">
         <div className="w-[full] h-[auto] p-[16px] border border-gray-150 rounded-m">
-          <MenuBox
+          <MenuButton
             option={categoryOption}
             selectedOption={selectedCategoryMenu}
             setSelectedOption={setSelectedCategoryMenu}
@@ -76,7 +76,7 @@ const SideBarNav = ({
       </div>
       <div>
         <div className="w-[full] h-[auto] p-[16px] border border-gray-150 rounded-m">
-          <MenuBox
+          <MenuButton
             option={writeOption}
             selectedOption={selectedWriteMenu}
             setSelectedOption={setSelectedWriteMenu}

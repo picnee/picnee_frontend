@@ -77,8 +77,10 @@ const TravelTalk = () => {
     <div className="pt-[72px] pb-[80px]">
       <div className="w-[1200px] fixed pt-[62px] h-[128px] bg-white z-[999]">
         <TravelTalkHeader
+          hasFilter={true}
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}
+          isActiveButton={true}
         />
       </div>
       <div className="grid grid-cols-4 gap-[24px] pt-[150px]">
