@@ -10,7 +10,7 @@ interface PropsType {
   isDefaultCheck?: boolean; // 초기 option의 첫번째 항목 선택 여부 플래그
 }
 
-const MenuBox = ({
+const MenuButton = ({
   option,
   selectedOption,
   setSelectedOption,
@@ -51,4 +51,4 @@ const MenuBox = ({
     </>
   );
 };
-export default MenuBox;
+export default MenuButton;
