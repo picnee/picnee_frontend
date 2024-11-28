@@ -16,7 +16,8 @@ const config: Config = {
         'gray-200':'#D2D5D6', // 버튼 비활성화 border 색상
         'gray-300': '#B8BFC2', // 버튼 비활성화 텍스트 색상
         'gray-400':'#A1A9AD',
-        'gray-500':'#828A8F'
+        'gray-500':'#828A8F',
+		'red' : '#FF0000'
       },
       fontSize: {
         '6xl': [
