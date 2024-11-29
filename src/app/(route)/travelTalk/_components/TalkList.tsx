@@ -1,3 +1,7 @@
+import Sticker from "@/components/common/Sticker";
+import Watch from "@/components/common/Watch";
+import { useRouter } from "next/navigation";
+
 interface dataType {
   sticker: string;
   title: string;
@@ -14,16 +18,20 @@ interface TalkListProps {
 }
 
 const TalkList = ({ data, selectedWriteMenu }: TalkListProps) => {
+  const navigator = useRouter();
   return (
     <>
       {data.map((item: dataType) => (
         <div className="mb-[16px]" key={item.title}>
-          <div className="w-[100%] h-[192px] border border-gray-150 rounded-m p-[24px] box-border">
+          <div
+            className="w-[100%] h-[192px] border border-gray-150 rounded-m p-[24px] box-border cursor-pointer hover:border-black  transition-colors duration-300"
+            onClick={() => {
+              navigator.push("/travelTalk/detail");
+            }}
+          >
             <div className="grid grid-cols-4">
               <div className="col-span-3">
-                <div className="text-sm leading-3 text-gray-400 w-[41px] h-[24px] bg-gray-100 rounded-xs flex items-center justify-center">
-                  <p className="text-center">{item.sticker}</p>
-                </div>
+                <Sticker title={item.sticker} />
                 <div className="mt-[16px] mb-[32px]">
                   <p className="font-600 text-2xl truncate max-w-[633px] whitespace-nowrap">
                     {item.title}
@@ -42,10 +50,7 @@ const TalkList = ({ data, selectedWriteMenu }: TalkListProps) => {
             </div>
             <div className="flex items-center justify-between h-">
               <div className="flex gap-[40px]">
-                <div className="flex gap-[10px]">
-                  <span className="block w-[24px] h-[24px] bg-gray-200"></span>
-                  <span>{item.watch}</span>
-                </div>
+                <Watch watchNum={item.watch} />
                 <div className="flex gap-[10px]">
                   <span className="block w-[24px] h-[24px] bg-gray-200"></span>
                   <span>{item.like}</span>

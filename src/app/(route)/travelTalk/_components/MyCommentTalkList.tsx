@@ -1,3 +1,5 @@
+import Sticker from "@/components/common/Sticker";
+
 interface dataType {
   comment: string;
   sticker: string;
@@ -30,9 +32,7 @@ const MyCommentTalkList = ({
                 <p className="font-500 text-sm text-gray-400">{item.date}</p>
               </div>
               <div className="flex gap-[8px]">
-                <div className="text-sm leading-3 text-gray-400 w-[41px] h-[24px] bg-gray-100 rounded-xs flex items-center justify-center">
-                  <p className="text-center">{item.sticker}</p>
-                </div>
+                <Sticker title={item.sticker} />
                 <p className="font-400 text-lg text-gray-400 truncate max-w-[633px] whitespace-nowrap">
                   {item.title}
                 </p>
