@@ -43,11 +43,11 @@ const TravelTalkWrite = () => {
   }, [selectedCityOption, selectedCategoryOption, titleValue, contentValue]);
 
   return (
-    <div className="pt-[72px] pb-[80px]">
-      <div className="w-[1200px] fixed pt-[62px] h-[128px] bg-white z-[999]">
+    <div className="pt-[72px]">
+      <div className="w-[1200px] pt-[35px] fixed bg-white z-[999]">
         <TravelTalkHeader hasFilter={false} isActiveButton={isActiveButton} />
       </div>
-      <div className="grid grid-cols-6 gap-[24px] pt-[150px]">
+      <div className="grid grid-cols-6 gap-[24px] pt-[120px]">
         <div className="col-span-1">
           <div className="h-[56px] flex items-center mb-[20px]">
             <p className="text-lg font-600">토크 유형 *</p>
