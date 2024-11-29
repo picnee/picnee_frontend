@@ -4,6 +4,7 @@ import SideBarNav from "./_components/SideBarNav";
 import TalkList from "./_components/TalkList";
 import TravelTalkHeader from "./_components/TravelTalkHeader";
 import { useState } from "react";
+import MyCommentTalkList from "./_components/MyCommentTalkList";
 
 interface dataType {
   sticker: string;
@@ -15,6 +16,12 @@ interface dataType {
   time: string;
 }
 
+interface commentDataType {
+  comment: string;
+  sticker: string;
+  title: string;
+  date: string;
+}
 const TravelTalk = () => {
   // 게시글 더미 데이터
   const dummyData: dataType[] = [
@@ -57,6 +64,39 @@ const TravelTalk = () => {
       time: "4",
     },
   ];
+  // 내가 쓴 댓글 더미 데이터
+  const commentDummyData: commentDataType[] = [
+    {
+      comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
+      sticker: "날씨",
+      title: "도쿄 이번 주 날씨 어떤가요?",
+      date: "2024. 11. 25.",
+    },
+    {
+      comment: "오늘 후쿠오카 좀 더웠어요.",
+      sticker: "날씨",
+      title: "이번 주 후쿠오카 날씨 어떤가요?",
+      date: "2024. 11. 23.",
+    },
+    {
+      comment: "이번주 교토 날씨 완전 좋아요!.",
+      sticker: "날씨",
+      title: "교토 이번 주 날씨 좋나요?",
+      date: "2024. 11. 22.",
+    },
+    {
+      comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요.",
+      sticker: "날씨",
+      title: "이번 주 도쿄 날씨 어떤가요?",
+      date: "2024. 11. 21.",
+    },
+    {
+      comment: "이번주 교토 날씨 완전 좋네요!",
+      sticker: "날씨",
+      title: "교토 이번 주 날씨 좋나요?",
+      date: "2024. 11. 19.",
+    },
+  ];
   // TravelTalkHeader 관련 상태
   const [selectedFilter, setSelectedFilter] = useState<string>("최신순");
   // Pagination 관련 상태
@@ -95,7 +135,14 @@ const TravelTalk = () => {
           />
         </div>
         <div className="col-span-3">
-          <TalkList data={dummyData} selectedWriteMenu={selectedWriteMenu} />
+          {selectedWriteMenu !== "내가 쓴 댓글" ? (
+            <TalkList data={dummyData} selectedWriteMenu={selectedWriteMenu} />
+          ) : (
+            <MyCommentTalkList
+              data={commentDummyData}
+              selectedWriteMenu={selectedWriteMenu}
+            />
+          )}
         </div>
         <div className="col-span-1"></div>
         <div className="col-span-3">
