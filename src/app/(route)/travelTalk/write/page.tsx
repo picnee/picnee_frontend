@@ -39,6 +39,8 @@ const TravelTalkWrite = () => {
       contentValue !== ""
     ) {
       setIsActiveButton(true);
+    } else {
+      setIsActiveButton(false);
     }
   }, [selectedCityOption, selectedCategoryOption, titleValue, contentValue]);
 
