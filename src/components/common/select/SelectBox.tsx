@@ -62,7 +62,9 @@ const SelectBox = ({
     <>
       <div className="relative w-full cursor-pointer">
         <div
-          className="w-full h-[50px] border border-gray-150 rounded-m pl-[24px] pt-[10px] appearance-none"
+          className={`w-full h-[50px] border ${
+            showOption ? "border-black" : "border-gray-150"
+          } rounded-m pl-[24px] pt-[10px] appearance-none`}
           onClick={handleSelectBox}
         >
           <p
@@ -70,7 +72,7 @@ const SelectBox = ({
               currentOption === placeHolder ? "text-gray-400" : "text-black"
             }`}
             style={{
-              fontSize: currentOption === placeHolder ? "16px" : "inherit",
+              fontSize: currentOption === placeHolder ? "16px" : "20px",
             }}
           >
             {currentOption}
