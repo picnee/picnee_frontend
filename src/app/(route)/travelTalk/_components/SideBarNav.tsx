@@ -52,7 +52,7 @@ const SideBarNav = ({
 
   const writeOption = [
     { key: 1, value: "내가 쓴 글" },
-    { key: 2, value: "댓글 단 글" },
+    { key: 2, value: "내가 쓴 댓글" },
   ];
 
   return (

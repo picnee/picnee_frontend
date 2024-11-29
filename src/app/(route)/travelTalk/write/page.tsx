@@ -102,6 +102,7 @@ const TravelTalkWrite = () => {
               setValue={setContentValue}
               varient="default"
               placeholder="내용을 입력해 주세요."
+              height="320"
               onFocus={() => setIsFocused(true)} // 포커스 상태 true
               onBlur={() => setIsFocused(false)} // 포커스 상태 false
               infoText={
