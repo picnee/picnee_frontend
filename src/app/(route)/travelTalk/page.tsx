@@ -95,7 +95,6 @@ const TravelTalk = () => {
           />
         </div>
         <div className="col-span-3">
-          {/* TalkList에 data prop 전달 */}
           <TalkList data={dummyData} selectedWriteMenu={selectedWriteMenu} />
         </div>
         <div className="col-span-1"></div>
