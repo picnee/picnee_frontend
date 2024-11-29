@@ -33,12 +33,14 @@ const MenuButton = ({
   return (
     <>
       <>
-        {option.map((item) => (
+        {option.map((item, index) => (
           <div
             key={item.key}
             className={`w-full h-auto cursor-pointer pl-[20px] pr-[20px] pt-[10px] pb-[10px] ${
               selectedOption === item.value ? "bg-gray-100" : "bg-white"
-            } rounded-sm flex gap-[16px] mt-[16px] mb-[16px] hover:bg-gray-100 transition-all duration-300 ease-in-out`}
+            } rounded-sm flex gap-[16px] ${
+              index !== option.length - 1 ? "mb-[10px]" : ""
+            } hover:bg-gray-100 transition-all duration-300 ease-in-out`}
             onClick={() => handleSelectedMenu(item.value)}
           >
             <div className="flex gap-[16px]">

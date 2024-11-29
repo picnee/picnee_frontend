@@ -17,8 +17,8 @@ const TalkList = ({ data, selectedWriteMenu }: TalkListProps) => {
   return (
     <>
       {data.map((item: dataType) => (
-        <div className="mb-[24px]" key={item.title}>
-          <div className="w-[100%] h-[192px] border border-gray-150 rounded-m p-[24px]">
+        <div className="mb-[16px]" key={item.title}>
+          <div className="w-[100%] h-[192px] border border-gray-150 rounded-m p-[24px] box-border">
             <div className="grid grid-cols-4">
               <div className="col-span-3">
                 <div className="text-sm leading-3 text-gray-400 w-[41px] h-[24px] bg-gray-100 rounded-xs flex items-center justify-center">
