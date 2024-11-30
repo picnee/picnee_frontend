@@ -165,6 +165,21 @@ const Icon = (props: IconProps) => {
         </svg>
       );
 
+    case "moreIcon":
+      return (
+        <svg
+          width="17"
+          height="4"
+          viewBox="0 0 17 4"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="1.99998" cy="2.0001" r="1.4" fill="#A1A9AD" />
+          <circle cx="8.79996" cy="2.0001" r="1.4" fill="#A1A9AD" />
+          <circle cx="15.6" cy="2.0001" r="1.4" fill="#A1A9AD" />
+        </svg>
+      );
+
     default:
       return <div></div>;
   }

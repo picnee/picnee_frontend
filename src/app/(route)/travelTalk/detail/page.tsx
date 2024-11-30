@@ -7,6 +7,7 @@ import Watch from "@/components/common/Watch";
 import MenuButton from "@/components/common/menu/MenuButton";
 import RoundButton from "@/components/common/button/RoundButton";
 import Textarea from "@/components/common/input/Textarea";
+import CommentList from "./_components/CommentList";
 
 const TravelTalkListDetailPage = () => {
   // SideBarNav 관련 상태
@@ -15,6 +16,24 @@ const TravelTalkListDetailPage = () => {
   const [selectedWriteMenu, setSelectedWriteMenu] = useState<string>("");
   // 댓글 관련 상태
   const [comment, setComment] = useState<string>("");
+
+  const commentListData = [
+    {
+      id: "일본 여행 초심자",
+      comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
+      time: "3",
+      Like: "13",
+    },
+  ];
+
+  const replyCommentData = [
+    {
+      id: "피크니",
+      comment: "답변 감사합니다~",
+      time: "3",
+      Like: "1",
+    },
+  ];
 
   return (
     <div className="pt-[72px]">
@@ -58,9 +77,9 @@ const TravelTalkListDetailPage = () => {
             </div>
             <div className="grid grid-cols-4 mb-[16px]">
               <div className="col-span-3 mt-[10px]">
-                <Watch watchNum={3} />
+                <Watch watchNum={50} />
               </div>
-              <div className="col-span-1 flex gap-[10px]">
+              <div className="col-span-1 flex gap-[10px] justify-end">
                 <RoundButton text="공유" hasIcon={true} />
                 <RoundButton text="신고" hasIcon={false} />
               </div>
@@ -68,7 +87,7 @@ const TravelTalkListDetailPage = () => {
             <div className="border border-gray-100 mb-[16px]"></div>
             <div className="flex gap-[8px] mb-[16px]">
               <div className="w-[24px] h-[24px] bg-gray-150"></div>
-              <p>댓글</p>
+              <p>댓글 1</p>
             </div>
             <div className="mb-[0px]">
               <Textarea
@@ -84,6 +103,12 @@ const TravelTalkListDetailPage = () => {
                     <p className="text-sm text-gray-600 font-600">아이디</p>
                   </div>
                 }
+              />
+            </div>
+            <div>
+              <CommentList
+                data={commentListData}
+                replyCommentData={replyCommentData}
               />
             </div>
           </div>

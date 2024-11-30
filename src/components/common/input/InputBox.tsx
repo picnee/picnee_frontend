@@ -35,13 +35,14 @@ export default function InputBox({
       <input
         type={type}
         placeholder={placeholder}
-        className={`w-[${width}] h-[${height}]  pl-[24px] rounded-sm box-border text-${fontSize} ${
+        className={`pl-[24px] rounded-sm box-border text-${fontSize} ${
           varient === "default"
             ? "border border-gray-150 placeholder-text-gray-300 focus:border-black focus:outline-none"
             : "border border-red focus:border-red focus:outline-none"
         } text-black`}
         onChange={(e) => handleChangeValue(e)}
         maxLength={maxLength}
+        style={{ width, height }}
       />
       {showTextLength && (
         <div className="absolute right-[24px] bottom-[18px] text-2xl text-gray-400">

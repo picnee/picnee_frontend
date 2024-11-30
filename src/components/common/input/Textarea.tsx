@@ -9,6 +9,7 @@ import {
 interface PropsType {
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  setReply?: Dispatch<SetStateAction<boolean>>;
   varient: "default" | "error";
   placeholder: string;
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
@@ -20,12 +21,14 @@ interface PropsType {
   paddingTop?: string;
   minHeight?: string; // 최소 높이 추가
   maxHeight?: string; // 최대 높이 추가
+  isShowCancelInput?: boolean;
   isShowPressInput?: boolean;
 }
 
 const Textarea = ({
   value,
   setValue,
+  setReply,
   varient,
   placeholder,
   onFocus,
@@ -35,6 +38,7 @@ const Textarea = ({
   height,
   backgroundColor = "white",
   paddingTop = "24px",
+  isShowCancelInput = false,
   isShowPressInput = false,
 }: PropsType) => {
   const [textareaHeight, setTextareaHeight] = useState(0);
@@ -51,6 +55,10 @@ const Textarea = ({
 
   const handleTextareaValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (setValue) setValue(e.target.value);
+  };
+
+  const handleClickInsertButton = () => {
+    if (value.length > 0) console.log("등록 버튼 클릭");
   };
 
   return (
@@ -79,13 +87,26 @@ const Textarea = ({
       {infoText && (
         <div className="mt-2 text-sm text-gray-500 flex justify-between">
           <div>{infoText}</div>
+          {isShowCancelInput && (
+            <p
+              className={`text-sm text-gray-300 font-600 relative top-[-59px] left-[320px] cursor-pointer`}
+              onClick={() => {
+                if (setReply) setReply(false);
+              }}
+            >
+              취소
+            </p>
+          )}
           {isShowPressInput && (
             <p
               className={`text-sm ${
                 value.length > 0 ? "text-black" : "text-gray-300"
-              } font-600 relative top-[-59px] right-[24px]`}
+              } font-600 relative top-[-59px] right-[24px] ${
+                value.length > 0 ? "cursor-pointer" : "cursor-default"
+              } `}
+              onClick={handleClickInsertButton}
             >
-              입력
+              등록
             </p>
           )}
         </div>
