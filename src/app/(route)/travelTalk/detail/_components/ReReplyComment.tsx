@@ -46,9 +46,14 @@ const ReReplyComment = ({
   return (
     <>
       {reReplyCommentData.map((item, index) => (
-        <div className="grid grid-cols-12" key={index}>
+        <div
+          className={`grid grid-cols-12 ${
+            isMyComment ? "bg-gray-50" : "bg-white"
+          } pl-[24px] pr-[24px]`}
+          key={index}
+        >
           <div className="col-span-1"></div>
-          <div className="col-span-11 border-t border-t-gray-100">
+          <div className="col-span-11 border-t border-t-gray-150">
             <div className="grid grid-cols-12 mt-[24px]">
               <div className="col-span-1">
                 <div className="w-[45px] h-[45px] bg-gray-150 rounded-full"></div>
