@@ -1,7 +1,7 @@
 "use client";
 import MenuButton from "@/components/common/menu/MenuButton";
 import SelectBox from "@/components/common/select/SelectBox";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, memo, useEffect, useState } from "react";
 
 interface PropsType {
   selectedCityOption: string;
@@ -11,6 +11,29 @@ interface PropsType {
   selectedWriteMenu: string;
   setSelectedWriteMenu: Dispatch<SetStateAction<string>>;
 }
+
+const cityOption = [
+  { key: 1, value: "도쿄" },
+  { key: 2, value: "오사카" },
+  { key: 3, value: "교토" },
+  { key: 4, value: "후쿠오카" },
+  { key: 5, value: "후카이도" },
+];
+
+const categoryOption = [
+  { key: 1, value: "전체글" },
+  { key: 2, value: "날씨" },
+  { key: 3, value: "숙소" },
+  { key: 4, value: "맛집" },
+  { key: 5, value: "교통" },
+  { key: 6, value: "관광지" },
+  { key: 7, value: "자유토크" },
+];
+
+const writeOption = [
+  { key: 1, value: "내가 쓴 글" },
+  { key: 2, value: "내가 쓴 댓글" },
+];
 
 const SideBarNav = ({
   selectedCityOption,
@@ -31,29 +54,6 @@ const SideBarNav = ({
       setSelectedCategoryMenu("");
     }
   }, [selectedWriteMenu]);
-
-  const cityOption = [
-    { key: 1, value: "도쿄" },
-    { key: 2, value: "오사카" },
-    { key: 3, value: "교토" },
-    { key: 4, value: "후쿠오카" },
-    { key: 5, value: "후카이도" },
-  ];
-
-  const categoryOption = [
-    { key: 1, value: "전체글" },
-    { key: 2, value: "날씨" },
-    { key: 3, value: "숙소" },
-    { key: 4, value: "맛집" },
-    { key: 5, value: "교통" },
-    { key: 6, value: "관광지" },
-    { key: 7, value: "자유토크" },
-  ];
-
-  const writeOption = [
-    { key: 1, value: "내가 쓴 글" },
-    { key: 2, value: "내가 쓴 댓글" },
-  ];
 
   return (
     <div>
@@ -88,4 +88,4 @@ const SideBarNav = ({
   );
 };
 
-export default SideBarNav;
+export default memo(SideBarNav);

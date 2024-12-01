@@ -1,6 +1,6 @@
 "use client";
 import Icon from "@/public/svgs/Icon";
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { Dispatch, SetStateAction, useState, useEffect, memo } from "react";
 
 interface PropsType {
   option: {
@@ -108,4 +108,4 @@ const SelectBox = ({
   );
 };
 
-export default SelectBox;
+export default memo(SelectBox);

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, memo, useEffect, useState } from "react";
 
 interface PropsType {
   option: {
@@ -53,4 +53,4 @@ const MenuButton = ({
     </>
   );
 };
-export default MenuButton;
+export default memo(MenuButton);
