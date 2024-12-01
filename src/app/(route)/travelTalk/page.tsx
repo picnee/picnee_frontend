@@ -143,12 +143,14 @@ const TravelTalk = () => {
               selectedWriteMenu={selectedWriteMenu}
             />
           )}
-          <Pagination
-            totalItems={ITEMS.length}
-            itemsPerPage={itemsPerPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+          <div className="mt-[30px]">
+            <Pagination
+              totalItems={ITEMS.length}
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </div>
         </div>
       </div>
     </div>
