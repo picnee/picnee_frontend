@@ -19,7 +19,9 @@ export default function RootLayout({
         <AuthProvider>
           <Header />
           <div className="flex justify-center items-center w-full h-full">
-            <div className="w-[1440px] pl-[120px] pr-[120px]">{children}</div>
+            <div className="w-[1440px] pl-[120px] pr-[120px] pb-[100px]">
+              {children}
+            </div>
           </div>
         </AuthProvider>
       </body>

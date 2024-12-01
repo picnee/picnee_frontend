@@ -2,6 +2,7 @@ import NextAuth, { NextAuthOptions, Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
+import { URL } from "@/constants/url";
 
 // 기본 Session 및 JWT 타입을 확장
 interface CustomUser {
@@ -49,7 +50,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
 
-  pages: { signIn: "/login" },
+  pages: { signIn: URL.LOGIN.BASE },
   callbacks: {
     async jwt({ token, account }): Promise<CustomToken> {
       if (account) {
