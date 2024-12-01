@@ -21,6 +21,7 @@ const ReplyComment = ({
   showReplyBox,
   setShowReplyMenu,
 }: PropsData) => {
+  const { id, comment, time, like } = listData;
   // 내가 작성한 글 플래그
   const isMyComment = false;
 
@@ -47,17 +48,17 @@ const ReplyComment = ({
         </div>
         <div className="col-span-10">
           <p className="font-600 text-lg text-gray-900 mb-[5px]">
-            {listData.id}
+            {id}
             {isMyComment && (
               <span className="ml-[8px] pl-[8px] pr-[8px] pt-[3px] pb-[3px] border border-green rounded-[50px] font-500 text-sm text-green">
                 작성자
               </span>
             )}
           </p>
-          <p className="font-400 text-lg mb-[6px]">{listData.comment}</p>
+          <p className="font-400 text-lg mb-[6px]">{comment}</p>
           <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
-            <p>{listData.time}시간 전</p>
-            <Like likeNum={listData.Like} />
+            <p>{time}시간 전</p>
+            <Like likeNum={like} />
             <p
               className="cursor-pointer"
               onClick={() => setShowReplyBox((prev) => !prev)}

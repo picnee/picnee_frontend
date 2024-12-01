@@ -7,7 +7,7 @@ interface dataType {
   id: string;
   comment: string;
   time: string;
-  Like: string;
+  like: string;
 }
 
 interface PropsData {
@@ -45,84 +45,87 @@ const ReReplyComment = ({
   };
   return (
     <>
-      {reReplyCommentData.map((item, index) => (
-        <div
-          className={`grid grid-cols-12 ${
-            isMyComment ? "bg-gray-50" : "bg-white"
-          } pl-[24px] pr-[24px]`}
-          key={index}
-        >
-          <div className="col-span-1"></div>
-          <div className="col-span-11 border-t border-t-gray-150">
-            <div className="grid grid-cols-12 mt-[24px]">
-              <div className="col-span-1">
-                <div className="w-[45px] h-[45px] bg-gray-150 rounded-full"></div>
-              </div>
-              <div className="col-span-10">
-                <p className="font-600 text-lg text-gray-900 mb-[5px]">
-                  {item.id}
-                  {isMyComment && (
-                    <span className="ml-[8px] pl-[8px] pr-[8px] pt-[3px] pb-[3px] border border-green rounded-[50px] font-500 text-sm text-green">
-                      작성자
-                    </span>
-                  )}
-                </p>
-                <p className="font-400 text-lg mb-[6px]">{item.comment}</p>
-                <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
-                  <p>{item.time}시간 전</p>
-                  <Like likeNum={item.Like} />
-                  <p
-                    className="cursor-pointer"
-                    onClick={() => setShowReReplyBox((prev) => !prev)}
-                  >
-                    답글 달기
-                  </p>
+      {reReplyCommentData.map((item, index) => {
+        const { id, comment, time, like } = item;
+        return (
+          <div
+            className={`grid grid-cols-12 ${
+              isMyComment ? "bg-gray-50" : "bg-white"
+            } pl-[24px] pr-[24px]`}
+            key={index}
+          >
+            <div className="col-span-1"></div>
+            <div className="col-span-11 border-t border-t-gray-150">
+              <div className="grid grid-cols-12 mt-[24px]">
+                <div className="col-span-1">
+                  <div className="w-[45px] h-[45px] bg-gray-150 rounded-full"></div>
                 </div>
-              </div>
-              <div className="col-span-1 flex justify-end">
-                <div
-                  className="relative w-[17px] h-[6px] cursor-pointer"
-                  onClick={() => setShowReReplydMenu((prev) => !prev)}
-                >
-                  <div>
-                    <Icon iconName="moreIcon" />
-                  </div>
-                  {showReReplydMenu && (
-                    <div
-                      className="absolute z-[9999] w-[120px] h-[auto] p-[20px] top-[20px] right-[0px] 
-        shadow-[0px_2px_16px_rgba(0,0,0,0.25)] rounded-m bg-white"
+                <div className="col-span-10">
+                  <p className="font-600 text-lg text-gray-900 mb-[5px]">
+                    {id}
+                    {isMyComment && (
+                      <span className="ml-[8px] pl-[8px] pr-[8px] pt-[3px] pb-[3px] border border-green rounded-[50px] font-500 text-sm text-green">
+                        작성자
+                      </span>
+                    )}
+                  </p>
+                  <p className="font-400 text-lg mb-[6px]">{comment}</p>
+                  <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
+                    <p>{time}시간 전</p>
+                    <Like likeNum={like} />
+                    <p
+                      className="cursor-pointer"
+                      onClick={() => setShowReReplyBox((prev) => !prev)}
                     >
-                      {isMyComment ? (
-                        <>
-                          <p
-                            className="mb-[10px] cursor-pointer"
-                            onClick={handleClickModifyButton}
-                          >
-                            수정
-                          </p>
+                      답글 달기
+                    </p>
+                  </div>
+                </div>
+                <div className="col-span-1 flex justify-end">
+                  <div
+                    className="relative w-[17px] h-[6px] cursor-pointer"
+                    onClick={() => setShowReReplydMenu((prev) => !prev)}
+                  >
+                    <div>
+                      <Icon iconName="moreIcon" />
+                    </div>
+                    {showReReplydMenu && (
+                      <div
+                        className="absolute z-[9999] w-[120px] h-[auto] p-[20px] top-[20px] right-[0px] 
+        shadow-[0px_2px_16px_rgba(0,0,0,0.25)] rounded-m bg-white"
+                      >
+                        {isMyComment ? (
+                          <>
+                            <p
+                              className="mb-[10px] cursor-pointer"
+                              onClick={handleClickModifyButton}
+                            >
+                              수정
+                            </p>
+                            <p
+                              className="cursor-pointer"
+                              onClick={handleClickDeleteButton}
+                            >
+                              삭제
+                            </p>
+                          </>
+                        ) : (
                           <p
                             className="cursor-pointer"
-                            onClick={handleClickDeleteButton}
+                            onClick={handleClickReportButton}
                           >
-                            삭제
+                            신고
                           </p>
-                        </>
-                      ) : (
-                        <p
-                          className="cursor-pointer"
-                          onClick={handleClickReportButton}
-                        >
-                          신고
-                        </p>
-                      )}
-                    </div>
-                  )}
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       {showReReplyBox && (
         <div className="grid grid-cols-12">
           <div className="col-span-1"></div>
