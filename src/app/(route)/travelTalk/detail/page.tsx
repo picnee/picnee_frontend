@@ -4,7 +4,6 @@ import SideBarNav from "../_components/SideBarNav";
 import TravelTalkHeader from "../_components/TravelTalkHeader";
 import Sticker from "@/components/common/Sticker";
 import Watch from "@/components/common/Watch";
-import MenuButton from "@/components/common/menu/MenuButton";
 import RoundButton from "@/components/common/button/RoundButton";
 import Textarea from "@/components/common/input/Textarea";
 import CommentList from "./_components/CommentList";
@@ -24,9 +23,21 @@ const TravelTalkListDetailPage = () => {
       time: "3",
       Like: "13",
     },
+    {
+      id: "일본 여행 초심자",
+      comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
+      time: "3",
+      Like: "13",
+    },
   ];
 
   const replyCommentData = [
+    {
+      id: "피크니",
+      comment: "답변 감사합니다~",
+      time: "3",
+      Like: "1",
+    },
     {
       id: "피크니",
       comment: "답변 감사합니다~",
@@ -52,8 +63,8 @@ const TravelTalkListDetailPage = () => {
           />
         </div>
         <div className="col-span-3">
-          <div className="border border-gray-150 box-border p-[24px] pb-[0px] rounded-sm">
-            <div>
+          <div className="border border-gray-150 box-border pt-[24px] pb-[0px] rounded-sm">
+            <div className="pl-[24px] pr-[24px]">
               <div className="mb-[24px]">
                 <Sticker title="날씨" />
               </div>
@@ -75,7 +86,7 @@ const TravelTalkListDetailPage = () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-4 mb-[16px]">
+            <div className="grid grid-cols-4 mb-[16px] pl-[24px] pr-[24px]">
               <div className="col-span-3 mt-[10px]">
                 <Watch watchNum={50} />
               </div>
@@ -84,12 +95,12 @@ const TravelTalkListDetailPage = () => {
                 <RoundButton text="신고" hasIcon={false} />
               </div>
             </div>
-            <div className="border border-gray-100 mb-[16px]"></div>
-            <div className="flex gap-[8px] mb-[16px]">
+            <div className="ml-[24px] mr-[24px] mb-[20px] mt-[32px] border border-gray-100"></div>
+            <div className="flex gap-[8px] mb-[16px] pl-[24px] pr-[24px]">
               <div className="w-[24px] h-[24px] bg-gray-150"></div>
               <p>댓글 1</p>
             </div>
-            <div className="mb-[0px]">
+            <div className="mb-[0px] pl-[24px] pr-[24px]">
               <Textarea
                 varient="default"
                 value={comment}

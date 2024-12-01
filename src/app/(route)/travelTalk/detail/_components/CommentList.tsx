@@ -1,8 +1,4 @@
-import Like from "@/components/common/Like";
-import Textarea from "@/components/common/input/Textarea";
-import Icon from "@/public/svgs/Icon";
 import { useState } from "react";
-import CommentContent from "./ReplyComment";
 import ReplyComment from "./ReplyComment";
 import ReReplyComment from "./ReReplyComment";
 
@@ -32,7 +28,7 @@ const CommentList = ({ data, replyCommentData }: PropsType) => {
   const isMyComment = true;
 
   return data.map((item, index) => (
-    <div className="border-b border-b-gray-100 mb-[24px]" key={index}>
+    <div className="border-b border-b-gray-100" key={index}>
       {/* 댓글 */}
       <ReplyComment
         listData={item}
