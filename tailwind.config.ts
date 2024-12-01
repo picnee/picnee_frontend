@@ -11,6 +11,7 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+		'gray-50' : '#F1F3F64D',
         'gray-100':'#F1F3F6',
         'gray-150': '#E8E9EB', // 버튼 비활성화 색상
         'gray-200':'#D2D5D6', // 버튼 비활성화 border 색상

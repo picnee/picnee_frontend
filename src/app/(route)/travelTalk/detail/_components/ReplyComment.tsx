@@ -37,7 +37,11 @@ const ReplyComment = ({
   };
   return (
     <>
-      <div className="grid grid-cols-12">
+      <div
+        className={`grid grid-cols-12 pt-[24px] pl-[24px] pr-[24px] ${
+          isMyComment ? "bg-gray-50" : "bg-white"
+        }`}
+      >
         <div className="col-span-1">
           <div className="w-[45px] h-[45px] bg-gray-150 rounded-full"></div>
         </div>

@@ -143,9 +143,6 @@ const TravelTalk = () => {
               selectedWriteMenu={selectedWriteMenu}
             />
           )}
-        </div>
-        <div className="col-span-1"></div>
-        <div className="col-span-3">
           <Pagination
             totalItems={ITEMS.length}
             itemsPerPage={itemsPerPage}
