@@ -21,13 +21,13 @@ const TravelTalkListDetailPage = () => {
       id: "일본 여행 초심자",
       comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
       time: "3",
-      Like: "13",
+      like: "13",
     },
     {
       id: "일본 여행 초심자",
       comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
       time: "3",
-      Like: "13",
+      like: "13",
     },
   ];
 
@@ -36,13 +36,13 @@ const TravelTalkListDetailPage = () => {
       id: "피크니",
       comment: "답변 감사합니다~",
       time: "3",
-      Like: "1",
+      like: "1",
     },
     {
       id: "피크니",
       comment: "답변 감사합니다~",
       time: "3",
-      Like: "1",
+      like: "1",
     },
   ];
 

@@ -6,7 +6,7 @@ interface dataType {
   id: string;
   comment: string;
   time: string;
-  Like: string;
+  like: string;
 }
 
 interface PropsType {
