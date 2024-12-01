@@ -89,7 +89,7 @@ const Textarea = ({
           <div>{infoText}</div>
           {isShowCancelInput && (
             <p
-              className={`text-sm text-gray-300 font-600 relative top-[-59px] left-[320px] cursor-pointer`}
+              className={`text-sm text-gray-300 font-600 relative top-[-59px] left-[340px] cursor-pointer`}
               onClick={() => {
                 if (setReply) setReply(false);
               }}
