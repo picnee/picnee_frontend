@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserStore } from "@/store/zustand/useUserStore";
 import CommonButton from "./button/CommonButton";
+import { URL } from "@/constants/url";
 
 const LocalNavBar = ({
   type,
@@ -21,7 +22,7 @@ const LocalNavBar = ({
       <ul className="flex flex-col justify-center gap-2 p-3 ">
         <li
           className="flex gap-2 h-10 items-center "
-          onClick={() => onClick("/login")}
+          onClick={() => onClick(URL.LOGIN.BASE)}
         >
           <div className="w-6 h-6 bg-neutral-200"></div>
           {type === "T" ? "맛집" : "리뷰 작성"}
@@ -51,7 +52,7 @@ const Header = () => {
   const navigator = useRouter();
 
   const handleLogin = () => {
-    navigator.push("/login");
+    navigator.push(URL.LOGIN.BASE);
   };
 
   const handleNav = (nav: string) => {
@@ -70,13 +71,13 @@ const Header = () => {
             </li>
             <li
               className="cursor-pointer transition-all duration-200 text-neutral-600  hover:text-black "
-              onClick={() => handleNav("/")}
+              onClick={() => handleNav(URL.MAIN.BASE)}
             >
               지도
             </li>
             <li
               className="cursor-pointer transition-all duration-200 hover:text-black text-neutral-600"
-              onClick={() => handleNav("/travelTalk")}
+              onClick={() => handleNav(URL.TRAVELTALK.BASE)}
             >
               여행토크
             </li>

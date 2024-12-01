@@ -1,6 +1,8 @@
 import Sticker from "@/components/common/Sticker";
 import Watch from "@/components/common/Watch";
+import { URL } from "@/constants/url";
 import { useRouter } from "next/navigation";
+import { memo } from "react";
 
 interface dataType {
   sticker: string;
@@ -26,7 +28,7 @@ const TalkList = ({ data, selectedWriteMenu }: TalkListProps) => {
           <div
             className="w-[100%] h-[192px] border border-gray-150 rounded-m p-[24px] box-border cursor-pointer hover:border-black  transition-colors duration-300"
             onClick={() => {
-              navigator.push("/travelTalk/detail");
+              navigator.push(URL.TRAVELTALK.DETAIL);
             }}
           >
             <div className="grid grid-cols-4">
@@ -68,4 +70,4 @@ const TalkList = ({ data, selectedWriteMenu }: TalkListProps) => {
   );
 };
 
-export default TalkList;
+export default memo(TalkList);

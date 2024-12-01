@@ -1,7 +1,8 @@
 "use client";
 import CommonButton from "@/components/common/button/CommonButton";
+import { URL } from "@/constants/url";
 import { usePathname, useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, memo, useEffect, useState } from "react";
 
 interface PropsType {
   hasFilter: boolean;
@@ -29,7 +30,7 @@ const TravelTalkHeader = ({
   };
 
   useEffect(() => {
-    if (pathname == "/travelTalk/write") {
+    if (pathname === URL.TRAVELTALK.WRITE) {
       setButtonText("등록하기");
     } else {
       setButtonText("글쓰기");
@@ -67,7 +68,7 @@ const TravelTalkHeader = ({
           variant={isActiveButton ? "solid_btn" : "disabled_btn"}
           size="m"
           onClick={() => {
-            navigator.push("/travelTalk/write");
+            navigator.push(URL.TRAVELTALK.WRITE);
           }}
         >
           {buttonText}
@@ -77,4 +78,4 @@ const TravelTalkHeader = ({
   );
 };
 
-export default TravelTalkHeader;
+export default memo(TravelTalkHeader);

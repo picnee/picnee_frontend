@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { FaCircle, FaSquareFull } from "react-icons/fa6";
 import RegistErrorMsg from "./RegistErrorMsg";
 import EmailCheckSection from "./EmailCheckSection";
+import { URL } from "@/constants/url";
 
 export interface RegistFormValue {
   nickname: string;
@@ -98,7 +99,7 @@ const RegistForm = () => {
       );
       console.log(submitData);
       alert("회원가입이 완료되었습니다. 로그인 후 페이지로 이동합니다");
-      return push("/login");
+      return push(URL.LOGIN.BASE);
     } catch (error) {
       console.log(error);
     }
