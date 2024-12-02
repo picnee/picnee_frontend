@@ -4,6 +4,7 @@ import {
   SetStateAction,
   useState,
   useEffect,
+  memo,
 } from "react";
 
 interface PropsType {
@@ -115,4 +116,4 @@ const Textarea = ({
   );
 };
 
-export default Textarea;
+export default memo(Textarea);
