@@ -1,7 +1,7 @@
 "use client";
 import MenuButton from "@/components/common/menu/MenuButton";
 import SelectBox from "@/components/common/select/SelectBox";
-import { Dispatch, SetStateAction, memo, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, memo, useEffect } from "react";
 
 interface PropsType {
   selectedCityOption: string;

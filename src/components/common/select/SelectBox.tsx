@@ -29,20 +29,6 @@ const SelectBox = ({
     }
   }, []);
 
-  const handleSelectBox = () => {
-    setShowOption((prev) => !prev);
-  };
-
-  const handleSelectedOption = (value: string) => {
-    if (setSelectedOption) {
-      // 선택된 옵션 부모 컴포넌트에 전달
-      setSelectedOption(value);
-      // 현재 선택된 옵션 저장
-      setCurrentOption(value);
-    }
-    setShowOption(false);
-  };
-
   /** 스크롤을 내리면 옵션 숨김 */
   useEffect(() => {
     const handleScroll = () => {
@@ -57,6 +43,20 @@ const SelectBox = ({
       window.removeEventListener("scroll", handleScroll);
     };
   }, [showOption]);
+
+  const handleSelectBox = () => {
+    setShowOption((prev) => !prev);
+  };
+
+  const handleSelectedOption = (value: string) => {
+    if (setSelectedOption) {
+      // 선택된 옵션 부모 컴포넌트에 전달
+      setSelectedOption(value);
+      // 현재 선택된 옵션 저장
+      setCurrentOption(value);
+    }
+    setShowOption(false);
+  };
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, memo, useCallback } from "react";
 
 interface InputBoxProps {
   type: string;
@@ -14,7 +14,7 @@ interface InputBoxProps {
   fontSize: string;
 }
 
-export default function InputBox({
+const InputBox = ({
   type,
   placeholder,
   varient,
@@ -25,8 +25,8 @@ export default function InputBox({
   width,
   height,
   fontSize,
-}: InputBoxProps) {
-  const handleChangeValue = (e: any) => {
+}: InputBoxProps) => {
+  const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (setValue) setValue(e.target.value);
   };
 
@@ -40,7 +40,7 @@ export default function InputBox({
             ? "border border-gray-150 placeholder-text-gray-300 focus:border-black focus:outline-none"
             : "border border-red focus:border-red focus:outline-none"
         } text-black`}
-        onChange={(e) => handleChangeValue(e)}
+        onChange={handleChangeValue}
         maxLength={maxLength}
         style={{ width, height }}
       />
@@ -51,4 +51,6 @@ export default function InputBox({
       )}
     </>
   );
-}
+};
+
+export default memo(InputBox);

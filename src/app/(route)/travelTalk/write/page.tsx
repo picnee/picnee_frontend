@@ -5,6 +5,23 @@ import { useEffect, useState } from "react";
 import InputBox from "@/components/common/input/InputBox";
 import Textarea from "@/components/common/input/Textarea";
 
+const cityOption = [
+  { key: 1, value: "도쿄" },
+  { key: 2, value: "오사카" },
+  { key: 3, value: "교토" },
+  { key: 4, value: "후쿠오카" },
+  { key: 5, value: "후카이도" },
+];
+
+const categoryOption = [
+  { key: 1, value: "날씨" },
+  { key: 2, value: "숙소" },
+  { key: 3, value: "맛집" },
+  { key: 4, value: "교통" },
+  { key: 5, value: "관광지" },
+  { key: 6, value: "자유토크" },
+];
+
 const TravelTalkWrite = () => {
   const [selectedCityOption, setSelectedCityOption] = useState<string>("");
   const [selectedCategoryOption, setSelectedCategoryOption] =
@@ -13,23 +30,6 @@ const TravelTalkWrite = () => {
   const [titleValue, setTitleValue] = useState<string>("");
   const [contentValue, setContentValue] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false); // 포커스 상태 관리
-
-  const cityOption = [
-    { key: 1, value: "도쿄" },
-    { key: 2, value: "오사카" },
-    { key: 3, value: "교토" },
-    { key: 4, value: "후쿠오카" },
-    { key: 5, value: "후카이도" },
-  ];
-
-  const categoryOption = [
-    { key: 1, value: "날씨" },
-    { key: 2, value: "숙소" },
-    { key: 3, value: "맛집" },
-    { key: 4, value: "교통" },
-    { key: 5, value: "관광지" },
-    { key: 6, value: "자유토크" },
-  ];
 
   useEffect(() => {
     if (
