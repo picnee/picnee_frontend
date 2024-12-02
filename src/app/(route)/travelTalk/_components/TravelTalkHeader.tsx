@@ -2,7 +2,14 @@
 import CommonButton from "@/components/common/button/CommonButton";
 import { URL } from "@/constants/url";
 import { usePathname, useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, memo, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 interface PropsType {
   hasFilter: boolean;
@@ -25,9 +32,9 @@ const TravelTalkHeader = ({
   // 버튼 text
   const [buttonText, setButtonText] = useState<string>("");
 
-  const handleFilter = (filterType: string) => {
+  const handleFilter = useCallback((filterType: string) => {
     if (setSelectedFilter) setSelectedFilter(filterType);
-  };
+  }, []);
 
   useEffect(() => {
     if (pathname === URL.TRAVELTALK.WRITE) {

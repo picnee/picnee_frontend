@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, memo, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, memo, useEffect } from "react";
 
 interface PropsType {
   option: {
