@@ -1,8 +1,10 @@
 import axios from "axios"
 import Cookies from 'js-cookie';
 
+const API_V1_BASE = 'http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/'
+
 const axiosInstance = axios.create({
-  baseURL: "http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/",
+  baseURL: API_V1_BASE,
   headers: {
     "Content-Type": "application/json",
   },
@@ -91,4 +93,4 @@ const fetchData = async (url: string, options = {}) => {
   }
 };
 
-export { fetchData };
+export { fetchData, axiosInstance };
