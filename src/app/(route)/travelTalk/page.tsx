@@ -5,6 +5,9 @@ import TalkList from "./_components/TalkList";
 import TravelTalkHeader from "./_components/TravelTalkHeader";
 import { useState } from "react";
 import MyCommentTalkList from "./_components/MyCommentTalkList";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { API_ENDPOINT } from "@/lib/backend-api/api-end-point";
+import { GetTravelTalkListOptions } from "@/api/travelTalk/query-options";
 
 interface dataType {
   sticker: string;
@@ -106,6 +109,14 @@ const TravelTalk = () => {
   const [selectedCityOption, setSelectedCityOption] = useState<string>("");
   const [selectedCategoryMenu, setSelectedCategoryMenu] = useState<string>("");
   const [selectedWriteMenu, setSelectedWriteMenu] = useState<string>("");
+  // api 호출
+  const { data: getTravelTalkList }: UseQueryResult<any> = useQuery(
+    GetTravelTalkListOptions({
+      boardCategory: "",
+      region: "KANSAI",
+      page: 0,
+    })
+  );
 
   // 더미 데이터
   const ITEMS = Array.from(
@@ -136,7 +147,10 @@ const TravelTalk = () => {
         </div>
         <div className="col-span-3">
           {selectedWriteMenu !== "내가 쓴 댓글" ? (
-            <TalkList data={dummyData} selectedWriteMenu={selectedWriteMenu} />
+            <TalkList
+              data={getTravelTalkList && getTravelTalkList.content}
+              selectedWriteMenu={selectedWriteMenu}
+            />
           ) : (
             <MyCommentTalkList
               data={commentDummyData}
