@@ -3,7 +3,7 @@ interface PropsType {
 }
 const Sticker = ({ title }: PropsType) => {
   return (
-    <div className="text-sm leading-3 text-gray-400 w-[41px] h-[24px] bg-gray-100 rounded-xs flex items-center justify-center">
+    <div className="text-sm pl-[8px] pr-[8px] text-gray-400 bg-gray-100 rounded-xs inline-block h-[24px]">
       <p className="text-center">{title}</p>
     </div>
   );
