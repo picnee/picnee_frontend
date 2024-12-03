@@ -2,7 +2,7 @@ import Like from "@/components/common/Like";
 import Sticker from "@/components/common/Sticker";
 import Watch from "@/components/common/Watch";
 import { URL } from "@/constants/url";
-import CalculateTime from "@/hooks/calculateTime";
+import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 import { useRouter } from "next/navigation";
 import { memo } from "react";
 interface dataType {
@@ -74,7 +74,7 @@ const TalkList = ({ data, selectedWriteMenu }: TalkListProps) => {
                       ・
                     </span>
                   )}
-                  {CalculateTime(item.createdAt)}
+                  {useFormatTimeAgo(item.createdAt)}
                 </p>
               </div>
             </div>
