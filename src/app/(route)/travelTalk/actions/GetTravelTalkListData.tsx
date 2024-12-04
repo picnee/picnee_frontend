@@ -1,10 +1,10 @@
 "use client";
-import { TravelTalkRequestParams } from "@/api/travelTalk/query-options";
 import { API_ENDPOINT } from "@/lib/backend-api/api-end-point";
 import { backendApi } from "@/lib/backend-api/client";
+import { TravelTalkRequestParamsType } from "@/types/travelTalk";
 
 export const GetTravelTalkListData = (
-  requestParams: TravelTalkRequestParams
+  requestParams: TravelTalkRequestParamsType
 ) => {
   return backendApi<any>({
     endpoint: API_ENDPOINT.travelTalk.getTravelTalkList(requestParams),
