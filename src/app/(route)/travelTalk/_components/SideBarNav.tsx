@@ -13,21 +13,23 @@ interface PropsType {
 }
 
 const cityOption = [
+  { key: 0, value: "전체" },
   { key: 1, value: "도쿄" },
   { key: 2, value: "오사카" },
   { key: 3, value: "교토" },
-  { key: 4, value: "후쿠오카" },
-  { key: 5, value: "후카이도" },
+  { key: 4, value: "고베" },
+  { key: 5, value: "후쿠오카" },
+  { key: 6, value: "삿포로" },
 ];
 
 const categoryOption = [
   { key: 1, value: "전체글" },
-  { key: 2, value: "날씨" },
-  { key: 3, value: "숙소" },
-  { key: 4, value: "맛집" },
-  { key: 5, value: "교통" },
-  { key: 6, value: "관광지" },
-  { key: 7, value: "자유토크" },
+  { key: 2, value: "음식점" },
+  { key: 3, value: "숙박" },
+  { key: 4, value: "관광지" },
+  { key: 5, value: "자유 토크" },
+  { key: 6, value: "날씨" },
+  { key: 7, value: "교통" },
 ];
 
 const writeOption = [
