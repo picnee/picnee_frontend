@@ -1,12 +1,16 @@
 "use client";
-import { useState } from "react";
-import SideBarNav from "../_components/SideBarNav";
-import TravelTalkHeader from "../_components/TravelTalkHeader";
+import { use, useEffect, useState } from "react";
+import SideBarNav from "../../_components/SideBarNav";
+import TravelTalkHeader from "../../_components/TravelTalkHeader";
 import Sticker from "@/components/common/Sticker";
 import Watch from "@/components/common/Watch";
 import RoundButton from "@/components/common/button/RoundButton";
 import Textarea from "@/components/common/input/Textarea";
 import CommentList from "./_components/CommentList";
+import { useParams } from "next/navigation";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { GetTravelTalkDetailPostOptions } from "@/api/travelTalk/query-options";
+import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 
 const TravelTalkListDetailPage = () => {
   // SideBarNav 관련 상태
@@ -15,6 +19,14 @@ const TravelTalkListDetailPage = () => {
   const [selectedWriteMenu, setSelectedWriteMenu] = useState<string>("");
   // 댓글 관련 상태
   const [comment, setComment] = useState<string>("");
+  // 게시글 고유 번호
+  const { postId }: any = useParams();
+  // 상세 데이터 조회 API 호출
+  const { data: getDetailPostData }: UseQueryResult<any> = useQuery(
+    GetTravelTalkDetailPostOptions({
+      postId: postId,
+    })
+  );
 
   const commentListData = [
     {
@@ -66,29 +78,40 @@ const TravelTalkListDetailPage = () => {
           <div className="border border-gray-150 box-border pt-[24px] pb-[0px] rounded-sm">
             <div className="pl-[24px] pr-[24px]">
               <div className="mb-[24px]">
-                <Sticker title="날씨" />
+                <Sticker
+                  title={
+                    getDetailPostData &&
+                    getDetailPostData.boardRes.boardCategory
+                  }
+                />
               </div>
               <div>
                 <p className="font-600 text-4xl mb-[7px]">
-                  도쿄 이번 주 날씨 어떤가요?
+                  {getDetailPostData && getDetailPostData.title}
                 </p>
                 <div className="flex gap-[8px] text-sm text-gray-500 items-center mb-[24px]">
                   <div className="w-[28px] h-[28px] bg-gray-150 rounded-full"></div>
-                  <p>피크니</p>
+                  <p>
+                    {getDetailPostData && getDetailPostData.userRes.nickName}
+                  </p>
                   <p>•</p>
-                  <p>3시간 전</p>
+                  <p>
+                    {getDetailPostData &&
+                      useFormatTimeAgo(getDetailPostData.createdAt)}
+                  </p>
                 </div>
                 <div className="mb-[40px]">
                   <div className="text-lg font-400">
-                    <p>이번 주에 도쿄 가려고 하는데, 많이 추울까요?</p>
-                    <p>옷을 어떻게 챙겨야 할지 고민이라서요. </p>
+                    <p>{getDetailPostData && getDetailPostData.content}</p>
                   </div>
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-4 mb-[16px] pl-[24px] pr-[24px]">
               <div className="col-span-3 mt-[10px]">
-                <Watch watchNum={50} />
+                <Watch
+                  watchNum={getDetailPostData && getDetailPostData.viewed}
+                />
               </div>
               <div className="col-span-1 flex gap-[10px] justify-end">
                 <RoundButton text="공유" hasIcon={true} />
