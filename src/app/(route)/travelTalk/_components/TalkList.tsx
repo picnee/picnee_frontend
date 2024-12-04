@@ -39,7 +39,7 @@ const TalkList = ({ data, selectedWriteMenu }: TalkListProps) => {
             <div
               className="w-[100%] h-[192px] border border-gray-150 rounded-m p-[24px] box-border cursor-pointer hover:border-black  transition-colors duration-300"
               onClick={() => {
-                navigator.push(URL.TRAVELTALK.DETAIL);
+                navigator.push(`${URL.TRAVELTALK.DETAIL}/${item.postId}`);
               }}
             >
               <div className="grid grid-cols-4">
