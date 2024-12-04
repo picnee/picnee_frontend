@@ -99,10 +99,9 @@ export default function LoginPage() {
             <button
               type="submit"
               className={`w-full h-[48px] rounded-lg mt-12 
-                ${
-                  isValid
-                    ? "bg-black text-white"
-                    : "bg-[#F3F4F6] text-[#697175]"
+                ${isValid
+                  ? "bg-black text-white"
+                  : "bg-[#F3F4F6] text-[#697175]"
                 }`}
             >
               로그인
