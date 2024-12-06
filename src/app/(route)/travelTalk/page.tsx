@@ -8,44 +8,35 @@ import MyCommentTalkList from "./_components/MyCommentTalkList";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { API_ENDPOINT } from "@/lib/backend-api/api-end-point";
 import { GetTravelTalkListOptions } from "@/api/travelTalk/query-options";
+import {
+  useTravelTalkCategoryStore,
+  useTravelTalkStore,
+} from "@/store/zustand/useTravelTalkStore";
 
-interface dataType {
-  sticker: string;
-  title: string;
-  content: string;
-  watch: string;
-  like: string;
-  nickname: string;
-  time: string;
-}
-
-interface commentDataType {
-  comment: string;
-  sticker: string;
-  title: string;
-  date: string;
-}
 const TravelTalk = () => {
   // TravelTalkHeader 관련 상태
   const [selectedFilter, setSelectedFilter] = useState<string>("최신순");
   // Pagination 관련 상태
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 선택된 페이지
   const itemsPerPage = 10; // 페이지별 아이템 수
-  // SideBarNav 관련 상태
-  const [selectedCityOption, setSelectedCityOption] = useState<string>("");
-  const [selectedCategoryMenu, setSelectedCategoryMenu] = useState<string>("");
-  const [selectedWriteMenu, setSelectedWriteMenu] = useState<string>("");
+  // sideBar 지역 전역상태
+  const { selectBoxStates } = useTravelTalkStore();
+  // sideBar 카테고리 전역상태
+  const { selectCategoryStates } = useTravelTalkCategoryStore();
+
   // api 호출
   const { data: getTravelTalkList }: UseQueryResult<any> = useQuery(
     GetTravelTalkListOptions({
       boardCategory:
-        selectedCategoryMenu === "전체글" ? "" : selectedCategoryMenu,
-      region: selectedCityOption === "전체" ? "" : selectedCityOption,
+        selectCategoryStates === "전체글" ? "" : selectCategoryStates,
+      region:
+        selectBoxStates["sideBarRegion"] === "전체"
+          ? ""
+          : selectBoxStates["sideBarRegion"],
       page: 0,
     })
   );
 
-  // 더미 데이터
   const ITEMS = Array.from(
     { length: getTravelTalkList && getTravelTalkList.content.length },
     (_, i) => `Item ${i + 1}`
@@ -63,20 +54,13 @@ const TravelTalk = () => {
       </div>
       <div className="grid grid-cols-4 gap-[24px] pt-[120px]">
         <div className="col-span-1">
-          <SideBarNav
-            selectedCityOption={selectedCityOption}
-            setSelectedCityOption={setSelectedCityOption}
-            selectedCategoryMenu={selectedCategoryMenu}
-            setSelectedCategoryMenu={setSelectedCategoryMenu}
-            selectedWriteMenu={selectedWriteMenu}
-            setSelectedWriteMenu={setSelectedWriteMenu}
-          />
+          <SideBarNav />
         </div>
         <div className="col-span-3">
-          {selectedWriteMenu !== "내가 쓴 댓글" ? (
+          {selectBoxStates["sideBarCategory"] !== "내가 쓴 댓글" ? (
             <TalkList
               data={getTravelTalkList && getTravelTalkList.content}
-              selectedWriteMenu={selectedWriteMenu}
+              selectedWriteMenu={selectBoxStates["sideBarCategory"]}
             />
           ) : (
             <MyCommentTalkList
