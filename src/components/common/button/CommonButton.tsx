@@ -94,7 +94,6 @@ const CommonButton: React.FC<
 
   const handleClickButton = () => {
     if (onClick) {
-      console.log("dd");
       onClick();
     }
   };
