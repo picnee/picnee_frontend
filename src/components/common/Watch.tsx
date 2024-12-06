@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface PropsType {
   watchNum: number | string;
 }
@@ -11,4 +13,4 @@ const Watch = ({ watchNum }: PropsType) => {
   );
 };
 
-export default Watch;
+export default memo(Watch);

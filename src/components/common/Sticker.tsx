@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface PropsType {
   title: string;
 }
@@ -9,4 +11,4 @@ const Sticker = ({ title }: PropsType) => {
   );
 };
 
-export default Sticker;
+export default memo(Sticker);

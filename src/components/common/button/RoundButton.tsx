@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface PropsType {
   text: string;
   hasIcon: boolean;
@@ -18,4 +20,4 @@ const RoundButton = ({ text, hasIcon }: PropsType) => {
   );
 };
 
-export default RoundButton;
+export default memo(RoundButton);

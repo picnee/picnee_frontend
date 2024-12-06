@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
   memo,
+  useCallback,
 } from "react";
 
 interface PropsType {
@@ -42,8 +43,6 @@ const Textarea = ({
   isShowCancelInput = false,
   isShowPressInput = false,
 }: PropsType) => {
-  const [textareaHeight, setTextareaHeight] = useState(0);
-
   useEffect(() => {
     const textarea = document.getElementById(
       "dynamic-textarea"
@@ -54,12 +53,15 @@ const Textarea = ({
     }
   }, [value]);
 
-  const handleTextareaValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (setValue) setValue(e.target.value);
-  };
+  const handleTextareaValue = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (setValue) setValue(e.target.value);
+    },
+    [setValue]
+  );
 
   const handleClickInsertButton = () => {
-    if (value.length > 0) console.log("등록 버튼 클릭");
+    console.log("등록 버튼 클릭");
   };
 
   return (
@@ -82,7 +84,7 @@ const Textarea = ({
           width,
           backgroundColor,
           paddingTop,
-          height: textareaHeight || "auto",
+          height: "auto",
         }}
       />
       {infoText && (

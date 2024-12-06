@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, memo, useState } from "react";
 
 interface PaginationProps {
   totalItems: number; // 전체 데이터 개수
@@ -81,4 +81,4 @@ const Pagination = ({
   );
 };
 
-export default Pagination;
+export default memo(Pagination);

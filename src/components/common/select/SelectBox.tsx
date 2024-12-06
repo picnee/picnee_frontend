@@ -8,7 +8,6 @@ interface PropsType {
     key: number;
     value: string;
   }[];
-  setSelectedOption?: Dispatch<SetStateAction<string>>;
   optionWidth?: string;
   placeHolder?: string;
   uniqueKey: string;
@@ -16,7 +15,6 @@ interface PropsType {
 
 const SelectBox = ({
   option,
-  setSelectedOption,
   optionWidth,
   placeHolder,
   uniqueKey,
@@ -51,19 +49,10 @@ const SelectBox = ({
     };
   }, [showOption]);
 
-  /** option show/hide */
-  const handleSelectBox = () => {
-    setShowOption((prev) => !prev);
-  };
-
   /** 선택한 option 저장 함수 */
   const handleSelectedOption = (value: string) => {
     // 전역 상태 업데이트
     setSelectBoxState(uniqueKey, value);
-
-    if (setSelectedOption) {
-      setSelectedOption(value);
-    }
     setShowOption(false);
   };
 
@@ -74,7 +63,7 @@ const SelectBox = ({
           className={`w-full h-[50px] border ${
             showOption ? "border-black" : "border-gray-150"
           } rounded-m pl-[24px] pt-[10px] appearance-none`}
-          onClick={handleSelectBox}
+          onClick={() => setShowOption((prev) => !prev)}
         >
           <p
             className={`font-600 text-3xl ${

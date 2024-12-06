@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import ReplyComment from "./ReplyComment";
 import ReReplyComment from "./ReReplyComment";
 
@@ -53,4 +53,4 @@ const CommentList = ({ data, replyCommentData }: PropsType) => {
   ));
 };
 
-export default CommentList;
+export default memo(CommentList);

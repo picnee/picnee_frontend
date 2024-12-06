@@ -1,7 +1,7 @@
 import Like from "@/components/common/Like";
 import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, memo } from "react";
 
 interface dataType {
   id: string;
@@ -153,4 +153,4 @@ const ReReplyComment = ({
   );
 };
 
-export default ReReplyComment;
+export default memo(ReReplyComment);

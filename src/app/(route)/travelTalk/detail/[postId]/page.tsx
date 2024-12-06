@@ -12,6 +12,36 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { GetTravelTalkDetailPostOptions } from "@/api/travelTalk/query-options";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 
+const commentListData = [
+  {
+    id: "일본 여행 초심자",
+    comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
+    time: "3",
+    like: "13",
+  },
+  {
+    id: "일본 여행 초심자",
+    comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
+    time: "3",
+    like: "13",
+  },
+];
+
+const replyCommentData = [
+  {
+    id: "피크니",
+    comment: "답변 감사합니다~",
+    time: "3",
+    like: "1",
+  },
+  {
+    id: "피크니",
+    comment: "답변 감사합니다~",
+    time: "3",
+    like: "1",
+  },
+];
+
 const TravelTalkListDetailPage = () => {
   // 댓글 관련 상태
   const [comment, setComment] = useState<string>("");
@@ -23,36 +53,6 @@ const TravelTalkListDetailPage = () => {
       postId: postId,
     })
   );
-
-  const commentListData = [
-    {
-      id: "일본 여행 초심자",
-      comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
-      time: "3",
-      like: "13",
-    },
-    {
-      id: "일본 여행 초심자",
-      comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
-      time: "3",
-      like: "13",
-    },
-  ];
-
-  const replyCommentData = [
-    {
-      id: "피크니",
-      comment: "답변 감사합니다~",
-      time: "3",
-      like: "1",
-    },
-    {
-      id: "피크니",
-      comment: "답변 감사합니다~",
-      time: "3",
-      like: "1",
-    },
-  ];
 
   return (
     <div className="pt-[72px]">
