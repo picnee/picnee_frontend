@@ -1,5 +1,6 @@
 "use client";
 import Icon from "@/public/svgs/Icon";
+import { useTravelTalkStore } from "@/store/zustand/useTravelTalkStore";
 import { Dispatch, SetStateAction, useState, useEffect, memo } from "react";
 
 interface PropsType {
@@ -10,6 +11,7 @@ interface PropsType {
   setSelectedOption?: Dispatch<SetStateAction<string>>;
   optionWidth?: string;
   placeHolder?: string;
+  uniqueKey: string;
 }
 
 const SelectBox = ({
@@ -17,17 +19,22 @@ const SelectBox = ({
   setSelectedOption,
   optionWidth,
   placeHolder,
+  uniqueKey,
 }: PropsType) => {
   // 옵션 show/hide 플래그
   const [showOption, setShowOption] = useState<boolean>(false);
-  // 현재 선택된 옵션
-  const [currentOption, setCurrentOption] = useState<string>(option[0].value);
+  // 지역 전역상태관리
+  const { selectBoxStates, setSelectBoxState } = useTravelTalkStore();
+  // 현재 선택된 옵션 가져오기
+  const currentOption =
+    selectBoxStates[uniqueKey] || placeHolder || option[0].value;
 
   useEffect(() => {
-    if (placeHolder) {
-      setCurrentOption(placeHolder);
+    // 초기 상태 설정
+    if (!selectBoxStates[uniqueKey]) {
+      setSelectBoxState(uniqueKey, currentOption);
     }
-  }, []);
+  }, [uniqueKey, currentOption, setSelectBoxState, selectBoxStates]);
 
   /** 스크롤을 내리면 옵션 숨김 */
   useEffect(() => {
@@ -44,16 +51,18 @@ const SelectBox = ({
     };
   }, [showOption]);
 
+  /** option show/hide */
   const handleSelectBox = () => {
     setShowOption((prev) => !prev);
   };
 
+  /** 선택한 option 저장 함수 */
   const handleSelectedOption = (value: string) => {
+    // 전역 상태 업데이트
+    setSelectBoxState(uniqueKey, value);
+
     if (setSelectedOption) {
-      // 선택된 옵션 부모 컴포넌트에 전달
       setSelectedOption(value);
-      // 현재 선택된 옵션 저장
-      setCurrentOption(value);
     }
     setShowOption(false);
   };

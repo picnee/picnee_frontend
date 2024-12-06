@@ -4,6 +4,7 @@ import TravelTalkHeader from "../_components/TravelTalkHeader";
 import { useEffect, useState } from "react";
 import InputBox from "@/components/common/input/InputBox";
 import Textarea from "@/components/common/input/Textarea";
+import { useTravelTalkStore } from "@/store/zustand/useTravelTalkStore";
 
 const cityOption = [
   { key: 1, value: "도쿄" },
@@ -23,18 +24,16 @@ const categoryOption = [
 ];
 
 const TravelTalkWrite = () => {
-  const [selectedCityOption, setSelectedCityOption] = useState<string>("");
-  const [selectedCategoryOption, setSelectedCategoryOption] =
-    useState<string>("");
   const [isActiveButton, setIsActiveButton] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState<string>("");
   const [contentValue, setContentValue] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false); // 포커스 상태 관리
+  const { selectBoxStates } = useTravelTalkStore();
 
   useEffect(() => {
     if (
-      selectedCityOption !== "" &&
-      selectedCategoryOption !== "" &&
+      selectBoxStates["writeReigon"] !== "" &&
+      selectBoxStates["writeCategory"] !== "" &&
       titleValue !== "" &&
       contentValue !== ""
     ) {
@@ -42,7 +41,7 @@ const TravelTalkWrite = () => {
     } else {
       setIsActiveButton(false);
     }
-  }, [selectedCityOption, selectedCategoryOption, titleValue, contentValue]);
+  }, [selectBoxStates, titleValue, contentValue]);
 
   return (
     <div className="pt-[72px]">
@@ -66,7 +65,7 @@ const TravelTalkWrite = () => {
             <div className="col-span-1">
               <SelectBox
                 option={cityOption}
-                setSelectedOption={setSelectedCityOption}
+                uniqueKey="writeRegion"
                 optionWidth="490px"
                 placeHolder="지역을 선택해 주세요."
               />
@@ -74,7 +73,7 @@ const TravelTalkWrite = () => {
             <div className="col-span-1">
               <SelectBox
                 option={categoryOption}
-                setSelectedOption={setSelectedCategoryOption}
+                uniqueKey="writeCategory"
                 optionWidth="490px"
                 placeHolder="카테고리를 선택해 주세요."
               />

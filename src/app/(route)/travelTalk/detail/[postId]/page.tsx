@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import SideBarNav from "../../_components/SideBarNav";
 import TravelTalkHeader from "../../_components/TravelTalkHeader";
 import Sticker from "@/components/common/Sticker";
@@ -13,10 +13,6 @@ import { GetTravelTalkDetailPostOptions } from "@/api/travelTalk/query-options";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 
 const TravelTalkListDetailPage = () => {
-  // SideBarNav 관련 상태
-  const [selectedCityOption, setSelectedCityOption] = useState<string>("");
-  const [selectedCategoryMenu, setSelectedCategoryMenu] = useState<string>("");
-  const [selectedWriteMenu, setSelectedWriteMenu] = useState<string>("");
   // 댓글 관련 상태
   const [comment, setComment] = useState<string>("");
   // 게시글 고유 번호
@@ -65,14 +61,7 @@ const TravelTalkListDetailPage = () => {
       </div>
       <div className="grid grid-cols-4 gap-[24px] pt-[120px]">
         <div className="col-span-1">
-          <SideBarNav
-            selectedCityOption={selectedCityOption}
-            setSelectedCityOption={setSelectedCityOption}
-            selectedCategoryMenu={selectedCategoryMenu}
-            setSelectedCategoryMenu={setSelectedCategoryMenu}
-            selectedWriteMenu={selectedWriteMenu}
-            setSelectedWriteMenu={setSelectedWriteMenu}
-          />
+          <SideBarNav />
         </div>
         <div className="col-span-3">
           <div className="border border-gray-150 box-border pt-[24px] pb-[0px] rounded-sm">
