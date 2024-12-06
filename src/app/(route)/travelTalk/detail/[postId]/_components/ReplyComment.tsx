@@ -1,7 +1,8 @@
 import Like from "@/components/common/Like";
 import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
-import { Dispatch, SetStateAction, memo } from "react";
+import { Dispatch, SetStateAction, memo, useCallback, useState } from "react";
+import ReplyMenu from "./ReplyMenu";
 
 interface PropsData {
   listData: any;
@@ -9,33 +10,38 @@ interface PropsData {
   setShowReplyBox: (value: SetStateAction<boolean>) => void; // 댓글창 show/hide
   replyComment: string; // 댓글 내용
   setReplyComment: Dispatch<SetStateAction<string>>; // 댓글 내용 저장
-  showReplyMenu: boolean; // 더보기 메뉴 현재 상태
-  setShowReplyMenu: (value: SetStateAction<boolean>) => void; // 더보기 메뉴 show/hide
 }
+
 const ReplyComment = ({
   listData,
-  showReplyMenu,
   setShowReplyBox,
   replyComment,
   setReplyComment,
-  showReplyBox,
-  setShowReplyMenu,
 }: PropsData) => {
   const { id, comment, time, like } = listData;
   // 내가 작성한 글 플래그
   const isMyComment = false;
+  // 현재 활성화된 메뉴와 대댓글 창을 관리하는 상태
+  const [showReplyMenu, setShowReplyMenu] = useState<boolean>(false);
+  const [activeReplyBoxId, setActiveReplyBoxId] = useState<string | null>(null);
 
-  const handleClickModifyButton = () => {
-    setShowReplyMenu!(false);
-  };
+  // 대댓글 입력창 열기/닫기 핸들러
+  const handleToggleReplyBox = useCallback((commentId: string) => {
+    setActiveReplyBoxId((prev) => (prev === commentId ? null : commentId));
+  }, []);
 
-  const handleClickDeleteButton = () => {
+  const handleClickModifyButton = useCallback(() => {
     setShowReplyMenu!(false);
-  };
+  }, []);
 
-  const handleClickReportButton = () => {
+  const handleClickDeleteButton = useCallback(() => {
     setShowReplyMenu!(false);
-  };
+  }, []);
+
+  const handleClickReportButton = useCallback(() => {
+    setShowReplyMenu!(false);
+  }, []);
+
   return (
     <>
       <div
@@ -61,7 +67,7 @@ const ReplyComment = ({
             <Like likeNum={like} />
             <p
               className="cursor-pointer"
-              onClick={() => setShowReplyBox((prev) => !prev)}
+              onClick={() => handleToggleReplyBox(id)}
             >
               답글 달기
             </p>
@@ -76,39 +82,17 @@ const ReplyComment = ({
               <Icon iconName="moreIcon" />
             </div>
             {showReplyMenu && (
-              <div
-                className="absolute z-[9999] w-[120px] h-[auto] p-[20px] top-[20px] right-[0px] 
-        shadow-[0px_2px_16px_rgba(0,0,0,0.25)] rounded-m bg-white"
-              >
-                {isMyComment ? (
-                  <>
-                    <p
-                      className="mb-[10px] cursor-pointer"
-                      onClick={handleClickModifyButton}
-                    >
-                      수정
-                    </p>
-                    <p
-                      className="cursor-pointer"
-                      onClick={handleClickDeleteButton}
-                    >
-                      삭제
-                    </p>
-                  </>
-                ) : (
-                  <p
-                    className="cursor-pointer"
-                    onClick={handleClickReportButton}
-                  >
-                    신고
-                  </p>
-                )}
-              </div>
+              <ReplyMenu
+                isMyComment={isMyComment}
+                handleClickModifyButton={handleClickModifyButton}
+                handleClickDeleteButton={handleClickDeleteButton}
+                handleClickReportButton={handleClickReportButton}
+              />
             )}
           </div>
         </div>
       </div>
-      {showReplyBox && (
+      {activeReplyBoxId === id && (
         <div className="grid grid-cols-12">
           <div className="col-span-1"></div>
           <div className="col-span-11">

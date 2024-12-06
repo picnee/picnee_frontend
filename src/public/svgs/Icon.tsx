@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 type IconProps = {
   iconName: string;
@@ -185,4 +185,4 @@ const Icon = (props: IconProps) => {
   }
 };
 
-export default Icon;
+export default memo(Icon);
