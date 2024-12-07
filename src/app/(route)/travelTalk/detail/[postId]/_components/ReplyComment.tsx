@@ -1,11 +1,12 @@
-import Like from "@/components/common/Like";
-import Textarea from "@/components/common/input/Textarea";
-import Icon from "@/public/svgs/Icon";
-import { Dispatch, SetStateAction, memo, useCallback, useState } from "react";
-import ReplyMenu from "./ReplyMenu";
+import Like from '@/components/common/Like';
+import Textarea from '@/components/common/input/Textarea';
+import Icon from '@/public/svgs/Icon';
+import { Dispatch, SetStateAction, memo, useCallback, useState } from 'react';
+import ReplyMenu from './ReplyMenu';
+import useFormatTimeAgo from '@/hooks/useFormatTimeAgo';
 
 interface PropsData {
-  listData: any;
+  commentData: any;
   showReplyBox: boolean; // 대글창 현재 상태
   setShowReplyBox: (value: SetStateAction<boolean>) => void; // 댓글창 show/hide
   replyComment: string; // 댓글 내용
@@ -13,12 +14,11 @@ interface PropsData {
 }
 
 const ReplyComment = ({
-  listData,
+  commentData,
   setShowReplyBox,
   replyComment,
   setReplyComment,
 }: PropsData) => {
-  const { id, comment, time, like } = listData;
   // 내가 작성한 글 플래그
   const isMyComment = false;
   // 현재 활성화된 메뉴와 대댓글 창을 관리하는 상태
@@ -46,7 +46,7 @@ const ReplyComment = ({
     <>
       <div
         className={`grid grid-cols-12 pt-[24px] pl-[24px] pr-[24px] ${
-          isMyComment ? "bg-gray-50" : "bg-white"
+          isMyComment ? 'bg-gray-50' : 'bg-white'
         }`}
       >
         <div className="col-span-1">
@@ -54,20 +54,20 @@ const ReplyComment = ({
         </div>
         <div className="col-span-10">
           <p className="font-600 text-lg text-gray-900 mb-[5px]">
-            {id}
+            {commentData.userRes.nickName}
             {isMyComment && (
               <span className="ml-[8px] pl-[8px] pr-[8px] pt-[3px] pb-[3px] border border-green rounded-[50px] font-500 text-sm text-green">
                 작성자
               </span>
             )}
           </p>
-          <p className="font-400 text-lg mb-[6px]">{comment}</p>
+          <p className="font-400 text-lg mb-[6px]">{commentData.content}</p>
           <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
-            <p>{time}시간 전</p>
-            <Like likeNum={like} />
+            <p>{useFormatTimeAgo(commentData.createdAt)}</p>
+            <Like likeNum={commentData.likes} />
             <p
               className="cursor-pointer"
-              onClick={() => handleToggleReplyBox(id)}
+              onClick={() => handleToggleReplyBox('1')}
             >
               답글 달기
             </p>
@@ -92,7 +92,7 @@ const ReplyComment = ({
           </div>
         </div>
       </div>
-      {activeReplyBoxId === id && (
+      {activeReplyBoxId === '1' && (
         <div className="grid grid-cols-12">
           <div className="col-span-1"></div>
           <div className="col-span-11">

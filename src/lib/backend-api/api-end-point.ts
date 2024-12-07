@@ -1,6 +1,6 @@
 "use client"
 import { Method } from "./types";
-import {  TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
+import {  CreateTravelTalkParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
   url: string;
   method: Method;
@@ -22,6 +22,20 @@ export const API_ENDPOINT = {
         method: Method.GET,
         authorization: true,
       }
-    }
+    },
+    createTravelTalkPost: (requestParams: CreateTravelTalkParamsType) => {
+      return {
+        url: `posts/`,
+        method: Method.POST,
+        authorization: true,
+      }
+    },
+    getTravelTalkComment: (requestParams: TravelTalkCommentParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}/comments`,
+        method: Method.GET,
+        authorization: true,
+      }
+    },
   },
 } as const;
