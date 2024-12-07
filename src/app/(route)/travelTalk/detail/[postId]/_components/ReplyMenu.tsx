@@ -15,7 +15,7 @@ const ReplyMenu = ({
 }: PropsType) => {
   return (
     <div
-      className="absolute z-[9999] w-[120px] h-[auto] p-[20px] top-[20px] right-[0px] 
+      className="absolute z-[99] w-[120px] h-[auto] p-[20px] top-[20px] right-[0px] 
         shadow-[0px_2px_16px_rgba(0,0,0,0.25)] rounded-m bg-white"
     >
       {isMyComment ? (
