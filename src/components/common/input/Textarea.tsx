@@ -25,6 +25,7 @@ interface PropsType {
   maxHeight?: string; // 최대 높이 추가
   isShowCancelInput?: boolean;
   isShowPressInput?: boolean;
+  handleClickInsertButton?: () => void;
 }
 
 const Textarea = ({
@@ -42,6 +43,7 @@ const Textarea = ({
   paddingTop = "24px",
   isShowCancelInput = false,
   isShowPressInput = false,
+  handleClickInsertButton,
 }: PropsType) => {
   useEffect(() => {
     const textarea = document.getElementById(
@@ -53,15 +55,14 @@ const Textarea = ({
     }
   }, [value]);
 
-  const handleTextareaValue = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (setValue) setValue(e.target.value);
-    },
-    [setValue]
-  );
+  const handleTextareaValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (setValue) setValue(e.target.value);
+  };
 
-  const handleClickInsertButton = () => {
-    console.log("등록 버튼 클릭");
+  const onClickInsertButton = () => {
+    if (handleClickInsertButton) {
+      handleClickInsertButton();
+    }
   };
 
   return (
@@ -107,7 +108,7 @@ const Textarea = ({
               } font-600 relative top-[-59px] right-[24px] ${
                 value.length > 0 ? "cursor-pointer" : "cursor-default"
               } `}
-              onClick={handleClickInsertButton}
+              onClick={onClickInsertButton}
             >
               등록
             </p>

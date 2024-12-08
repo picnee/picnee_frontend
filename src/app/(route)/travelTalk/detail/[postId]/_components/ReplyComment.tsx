@@ -1,33 +1,40 @@
-import Like from '@/components/common/Like';
-import Textarea from '@/components/common/input/Textarea';
-import Icon from '@/public/svgs/Icon';
-import { Dispatch, SetStateAction, memo, useCallback, useState } from 'react';
-import ReplyMenu from './ReplyMenu';
-import useFormatTimeAgo from '@/hooks/useFormatTimeAgo';
+import Like from "@/components/common/Like";
+import Textarea from "@/components/common/input/Textarea";
+import Icon from "@/public/svgs/Icon";
+import { Dispatch, SetStateAction, memo, useCallback, useState } from "react";
+import ReplyMenu from "./ReplyMenu";
+import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 
 interface PropsData {
-  commentData: any;
+  commentData: {
+    commentId: string;
+    content: string;
+    createdAt: string;
+    likes: number;
+    replies: [];
+    userRes: {
+      nickName: string;
+      userId: string;
+    };
+  };
   showReplyBox: boolean; // 대글창 현재 상태
   setShowReplyBox: (value: SetStateAction<boolean>) => void; // 댓글창 show/hide
-  replyComment: string; // 댓글 내용
-  setReplyComment: Dispatch<SetStateAction<string>>; // 댓글 내용 저장
 }
 
-const ReplyComment = ({
-  commentData,
-  setShowReplyBox,
-  replyComment,
-  setReplyComment,
-}: PropsData) => {
+const ReplyComment = ({ commentData, setShowReplyBox }: PropsData) => {
   // 내가 작성한 글 플래그
   const isMyComment = false;
   // 현재 활성화된 메뉴와 대댓글 창을 관리하는 상태
   const [showReplyMenu, setShowReplyMenu] = useState<boolean>(false);
   const [activeReplyBoxId, setActiveReplyBoxId] = useState<string | null>(null);
+  // 댓글 내용 저장
+  const [replyComment, setReplyComment] = useState<string>("");
 
   // 대댓글 입력창 열기/닫기 핸들러
   const handleToggleReplyBox = useCallback((commentId: string) => {
-    setActiveReplyBoxId((prev) => (prev === commentId ? null : commentId));
+    setActiveReplyBoxId((prev) =>
+      prev === commentData.commentId ? null : commentData.commentId
+    );
   }, []);
 
   const handleClickModifyButton = useCallback(() => {
@@ -42,11 +49,15 @@ const ReplyComment = ({
     setShowReplyMenu!(false);
   }, []);
 
+  const handleClickInsertButton = () => {
+    console.log("hhhh");
+  };
+
   return (
     <>
       <div
         className={`grid grid-cols-12 pt-[24px] pl-[24px] pr-[24px] ${
-          isMyComment ? 'bg-gray-50' : 'bg-white'
+          isMyComment ? "bg-gray-50" : "bg-white"
         }`}
       >
         <div className="col-span-1">
@@ -67,7 +78,7 @@ const ReplyComment = ({
             <Like likeNum={commentData.likes} />
             <p
               className="cursor-pointer"
-              onClick={() => handleToggleReplyBox('1')}
+              onClick={() => handleToggleReplyBox("1")}
             >
               답글 달기
             </p>
@@ -92,7 +103,7 @@ const ReplyComment = ({
           </div>
         </div>
       </div>
-      {activeReplyBoxId === '1' && (
+      {activeReplyBoxId === commentData.commentId && (
         <div className="grid grid-cols-12">
           <div className="col-span-1"></div>
           <div className="col-span-11">
