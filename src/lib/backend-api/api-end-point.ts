@@ -1,6 +1,5 @@
-"use client"
 import { Method } from "./types";
-import {  TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
+import {  CreateTravelTalkParamsType, InsertCommentParamsType, InsertPostParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
   url: string;
   method: Method;
@@ -8,7 +7,9 @@ export type ApiEndpoint = {
 };
 
 export const API_ENDPOINT = {
+  
   travelTalk: {
+    // 여행토크 리스트 조회
     getTravelTalkList: (requestParams: TravelTalkRequestParamsType) => {
       return {
         url: `posts?boardCategory=${requestParams.boardCategory}&region=${requestParams.region}&page=${requestParams.page}`,
@@ -16,12 +17,38 @@ export const API_ENDPOINT = {
         authorization: true,
       }
     },
+    // 여행토크 게시글 등록
+    InsertPost: (requestParams: InsertPostParamsType) => {
+      return {
+        url: `posts`,
+        method: Method.POST,
+        authorization: true,
+      }
+    },
+    // 여행토크 싱세 데이터 조회
     getTravelTalkDetail: (requestParams: TravelTalkDetailPostParamsType) => {
       return {
         url: `posts/${requestParams.postId}`,
         method: Method.GET,
         authorization: true,
       }
-    }
+    },
+    // 여행토크 댓글 조회
+    getTravelTalkComment: (requestParams: TravelTalkCommentParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}/comments`,
+        method: Method.GET,
+        authorization: true,
+      }
+    },
+    // 여행토크 댓글 등록
+    InsertComment: (requestParams: InsertCommentParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}/comments`,
+        method: Method.POST,
+        authorization: true,
+      }
+    },
+    
   },
 } as const;

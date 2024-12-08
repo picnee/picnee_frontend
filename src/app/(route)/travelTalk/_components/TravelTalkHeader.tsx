@@ -16,6 +16,7 @@ interface PropsType {
   selectedFilter?: string;
   setSelectedFilter?: Dispatch<SetStateAction<string>>;
   isActiveButton?: boolean;
+  onClick?: () => void;
 }
 
 const TravelTalkHeader = ({
@@ -23,6 +24,7 @@ const TravelTalkHeader = ({
   selectedFilter,
   setSelectedFilter,
   isActiveButton,
+  onClick,
 }: PropsType) => {
   const navigator = useRouter();
   const pathname = usePathname();
@@ -43,6 +45,15 @@ const TravelTalkHeader = ({
       setButtonText("글쓰기");
     }
   }, [pathname]);
+
+  const onClickButton = () => {
+    if (buttonText === "글쓰기") {
+      navigator.push(URL.TRAVELTALK.WRITE);
+    } else {
+      // 등록하기
+      if (onClick) return onClick();
+    }
+  };
 
   return (
     <div className="flex justify-between items-center">
@@ -74,9 +85,7 @@ const TravelTalkHeader = ({
         <CommonButton
           variant={isActiveButton ? "solid_btn" : "disabled_btn"}
           size="m"
-          onClick={() => {
-            navigator.push(URL.TRAVELTALK.WRITE);
-          }}
+          onClick={onClickButton}
         >
           {buttonText}
         </CommonButton>

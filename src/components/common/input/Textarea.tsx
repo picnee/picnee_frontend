@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
   memo,
+  useCallback,
 } from "react";
 
 interface PropsType {
@@ -24,6 +25,7 @@ interface PropsType {
   maxHeight?: string; // 최대 높이 추가
   isShowCancelInput?: boolean;
   isShowPressInput?: boolean;
+  handleClickInsertButton?: () => void;
 }
 
 const Textarea = ({
@@ -41,9 +43,8 @@ const Textarea = ({
   paddingTop = "24px",
   isShowCancelInput = false,
   isShowPressInput = false,
+  handleClickInsertButton,
 }: PropsType) => {
-  const [textareaHeight, setTextareaHeight] = useState(0);
-
   useEffect(() => {
     const textarea = document.getElementById(
       "dynamic-textarea"
@@ -58,8 +59,10 @@ const Textarea = ({
     if (setValue) setValue(e.target.value);
   };
 
-  const handleClickInsertButton = () => {
-    if (value.length > 0) console.log("등록 버튼 클릭");
+  const onClickInsertButton = () => {
+    if (handleClickInsertButton) {
+      handleClickInsertButton();
+    }
   };
 
   return (
@@ -82,7 +85,7 @@ const Textarea = ({
           width,
           backgroundColor,
           paddingTop,
-          height: textareaHeight || "auto",
+          height: "auto",
         }}
       />
       {infoText && (
@@ -105,7 +108,7 @@ const Textarea = ({
               } font-600 relative top-[-59px] right-[24px] ${
                 value.length > 0 ? "cursor-pointer" : "cursor-default"
               } `}
-              onClick={handleClickInsertButton}
+              onClick={onClickInsertButton}
             >
               등록
             </p>

@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface PropsType {
   likeNum: number | string;
 }
@@ -11,4 +13,4 @@ const Like = ({ likeNum }: PropsType) => {
   );
 };
 
-export default Like;
+export default memo(Like);

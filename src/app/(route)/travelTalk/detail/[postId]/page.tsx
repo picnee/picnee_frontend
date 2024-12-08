@@ -8,9 +8,33 @@ import RoundButton from "@/components/common/button/RoundButton";
 import Textarea from "@/components/common/input/Textarea";
 import CommentList from "./_components/CommentList";
 import { useParams } from "next/navigation";
-import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { GetTravelTalkDetailPostOptions } from "@/api/travelTalk/query-options";
+import {
+  UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import {
+  GetTravelTalkCommentOptions,
+  GetTravelTalkDetailPostOptions,
+} from "@/api/travelTalk/query-options";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
+import { InsertCommentData } from "./actions/InsertCommentData";
+
+const replyCommentData = [
+  {
+    id: "피크니",
+    comment: "답변 감사합니다~",
+    time: "3",
+    like: "1",
+  },
+  {
+    id: "피크니",
+    comment: "답변 감사합니다~",
+    time: "3",
+    like: "1",
+  },
+];
 
 const TravelTalkListDetailPage = () => {
   // 댓글 관련 상태
@@ -23,36 +47,35 @@ const TravelTalkListDetailPage = () => {
       postId: postId,
     })
   );
+  // 댓글 조회 API 호출
+  const { data: getCommentData }: UseQueryResult<any> = useQuery(
+    GetTravelTalkCommentOptions({
+      postId: postId,
+    })
+  );
+  const queryClient = useQueryClient();
 
-  const commentListData = [
-    {
-      id: "일본 여행 초심자",
-      comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
-      time: "3",
-      like: "13",
+  // 댓글 등록 API 호출
+  const mutation = useMutation({
+    mutationFn: InsertCommentData,
+    onSuccess: () => {
+      // 성공 시 처리
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkComment"],
+      });
+      setComment("");
     },
-    {
-      id: "일본 여행 초심자",
-      comment: "오늘 도쿄 좀 추웠어요. 목도리에 두꺼운 아우터 입었어요!",
-      time: "3",
-      like: "13",
+    onError: (error) => {
+      // 실패 시 처리
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
     },
-  ];
+  });
 
-  const replyCommentData = [
-    {
-      id: "피크니",
-      comment: "답변 감사합니다~",
-      time: "3",
-      like: "1",
-    },
-    {
-      id: "피크니",
-      comment: "답변 감사합니다~",
-      time: "3",
-      like: "1",
-    },
-  ];
+  const onClickInsertButton = () => {
+    if (comment && postId) {
+      mutation.mutate({ postId: postId, content: comment });
+    }
+  };
 
   return (
     <div className="pt-[72px]">
@@ -110,13 +133,14 @@ const TravelTalkListDetailPage = () => {
             <div className="ml-[24px] mr-[24px] mb-[20px] mt-[32px] border border-gray-100"></div>
             <div className="flex gap-[8px] mb-[16px] pl-[24px] pr-[24px]">
               <div className="w-[24px] h-[24px] bg-gray-150"></div>
-              <p>댓글 1</p>
+              <p>댓글 {getDetailPostData && getDetailPostData.commentsCount}</p>
             </div>
             <div className="mb-[0px] pl-[24px] pr-[24px]">
               <Textarea
                 varient="default"
                 value={comment}
                 setValue={setComment}
+                handleClickInsertButton={onClickInsertButton}
                 placeholder="댓글을 기입해 주세요."
                 backgroundColor="#F1F3F6"
                 paddingTop="45px"
@@ -130,7 +154,7 @@ const TravelTalkListDetailPage = () => {
             </div>
             <div>
               <CommentList
-                data={commentListData}
+                data={getCommentData && getCommentData}
                 replyCommentData={replyCommentData}
               />
             </div>

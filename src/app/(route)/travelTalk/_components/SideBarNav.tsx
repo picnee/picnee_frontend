@@ -52,4 +52,4 @@ const SideBarNav = () => {
   );
 };
 
-export default SideBarNav;
+export default memo(SideBarNav);

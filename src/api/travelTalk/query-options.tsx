@@ -1,9 +1,12 @@
-import { GetTravelTalkDetailData } from "@/app/(route)/travelTalk/actions/GetTravelTalkDetailData";
+"use client";
+import { GetTravelTalkDetailData } from "@/app/(route)/travelTalk/detail/[postId]/actions/GetTravelTalkDetailData";
 import { GetTravelTalkListData } from "@/app/(route)/travelTalk/actions/GetTravelTalkListData";
 import {
+  TravelTalkCommentParamsType,
   TravelTalkDetailPostParamsType,
   TravelTalkRequestParamsType,
 } from "@/types/travelTalk";
+import { GetTravelTalkCommentData } from "@/app/(route)/travelTalk/detail/[postId]/actions/GetTravelTalkCommentData";
 
 /** 여행 토크 게시글 리스트 GET */
 export function GetTravelTalkListOptions(
@@ -24,6 +27,18 @@ export function GetTravelTalkDetailPostOptions(
   return {
     queryKey: ["travelTalkDetailData", requestParams],
     queryFn: () => GetTravelTalkDetailData(requestParams),
+    staleTime: 1000 * 60 * 10, // 10분
+    catchTime: 1000 * 60 * 60 * 24, // 24시간
+  };
+}
+
+/** 여행 토크 게시글 댓글 데이터 GET */
+export function GetTravelTalkCommentOptions(
+  requestParams: TravelTalkCommentParamsType
+) {
+  return {
+    queryKey: ["travelTalkComment", requestParams],
+    queryFn: () => GetTravelTalkCommentData(requestParams),
     staleTime: 1000 * 60 * 10, // 10분
     catchTime: 1000 * 60 * 60 * 24, // 24시간
   };

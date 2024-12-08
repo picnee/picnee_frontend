@@ -1,41 +1,58 @@
 import Like from "@/components/common/Like";
 import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, memo, useCallback, useState } from "react";
+import ReplyMenu from "./ReplyMenu";
+import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 
 interface PropsData {
-  listData: any;
+  commentData: {
+    commentId: string;
+    content: string;
+    createdAt: string;
+    likes: number;
+    replies: [];
+    userRes: {
+      nickName: string;
+      userId: string;
+    };
+  };
   showReplyBox: boolean; // 대글창 현재 상태
   setShowReplyBox: (value: SetStateAction<boolean>) => void; // 댓글창 show/hide
-  replyComment: string; // 댓글 내용
-  setReplyComment: Dispatch<SetStateAction<string>>; // 댓글 내용 저장
-  showReplyMenu: boolean; // 더보기 메뉴 현재 상태
-  setShowReplyMenu: (value: SetStateAction<boolean>) => void; // 더보기 메뉴 show/hide
 }
-const ReplyComment = ({
-  listData,
-  showReplyMenu,
-  setShowReplyBox,
-  replyComment,
-  setReplyComment,
-  showReplyBox,
-  setShowReplyMenu,
-}: PropsData) => {
-  const { id, comment, time, like } = listData;
+
+const ReplyComment = ({ commentData, setShowReplyBox }: PropsData) => {
   // 내가 작성한 글 플래그
   const isMyComment = false;
+  // 현재 활성화된 메뉴와 대댓글 창을 관리하는 상태
+  const [showReplyMenu, setShowReplyMenu] = useState<boolean>(false);
+  const [activeReplyBoxId, setActiveReplyBoxId] = useState<string | null>(null);
+  // 댓글 내용 저장
+  const [replyComment, setReplyComment] = useState<string>("");
 
-  const handleClickModifyButton = () => {
+  // 대댓글 입력창 열기/닫기 핸들러
+  const handleToggleReplyBox = useCallback((commentId: string) => {
+    setActiveReplyBoxId((prev) =>
+      prev === commentData.commentId ? null : commentData.commentId
+    );
+  }, []);
+
+  const handleClickModifyButton = useCallback(() => {
     setShowReplyMenu!(false);
+  }, []);
+
+  const handleClickDeleteButton = useCallback(() => {
+    setShowReplyMenu!(false);
+  }, []);
+
+  const handleClickReportButton = useCallback(() => {
+    setShowReplyMenu!(false);
+  }, []);
+
+  const handleClickInsertButton = () => {
+    console.log("hhhh");
   };
 
-  const handleClickDeleteButton = () => {
-    setShowReplyMenu!(false);
-  };
-
-  const handleClickReportButton = () => {
-    setShowReplyMenu!(false);
-  };
   return (
     <>
       <div
@@ -48,20 +65,20 @@ const ReplyComment = ({
         </div>
         <div className="col-span-10">
           <p className="font-600 text-lg text-gray-900 mb-[5px]">
-            {id}
+            {commentData.userRes.nickName}
             {isMyComment && (
               <span className="ml-[8px] pl-[8px] pr-[8px] pt-[3px] pb-[3px] border border-green rounded-[50px] font-500 text-sm text-green">
                 작성자
               </span>
             )}
           </p>
-          <p className="font-400 text-lg mb-[6px]">{comment}</p>
+          <p className="font-400 text-lg mb-[6px]">{commentData.content}</p>
           <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
-            <p>{time}시간 전</p>
-            <Like likeNum={like} />
+            <p>{useFormatTimeAgo(commentData.createdAt)}</p>
+            <Like likeNum={commentData.likes} />
             <p
               className="cursor-pointer"
-              onClick={() => setShowReplyBox((prev) => !prev)}
+              onClick={() => handleToggleReplyBox("1")}
             >
               답글 달기
             </p>
@@ -76,39 +93,17 @@ const ReplyComment = ({
               <Icon iconName="moreIcon" />
             </div>
             {showReplyMenu && (
-              <div
-                className="absolute z-[9999] w-[120px] h-[auto] p-[20px] top-[20px] right-[0px] 
-        shadow-[0px_2px_16px_rgba(0,0,0,0.25)] rounded-m bg-white"
-              >
-                {isMyComment ? (
-                  <>
-                    <p
-                      className="mb-[10px] cursor-pointer"
-                      onClick={handleClickModifyButton}
-                    >
-                      수정
-                    </p>
-                    <p
-                      className="cursor-pointer"
-                      onClick={handleClickDeleteButton}
-                    >
-                      삭제
-                    </p>
-                  </>
-                ) : (
-                  <p
-                    className="cursor-pointer"
-                    onClick={handleClickReportButton}
-                  >
-                    신고
-                  </p>
-                )}
-              </div>
+              <ReplyMenu
+                isMyComment={isMyComment}
+                handleClickModifyButton={handleClickModifyButton}
+                handleClickDeleteButton={handleClickDeleteButton}
+                handleClickReportButton={handleClickReportButton}
+              />
             )}
           </div>
         </div>
       </div>
-      {showReplyBox && (
+      {activeReplyBoxId === commentData.commentId && (
         <div className="grid grid-cols-12">
           <div className="col-span-1"></div>
           <div className="col-span-11">
@@ -135,4 +130,4 @@ const ReplyComment = ({
   );
 };
 
-export default ReplyComment;
+export default memo(ReplyComment);
