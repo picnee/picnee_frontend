@@ -7,6 +7,7 @@ const axiosInstance = axios.create({
   baseURL: API_V1_BASE,
   headers: {
     "Content-Type": "application/json",
+    Accept: 'application/json',
   },
   withCredentials: true,
 });
@@ -16,7 +17,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = Cookies.get('accessToken');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.AccessToken = `${token}`;
     }
     return config;
   },
