@@ -4,8 +4,11 @@ import Icon from "@/public/svgs/Icon";
 import { Dispatch, SetStateAction, memo, useCallback, useState } from "react";
 import ReplyMenu from "./ReplyMenu";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { InsertReplyCommentData } from "../actions/InsertReplyCommentData";
 
-interface PropsData {
+interface commentDataType {
   commentData: {
     commentId: string;
     content: string;
@@ -17,11 +20,11 @@ interface PropsData {
       userId: string;
     };
   };
-  showReplyBox: boolean; // 대글창 현재 상태
-  setShowReplyBox: (value: SetStateAction<boolean>) => void; // 댓글창 show/hide
+  commentId: string;
 }
 
-const ReplyComment = ({ commentData, setShowReplyBox }: PropsData) => {
+const ReplyComment = ({ commentData, commentId }: commentDataType) => {
+  const queryClient = useQueryClient();
   // 내가 작성한 글 플래그
   const isMyComment = false;
   // 현재 활성화된 메뉴와 대댓글 창을 관리하는 상태
@@ -29,6 +32,8 @@ const ReplyComment = ({ commentData, setShowReplyBox }: PropsData) => {
   const [activeReplyBoxId, setActiveReplyBoxId] = useState<string | null>(null);
   // 댓글 내용 저장
   const [replyComment, setReplyComment] = useState<string>("");
+  // 게시글 고유 번호
+  const { postId }: any = useParams();
 
   // 대댓글 입력창 열기/닫기 핸들러
   const handleToggleReplyBox = useCallback((commentId: string) => {
@@ -49,10 +54,28 @@ const ReplyComment = ({ commentData, setShowReplyBox }: PropsData) => {
     setShowReplyMenu!(false);
   }, []);
 
+  /** 댓글 - 답글 달기 */
+  const mutation = useMutation({
+    mutationFn: InsertReplyCommentData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkComment"],
+      });
+      setReplyComment("");
+    },
+    onError: () => {
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
   const handleClickInsertButton = () => {
-    console.log("hhhh");
+    if (postId && commentId && replyComment) {
+      mutation.mutate({
+        postId: postId,
+        commentId: commentId,
+        content: replyComment,
+      });
+    }
   };
-
   return (
     <>
       <div
@@ -78,7 +101,7 @@ const ReplyComment = ({ commentData, setShowReplyBox }: PropsData) => {
             <Like likeNum={commentData.likes} />
             <p
               className="cursor-pointer"
-              onClick={() => handleToggleReplyBox("1")}
+              onClick={() => handleToggleReplyBox(commentData.commentId)}
             >
               답글 달기
             </p>
@@ -111,7 +134,8 @@ const ReplyComment = ({ commentData, setShowReplyBox }: PropsData) => {
               varient="default"
               value={replyComment}
               setValue={setReplyComment}
-              setReply={setShowReplyBox}
+              handleClickInsertButton={handleClickInsertButton}
+              handleClickCancelButton={() => setActiveReplyBoxId("")}
               placeholder="댓글을 기입해 주세요."
               backgroundColor="#F1F3F6"
               paddingTop="45px"
@@ -119,7 +143,9 @@ const ReplyComment = ({ commentData, setShowReplyBox }: PropsData) => {
               isShowPressInput={true}
               infoText={
                 <div className="absolute left-[24px] top-[0px] pt-[18px] text-2xl text-gray-400">
-                  <p className="text-sm text-gray-600 font-600">아이디</p>
+                  <p className="text-sm text-gray-600 font-600">
+                    {commentData.userRes.nickName}
+                  </p>
                 </div>
               }
             />
