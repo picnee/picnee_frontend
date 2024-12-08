@@ -5,6 +5,15 @@ import { useEffect, useState } from "react";
 import InputBox from "@/components/common/input/InputBox";
 import Textarea from "@/components/common/input/Textarea";
 import { useTravelTalkStore } from "@/store/zustand/useTravelTalkStore";
+import {
+  UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { InsertPostData } from "./actions/InsertPostData";
+import { useRouter } from "next/navigation";
+import { URL } from "@/constants/url";
 
 const cityOption = [
   { key: 1, value: "도쿄" },
@@ -29,10 +38,12 @@ const TravelTalkWrite = () => {
   const [contentValue, setContentValue] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false); // 포커스 상태 관리
   const { selectBoxStates } = useTravelTalkStore();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   useEffect(() => {
     if (
-      selectBoxStates["writeReigon"] !== "" &&
+      selectBoxStates["writeRegion"] !== "" &&
       selectBoxStates["writeCategory"] !== "" &&
       titleValue !== "" &&
       contentValue !== ""
@@ -43,10 +54,36 @@ const TravelTalkWrite = () => {
     }
   }, [selectBoxStates, titleValue, contentValue]);
 
+  // 게시글 등록 API 호출
+  const mutation = useMutation({
+    mutationFn: InsertPostData,
+    onSuccess: () => {
+      router.push(URL.TRAVELTALK.BASE);
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkList"],
+      });
+    },
+    onError: (error) => {
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
+  const registerPost = () => {
+    mutation.mutate({
+      title: titleValue,
+      content: contentValue,
+      region: selectBoxStates["writeRegion"],
+      boardCategory: selectBoxStates["writeCategory"],
+    });
+  };
+
   return (
     <div className="pt-[72px]">
       <div className="w-[1200px] pt-[35px] fixed bg-white z-[999]">
-        <TravelTalkHeader hasFilter={false} isActiveButton={isActiveButton} />
+        <TravelTalkHeader
+          hasFilter={false}
+          isActiveButton={isActiveButton}
+          onClick={registerPost}
+        />
       </div>
       <div className="grid grid-cols-6 gap-[24px] pt-[120px]">
         <div className="col-span-1">
