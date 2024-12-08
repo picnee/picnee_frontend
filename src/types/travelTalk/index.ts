@@ -9,12 +9,24 @@ export interface TravelTalkDetailPostParamsType {
 }
   
 export interface CreateTravelTalkParamsType {
-  title: "string",
-  content: "string",
-  region: "오사카",
-  boardCategory: "음식점"
+  title: string
+  content: string
+  region: string
+  boardCategory: string
 }
 
 export interface TravelTalkCommentParamsType {
   postId: string
+}
+
+export interface InsertCommentParamsType {
+  postId: string
+  content: string
+}
+
+export interface InsertPostParamsType {
+  title: string
+  content: string,
+  region: string,
+  boardCategory: string,
 }
