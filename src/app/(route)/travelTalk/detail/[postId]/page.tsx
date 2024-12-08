@@ -147,7 +147,9 @@ const TravelTalkListDetailPage = () => {
                 isShowPressInput={true}
                 infoText={
                   <div className="absolute left-[24px] top-[0px] pt-[18px] text-2xl text-gray-400">
-                    <p className="text-sm text-gray-600 font-600">아이디</p>
+                    <p className="text-sm text-gray-600 font-600">
+                      {getDetailPostData && getDetailPostData.userRes.nickName}
+                    </p>
                   </div>
                 }
               />
