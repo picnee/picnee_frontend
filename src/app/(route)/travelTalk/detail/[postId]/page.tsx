@@ -21,21 +21,6 @@ import {
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 import { InsertCommentData } from "./actions/InsertCommentData";
 
-const replyCommentData = [
-  {
-    id: "피크니",
-    comment: "답변 감사합니다~",
-    time: "3",
-    like: "1",
-  },
-  {
-    id: "피크니",
-    comment: "답변 감사합니다~",
-    time: "3",
-    like: "1",
-  },
-];
-
 const TravelTalkListDetailPage = () => {
   // 댓글 관련 상태
   const [comment, setComment] = useState<string>("");
@@ -155,10 +140,7 @@ const TravelTalkListDetailPage = () => {
               />
             </div>
             <div>
-              <CommentList
-                data={getCommentData && getCommentData}
-                replyCommentData={replyCommentData}
-              />
+              <CommentList data={getCommentData && getCommentData} />
             </div>
           </div>
         </div>
