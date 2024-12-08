@@ -26,6 +26,7 @@ interface PropsType {
   isShowCancelInput?: boolean;
   isShowPressInput?: boolean;
   handleClickInsertButton?: () => void;
+  handleClickCancelButton?: () => void;
 }
 
 const Textarea = ({
@@ -44,6 +45,7 @@ const Textarea = ({
   isShowCancelInput = false,
   isShowPressInput = false,
   handleClickInsertButton,
+  handleClickCancelButton,
 }: PropsType) => {
   useEffect(() => {
     const textarea = document.getElementById(
@@ -95,7 +97,7 @@ const Textarea = ({
             <p
               className={`text-sm text-gray-300 font-600 relative top-[-59px] left-[340px] cursor-pointer`}
               onClick={() => {
-                if (setReply) setReply(false);
+                if (handleClickCancelButton) handleClickCancelButton();
               }}
             >
               취소
