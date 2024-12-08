@@ -1,5 +1,5 @@
 import { Method } from "./types";
-import {  CreateTravelTalkParamsType, InsertCommentParamsType, InsertPostParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
+import {  CreateTravelTalkParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
   url: string;
   method: Method;
@@ -45,6 +45,14 @@ export const API_ENDPOINT = {
     InsertComment: (requestParams: InsertCommentParamsType) => {
       return {
         url: `posts/${requestParams.postId}/comments`,
+        method: Method.POST,
+        authorization: true,
+      }
+    },
+    // 여행토크 댓글 - 답글 달기 등록
+    InsertReplyComment: (requestParams: InsertReplyCommentParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}/comments/${requestParams.commentId}`,
         method: Method.POST,
         authorization: true,
       }

@@ -24,6 +24,12 @@ export interface InsertCommentParamsType {
   content: string
 }
 
+export interface InsertReplyCommentParamsType {
+  postId: string
+  commentId: string
+  content: string
+}
+
 export interface InsertPostParamsType {
   title: string
   content: string,
