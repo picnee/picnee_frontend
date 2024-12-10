@@ -22,11 +22,19 @@ const CommentList = ({ data }: PropsType) => {
   return (
     data &&
     data.map((item, index) => (
-      <div className="border-b border-b-gray-100" key={index}>
+      <div
+        className={`${
+          data.length - 1 !== index && "border-b border-b-gray-100"
+        }`}
+        key={index}
+      >
         {/* 댓글 */}
         <ReplyComment commentData={item} commentId={item.commentId} />
         {/* 대댓글 */}
-        <ReReplyComment reReplyCommentData={item.replies} />
+        <ReReplyComment
+          reReplyCommentData={item.replies}
+          commentId={item.commentId}
+        />
       </div>
     ))
   );
