@@ -3,9 +3,9 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "@/hooks/useAuth";
-import { useUserStore } from "@/store/zustand/useUserStore";
 import CommonButton from "./button/CommonButton";
 import { URL } from "@/constants/url";
+import { useUserStore } from "@/store/zustand/useUserStore";
 
 const LocalNavBar = ({
   type,
@@ -98,7 +98,7 @@ const Header = () => {
                 fontSize="14px"
               >
                 {isAuthenticated
-                  ? `환영합니다! ${user?.name}님`
+                  ? `환영합니다! ${user?.nickName}님`
                   : "로그인 및 회원가입"}
               </CommonButton>
             </div>

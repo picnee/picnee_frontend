@@ -33,9 +33,7 @@ const Main = () => {
 
         if (response.status === 201 || response.status === 200) {
           setCookies(response.data.accessToken, response.data.refreshToken);
-          setUser({
-            name: response.data.userRes.nickName,
-          });
+          setUser(response.data.userRes);
           // 로그인 성공 시 히스토리 정리 후 홈으로 이동
           // oauth 페이지에서 의도치 않은 에러방지
           window.history.replaceState(null, "", "/");
