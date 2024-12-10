@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { InsertReplyCommentData } from "../actions/InsertReplyCommentData";
 import { useUserStore } from "@/store/zustand/useUserStore";
+import { DeleteReplyCommentData } from "../actions/DeleteReplyCommentData";
 
 interface commentDataType {
   commentData: {
@@ -37,7 +38,6 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
   const { postId }: any = useParams();
   // 로그인한 유저 정보
   const { user } = useUserStore();
-  console.log(user);
 
   // 대댓글 입력창 열기/닫기 핸들러
   const handleToggleReplyBox = useCallback((commentId: string) => {
@@ -50,29 +50,47 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
     setShowReplyMenu!(false);
   }, []);
 
-  const handleClickDeleteButton = useCallback(() => {
+  /** 댓글 - 삭제 */
+  const deletReplyCommentmutation = useMutation({
+    mutationFn: DeleteReplyCommentData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkComment"],
+      });
+    },
+    onError: () => {
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
+  const handleClickDeleteButton = () => {
     setShowReplyMenu!(false);
-  }, []);
+    if (postId && commentId) {
+      deletReplyCommentmutation.mutate({
+        postId: postId,
+        commentId: commentId,
+      });
+    }
+  };
 
   const handleClickReportButton = useCallback(() => {
     setShowReplyMenu!(false);
   }, []);
 
   /** 댓글 - 답글 달기 */
-  const mutation = useMutation({
-    mutationFn: InsertReplyCommentData,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["travelTalkComment"],
-      });
-      setReplyComment("");
-      setActiveReplyBoxId("");
-    },
-    onError: () => {
-      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
-    },
-  });
   const handleClickInsertButton = () => {
+    const mutation = useMutation({
+      mutationFn: InsertReplyCommentData,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["travelTalkComment"],
+        });
+        setReplyComment("");
+        setActiveReplyBoxId("");
+      },
+      onError: () => {
+        alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+      },
+    });
     if (postId && commentId && replyComment) {
       mutation.mutate({
         postId: postId,
