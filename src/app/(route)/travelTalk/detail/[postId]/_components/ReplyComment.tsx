@@ -1,7 +1,7 @@
 import Like from "@/components/common/Like";
 import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
-import { Dispatch, SetStateAction, memo, useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import ReplyMenu from "./ReplyMenu";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -39,18 +39,22 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
   // 로그인한 유저 정보
   const { user } = useUserStore();
 
-  // 대댓글 입력창 열기/닫기 핸들러
-  const handleToggleReplyBox = useCallback((commentId: string) => {
-    setActiveReplyBoxId((prev) =>
-      prev === commentData.commentId ? null : commentData.commentId
-    );
-  }, []);
+  /** 댓글 - 답글 달기 API */
+  const mutation = useMutation({
+    mutationFn: InsertReplyCommentData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkComment"],
+      });
+      setReplyComment("");
+      setActiveReplyBoxId("");
+    },
+    onError: () => {
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
 
-  const handleClickModifyButton = useCallback(() => {
-    setShowReplyMenu!(false);
-  }, []);
-
-  /** 댓글 - 삭제 */
+  /** 댓글 - 삭제 API */
   const deletReplyCommentmutation = useMutation({
     mutationFn: DeleteReplyCommentData,
     onSuccess: () => {
@@ -62,6 +66,18 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
       alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
     },
   });
+
+  // 대댓글 입력창 열기/닫기 핸들러
+  const handleToggleReplyBox = useCallback((commentId: string) => {
+    setActiveReplyBoxId((prev) =>
+      prev === commentData.commentId ? null : commentData.commentId
+    );
+  }, []);
+
+  const handleClickModifyButton = useCallback(() => {
+    setShowReplyMenu!(false);
+  }, []);
+
   const handleClickDeleteButton = () => {
     setShowReplyMenu!(false);
     if (postId && commentId) {
@@ -76,21 +92,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
     setShowReplyMenu!(false);
   }, []);
 
-  /** 댓글 - 답글 달기 */
   const handleClickInsertButton = () => {
-    const mutation = useMutation({
-      mutationFn: InsertReplyCommentData,
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["travelTalkComment"],
-        });
-        setReplyComment("");
-        setActiveReplyBoxId("");
-      },
-      onError: () => {
-        alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
-      },
-    });
     if (postId && commentId && replyComment) {
       mutation.mutate({
         postId: postId,
