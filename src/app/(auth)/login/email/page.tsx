@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import FormInput from "@/components/common/input/FormInput";
 import { fetchData } from "@/lib/axios";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserStore } from "@/store/zustand/useUserStore";
 
 interface FieldValue {
   email: string;
@@ -20,6 +21,7 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<FieldValue>();
+  const setUser = useUserStore((state) => state.setUser);
 
   const loginEvent = async (data: FieldValue) => {
     try {
@@ -30,6 +32,7 @@ export default function LoginPage() {
       console.log("로그인 응답:", response);
       if (response.data.accessToken) {
         setCookies(response.data.accessToken, response.data.refreshToken);
+        setUser(response.data.userRes);
         console.log("로그인 성공, 홈으로 이동 시도");
         router.push("/");
       } else {
