@@ -48,6 +48,9 @@ const TravelTalkListDetailPage = () => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkComment"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkDetailData"],
+      });
       setComment("");
     },
     onError: (error) => {

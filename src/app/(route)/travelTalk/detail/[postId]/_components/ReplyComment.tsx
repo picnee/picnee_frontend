@@ -46,6 +46,9 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkComment"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkDetailData"],
+      });
       setReplyComment("");
       setActiveReplyBoxId("");
     },
@@ -60,6 +63,9 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkComment"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkDetailData"],
       });
     },
     onError: () => {
