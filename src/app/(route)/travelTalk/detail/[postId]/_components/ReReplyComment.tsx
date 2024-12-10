@@ -1,9 +1,17 @@
 import Like from "@/components/common/Like";
 import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
-import { Dispatch, SetStateAction, memo, useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import ReplyMenu from "./ReplyMenu";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
+import { useUserStore } from "@/store/zustand/useUserStore";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { InsertReplyCommentData } from "../actions/InsertReplyCommentData";
+import { useParams } from "next/navigation";
 
 interface dataType {
   content: string;
@@ -17,16 +25,20 @@ interface dataType {
 
 interface PropsData {
   reReplyCommentData: dataType[]; // 대댓글 데이터
+  commentId: string;
 }
 
-const ReReplyComment = ({ reReplyCommentData }: PropsData) => {
-  // 내가 작성한 글 플래그
-  const isMyComment = true;
+const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
+  const queryClient = useQueryClient();
   // 현재 활성화된 메뉴와 대댓글 창을 관리하는 상태
-  const [showReReplydMenu, setShowReReplydMenu] = useState<boolean>(false);
+  const [showReReplydMenu, setShowReReplydMenu] = useState<string>("");
   const [activeReplyBoxId, setActiveReplyBoxId] = useState<string | null>(null);
   // 대댓글 내용 저장
   const [reReplyCommentValue, setReReplyCommentValue] = useState<string>("");
+  // 로그인한 유저 정보
+  const { user } = useUserStore();
+  // 게시글 고유 번호
+  const { postId }: any = useParams();
 
   // 대댓글 입력창 열기/닫기 핸들러
   const handleToggleReplyBox = useCallback((commentId: string) => {
@@ -34,16 +46,40 @@ const ReReplyComment = ({ reReplyCommentData }: PropsData) => {
   }, []);
 
   const handleClickModifyButton = useCallback(() => {
-    setShowReReplydMenu!(false);
+    setShowReReplydMenu!("");
   }, []);
 
   const handleClickDeleteButton = useCallback(() => {
-    setShowReReplydMenu!(false);
+    setShowReReplydMenu!("");
   }, []);
 
   const handleClickReportButton = useCallback(() => {
-    setShowReReplydMenu!(false);
+    setShowReReplydMenu!("");
   }, []);
+
+  /** 대댓글 - 답글 달기 */
+  const mutation = useMutation({
+    mutationFn: InsertReplyCommentData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkComment"],
+      });
+      setReReplyCommentValue("");
+      setActiveReplyBoxId("");
+    },
+    onError: () => {
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
+  const handleClickInsertButton = () => {
+    if (postId && commentId && reReplyCommentValue) {
+      mutation.mutate({
+        postId: postId,
+        commentId: commentId,
+        content: reReplyCommentValue,
+      });
+    }
+  };
 
   return (
     <>
@@ -52,7 +88,7 @@ const ReReplyComment = ({ reReplyCommentData }: PropsData) => {
           <div key={index}>
             <div
               className={`grid grid-cols-12 ${
-                isMyComment ? "bg-gray-50" : "bg-white"
+                item.userRes.userId === user?.userId ? "bg-gray-50" : "bg-white"
               } pl-[24px] pr-[24px]`}
             >
               <div className="col-span-1"></div>
@@ -64,7 +100,7 @@ const ReReplyComment = ({ reReplyCommentData }: PropsData) => {
                   <div className="col-span-10">
                     <p className="font-600 text-lg text-gray-900 mb-[5px]">
                       {item.userRes.nickName}
-                      {isMyComment && (
+                      {item.userRes.userId === user?.userId && (
                         <span className="ml-[8px] pl-[8px] pr-[8px] pt-[3px] pb-[3px] border border-green rounded-[50px] font-500 text-sm text-green">
                           작성자
                         </span>
@@ -85,14 +121,15 @@ const ReReplyComment = ({ reReplyCommentData }: PropsData) => {
                   <div className="col-span-1 flex justify-end">
                     <div
                       className="relative w-[17px] h-[6px] cursor-pointer"
-                      onClick={() => setShowReReplydMenu((prev) => !prev)}
+                      onClick={() => setShowReReplydMenu(item.createdAt)}
                     >
                       <div>
                         <Icon iconName="moreIcon" />
                       </div>
-                      {showReReplydMenu && (
+                      {showReReplydMenu === item.createdAt && (
                         <ReplyMenu
-                          isMyComment={isMyComment}
+                          isMyComment={item.userRes.userId === user?.userId}
+                          handleCloseMenu={() => setShowReReplydMenu("")}
                           handleClickModifyButton={handleClickModifyButton}
                           handleClickDeleteButton={handleClickDeleteButton}
                           handleClickReportButton={handleClickReportButton}
@@ -106,11 +143,13 @@ const ReReplyComment = ({ reReplyCommentData }: PropsData) => {
             {activeReplyBoxId === item.createdAt && (
               <div className="grid grid-cols-12">
                 <div className="col-span-1"></div>
-                <div className="col-span-11">
+                <div className="col-span-11 pr-[22px]">
                   <Textarea
+                    width="795px"
                     varient="default"
                     value={reReplyCommentValue}
                     setValue={setReReplyCommentValue}
+                    handleClickInsertButton={handleClickInsertButton}
                     handleClickCancelButton={() => setActiveReplyBoxId("")}
                     placeholder="댓글을 기입해 주세요."
                     backgroundColor="#F1F3F6"

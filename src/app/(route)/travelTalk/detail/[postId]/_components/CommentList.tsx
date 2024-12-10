@@ -31,7 +31,10 @@ const CommentList = ({ data }: PropsType) => {
         {/* 댓글 */}
         <ReplyComment commentData={item} commentId={item.commentId} />
         {/* 대댓글 */}
-        <ReReplyComment reReplyCommentData={item.replies} />
+        <ReReplyComment
+          reReplyCommentData={item.replies}
+          commentId={item.commentId}
+        />
       </div>
     ))
   );

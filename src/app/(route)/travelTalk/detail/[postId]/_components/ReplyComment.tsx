@@ -7,6 +7,7 @@ import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { InsertReplyCommentData } from "../actions/InsertReplyCommentData";
+import { useUserStore } from "@/store/zustand/useUserStore";
 
 interface commentDataType {
   commentData: {
@@ -34,6 +35,9 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
   const [replyComment, setReplyComment] = useState<string>("");
   // 게시글 고유 번호
   const { postId }: any = useParams();
+  // 로그인한 유저 정보
+  const { user } = useUserStore();
+  console.log(user);
 
   // 대댓글 입력창 열기/닫기 핸들러
   const handleToggleReplyBox = useCallback((commentId: string) => {
@@ -62,6 +66,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
         queryKey: ["travelTalkComment"],
       });
       setReplyComment("");
+      setActiveReplyBoxId("");
     },
     onError: () => {
       alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -76,12 +81,15 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
       });
     }
   };
+
   return (
     <>
       <div
         className={`grid grid-cols-12 pt-[24px] pl-[24px] pr-[24px] ${
-          isMyComment ? "bg-gray-50" : "bg-white"
-        }`}
+          user?.userId === commentData.userRes.userId
+            ? "bg-gray-50"
+            : "bg-white"
+        } last:rounded-sm`}
       >
         <div className="col-span-1">
           <div className="w-[45px] h-[45px] bg-gray-150 rounded-full"></div>
@@ -89,7 +97,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
         <div className="col-span-10">
           <p className="font-600 text-lg text-gray-900 mb-[5px]">
             {commentData.userRes.nickName}
-            {isMyComment && (
+            {user?.userId === commentData.userRes.userId && (
               <span className="ml-[8px] pl-[8px] pr-[8px] pt-[3px] pb-[3px] border border-green rounded-[50px] font-500 text-sm text-green">
                 작성자
               </span>
@@ -117,7 +125,8 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
             </div>
             {showReplyMenu && (
               <ReplyMenu
-                isMyComment={isMyComment}
+                isMyComment={user?.userId === commentData.userRes.userId}
+                handleCloseMenu={() => setShowReplyMenu(false)}
                 handleClickModifyButton={handleClickModifyButton}
                 handleClickDeleteButton={handleClickDeleteButton}
                 handleClickReportButton={handleClickReportButton}
@@ -129,7 +138,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
       {activeReplyBoxId === commentData.commentId && (
         <div className="grid grid-cols-12">
           <div className="col-span-1"></div>
-          <div className="col-span-11">
+          <div className="col-span-11 pr-[22px]">
             <Textarea
               varient="default"
               value={replyComment}
