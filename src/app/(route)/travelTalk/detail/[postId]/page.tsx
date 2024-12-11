@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideBarNav from "../../_components/SideBarNav";
 import TravelTalkHeader from "../../_components/TravelTalkHeader";
 import Sticker from "@/components/common/Sticker";
@@ -7,7 +7,7 @@ import Watch from "@/components/common/Watch";
 import RoundButton from "@/components/common/button/RoundButton";
 import Textarea from "@/components/common/input/Textarea";
 import CommentList from "./_components/CommentList";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   UseQueryResult,
   useMutation,
@@ -20,12 +20,21 @@ import {
 } from "@/api/travelTalk/query-options";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 import { InsertCommentData } from "./actions/InsertCommentData";
+import { useUserStore } from "@/store/zustand/useUserStore";
+import { DeletePostData } from "./actions/DeletePostData";
+import { URL } from "@/constants/url";
 
 const TravelTalkListDetailPage = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
   // 댓글 관련 상태
   const [comment, setComment] = useState<string>("");
   // 게시글 고유 번호
   const { postId }: any = useParams();
+  // 로그인한 유저 정보
+  const { user } = useUserStore();
+  // 내 게시글 확인 플래그
+  const [isMyPost, setIsMyPost] = useState<boolean>(false);
   // 상세 데이터 조회 API 호출
   const { data: getDetailPostData }: UseQueryResult<any> = useQuery(
     GetTravelTalkDetailPostOptions({
@@ -38,13 +47,17 @@ const TravelTalkListDetailPage = () => {
       postId: postId,
     })
   );
-  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (user && getDetailPostData) {
+      setIsMyPost(user?.userId === getDetailPostData.userRes.userId);
+    }
+  }, [user, getDetailPostData]);
 
   // 댓글 등록 API 호출
   const mutation = useMutation({
     mutationFn: InsertCommentData,
     onSuccess: () => {
-      // 성공 시 처리
       queryClient.invalidateQueries({
         queryKey: ["travelTalkComment"],
       });
@@ -54,7 +67,20 @@ const TravelTalkListDetailPage = () => {
       setComment("");
     },
     onError: (error) => {
-      // 실패 시 처리
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
+
+  // 게시글 삭제 API 호출
+  const deletePostMutation = useMutation({
+    mutationFn: DeletePostData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkList"],
+      });
+      router.push(URL.TRAVELTALK.BASE);
+    },
+    onError: (error) => {
       alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
     },
   });
@@ -62,6 +88,13 @@ const TravelTalkListDetailPage = () => {
   const onClickInsertButton = () => {
     if (comment && postId) {
       mutation.mutate({ postId: postId, content: comment });
+    }
+  };
+
+  const deletePost = () => {
+    console.log("게시글 삭제");
+    if (postId) {
+      deletePostMutation.mutate({ postId: postId });
     }
   };
 
@@ -115,7 +148,18 @@ const TravelTalkListDetailPage = () => {
               </div>
               <div className="col-span-1 flex gap-[10px] justify-end">
                 <RoundButton text="공유" hasIcon={true} />
-                <RoundButton text="신고" hasIcon={false} />
+                {isMyPost ? (
+                  <>
+                    <RoundButton text="수정" hasIcon={false} />
+                    <RoundButton
+                      text="삭제"
+                      hasIcon={false}
+                      onClick={deletePost}
+                    />
+                  </>
+                ) : (
+                  <RoundButton text="신고" hasIcon={false} />
+                )}
               </div>
             </div>
             <div className="ml-[24px] mr-[24px] mb-[20px] mt-[32px] border border-gray-100"></div>

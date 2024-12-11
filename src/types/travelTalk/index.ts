@@ -41,3 +41,7 @@ export interface DeleteReplyCommentParamsType {
   postId: string
   commentId: string
 }
+
+export interface DeletePostParamsType {
+  postId: string
+}

@@ -1,5 +1,5 @@
 import { Method } from "./types";
-import {  CreateTravelTalkParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
+import {  CreateTravelTalkParamsType, DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
   url: string;
   method: Method;
@@ -7,7 +7,6 @@ export type ApiEndpoint = {
 };
 
 export const API_ENDPOINT = {
-  
   travelTalk: {
     // 여행토크 리스트 조회
     getTravelTalkList: (requestParams: TravelTalkRequestParamsType) => {
@@ -22,6 +21,14 @@ export const API_ENDPOINT = {
       return {
         url: `posts`,
         method: Method.POST,
+        authorization: true,
+      }
+    },
+    // 여행토크 게시글 삭제
+    DeletePost: (requestParams:DeletePostParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}`,
+        method: Method.DELETE,
         authorization: true,
       }
     },
