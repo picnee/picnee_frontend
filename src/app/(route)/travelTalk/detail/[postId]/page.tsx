@@ -23,6 +23,7 @@ import { InsertCommentData } from "./actions/InsertCommentData";
 import { useUserStore } from "@/store/zustand/useUserStore";
 import { DeletePostData } from "./actions/DeletePostData";
 import { URL } from "@/constants/url";
+import { useTravelTalkPostDetailDataStore } from "@/store/zustand/useTravelTalkStore";
 
 const TravelTalkListDetailPage = () => {
   const queryClient = useQueryClient();
@@ -35,18 +36,33 @@ const TravelTalkListDetailPage = () => {
   const { user } = useUserStore();
   // 내 게시글 확인 플래그
   const [isMyPost, setIsMyPost] = useState<boolean>(false);
+  // 수정버튼 클릭 플래그
+  const [isClickUpdateButton, setIsClickUpdateButton] =
+    useState<boolean>(false);
+
   // 상세 데이터 조회 API 호출
   const { data: getDetailPostData }: UseQueryResult<any> = useQuery(
     GetTravelTalkDetailPostOptions({
       postId: postId,
     })
   );
+
   // 댓글 조회 API 호출
   const { data: getCommentData }: UseQueryResult<any> = useQuery(
     GetTravelTalkCommentOptions({
       postId: postId,
     })
   );
+
+  // 게시글 상세 데이터 전역 상태관리에 저장
+  const { setSelectedPostData } = useTravelTalkPostDetailDataStore();
+  useEffect(() => {
+    if (getDetailPostData && isClickUpdateButton) {
+      setSelectedPostData(getDetailPostData);
+    } else {
+      setSelectedPostData({});
+    }
+  }, [getDetailPostData, isClickUpdateButton]);
 
   useEffect(() => {
     if (user && getDetailPostData) {
@@ -92,10 +108,14 @@ const TravelTalkListDetailPage = () => {
   };
 
   const deletePost = () => {
-    console.log("게시글 삭제");
     if (postId) {
       deletePostMutation.mutate({ postId: postId });
     }
+  };
+
+  const updatePost = () => {
+    setIsClickUpdateButton(true);
+    router.push(URL.TRAVELTALK.WRITE);
   };
 
   return (
@@ -150,7 +170,11 @@ const TravelTalkListDetailPage = () => {
                 <RoundButton text="공유" hasIcon={true} />
                 {isMyPost ? (
                   <>
-                    <RoundButton text="수정" hasIcon={false} />
+                    <RoundButton
+                      text="수정"
+                      hasIcon={false}
+                      onClick={updatePost}
+                    />
                     <RoundButton
                       text="삭제"
                       hasIcon={false}

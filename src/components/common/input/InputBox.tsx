@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, memo, useCallback } from "react";
+import { Dispatch, SetStateAction, memo } from "react";
 
 interface InputBoxProps {
   type: string;
@@ -43,6 +43,7 @@ const InputBox = ({
         onChange={handleChangeValue}
         maxLength={maxLength}
         style={{ width, height }}
+        defaultValue={value}
       />
       {showTextLength && (
         <div className="absolute right-[24px] bottom-[18px] text-2xl text-gray-400">

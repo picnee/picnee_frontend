@@ -9,6 +9,11 @@ interface CategoryMenuState {
   selectCategoryStates: string;
   setSelectCategoryState: (value: string) => void;
 }
+
+interface PostDetailDataState {
+  selectedPostData:Record<string, any>; 
+  setSelectedPostData: (value: Record<string, any>) => void;
+}
  
 /** 여행토크 셀렉박스 전역상태관리 */
 export const useTravelTalkStore = create<MenuState>((set) => ({
@@ -33,3 +38,10 @@ export const useTravelTalkCategoryStore = create<CategoryMenuState>((set) => ({
     })),
 }));
  
+/** 게시글 상세 데이터 저장 */
+export const useTravelTalkPostDetailDataStore = create<PostDetailDataState>((set) => ({
+  selectedPostData: {},
+  setSelectedPostData: (value) => set(() => ({
+    selectedPostData: value
+  }))
+}))

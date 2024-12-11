@@ -6,7 +6,6 @@ export interface BackendApiParams {
     endpoint: ApiEndpoint;
     data?: Record<string, unknown>;
     params?: any;
-    accessToken?: string;
   }
   
 
@@ -14,9 +13,8 @@ export const backendApi = async <T>({
     endpoint,
     data,
     params,
-    accessToken,
   }: BackendApiParams) => {
-    const { url, method, authorization } = endpoint;
+    const { url, method } = endpoint;
 
     const res = (await axiosInstance({
       url,

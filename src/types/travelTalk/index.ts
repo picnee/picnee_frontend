@@ -36,6 +36,13 @@ export interface InsertPostParamsType {
   region: string,
   boardCategory: string,
 }
+export interface UpdatePostParamsType {
+  postId: string
+  title: string
+  content: string,
+  region: string,
+  boardCategory: string,
+}
 
 export interface DeleteReplyCommentParamsType {
   postId: string
