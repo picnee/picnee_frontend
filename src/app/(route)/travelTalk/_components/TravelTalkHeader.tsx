@@ -17,6 +17,8 @@ interface PropsType {
   setSelectedFilter?: Dispatch<SetStateAction<string>>;
   isActiveButton?: boolean;
   onClick?: () => void;
+  hasEditableData?: boolean;
+  onClickModifyButton?: () => void;
 }
 
 const TravelTalkHeader = ({
@@ -25,6 +27,8 @@ const TravelTalkHeader = ({
   setSelectedFilter,
   isActiveButton,
   onClick,
+  hasEditableData,
+  onClickModifyButton,
 }: PropsType) => {
   const navigator = useRouter();
   const pathname = usePathname();
@@ -39,16 +43,20 @@ const TravelTalkHeader = ({
   }, []);
 
   useEffect(() => {
-    if (pathname === URL.TRAVELTALK.WRITE) {
+    if (pathname === URL.TRAVELTALK.WRITE && !hasEditableData) {
       setButtonText("등록하기");
+    } else if (hasEditableData) {
+      setButtonText("수정하기");
     } else {
       setButtonText("글쓰기");
     }
-  }, [pathname]);
+  }, [pathname, hasEditableData]);
 
   const onClickButton = () => {
     if (buttonText === "글쓰기") {
       navigator.push(URL.TRAVELTALK.WRITE);
+    } else if (buttonText === "수정하기") {
+      if (onClickModifyButton) return onClickModifyButton();
     } else {
       // 등록하기
       if (onClick) return onClick();

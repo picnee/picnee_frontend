@@ -1,9 +1,8 @@
 import { Method } from "./types";
-import {  CreateTravelTalkParamsType, DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
+import {  DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType, UpdatePostParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
   url: string;
   method: Method;
-  authorization: boolean;
 };
 
 export const API_ENDPOINT = {
@@ -13,7 +12,6 @@ export const API_ENDPOINT = {
       return {
         url: `posts?boardCategory=${requestParams.boardCategory}&region=${requestParams.region}&page=${requestParams.page}`,
         method: Method.GET,
-        authorization: true,
       }
     },
     // 여행토크 게시글 등록
@@ -21,15 +19,21 @@ export const API_ENDPOINT = {
       return {
         url: `posts`,
         method: Method.POST,
-        authorization: true,
       }
     },
+     // 여행토크 게시글 수정
+     UpdatePost: (requestParams: UpdatePostParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}`,
+        method: Method.PATCH,
+      }
+    },
+    
     // 여행토크 게시글 삭제
     DeletePost: (requestParams:DeletePostParamsType) => {
       return {
         url: `posts/${requestParams.postId}`,
         method: Method.DELETE,
-        authorization: true,
       }
     },
     // 여행토크 싱세 데이터 조회
@@ -37,7 +41,6 @@ export const API_ENDPOINT = {
       return {
         url: `posts/${requestParams.postId}`,
         method: Method.GET,
-        authorization: true,
       }
     },
     // 여행토크 댓글 조회
@@ -45,7 +48,6 @@ export const API_ENDPOINT = {
       return {
         url: `posts/${requestParams.postId}/comments`,
         method: Method.GET,
-        authorization: true,
       }
     },
     // 여행토크 댓글 등록
@@ -53,7 +55,6 @@ export const API_ENDPOINT = {
       return {
         url: `posts/${requestParams.postId}/comments`,
         method: Method.POST,
-        authorization: true,
       }
     },
     // 여행토크 댓글/대댓글 - 답글 달기 등록
@@ -61,7 +62,6 @@ export const API_ENDPOINT = {
       return {
         url: `posts/${requestParams.postId}/comments/${requestParams.commentId}`,
         method: Method.POST,
-        authorization: true,
       }
     },
     // 여행토크 댓글 삭제
@@ -69,7 +69,6 @@ export const API_ENDPOINT = {
       return {
         url: `posts/${requestParams.postId}/comments/${requestParams.commentId}`,
         method: Method.DELETE,
-        authorization: true,
       }
     },
   },

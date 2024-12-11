@@ -4,42 +4,60 @@ import TravelTalkHeader from "../_components/TravelTalkHeader";
 import { useEffect, useState } from "react";
 import InputBox from "@/components/common/input/InputBox";
 import Textarea from "@/components/common/input/Textarea";
-import { useTravelTalkStore } from "@/store/zustand/useTravelTalkStore";
 import {
-  UseQueryResult,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+  useTravelTalkPostDetailDataStore,
+  useTravelTalkStore,
+} from "@/store/zustand/useTravelTalkStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InsertPostData } from "./actions/InsertPostData";
 import { useRouter } from "next/navigation";
 import { URL } from "@/constants/url";
+import { UpdatePostData } from "./actions/UpdatePostData";
 
 const cityOption = [
   { key: 1, value: "도쿄" },
   { key: 2, value: "오사카" },
   { key: 3, value: "교토" },
-  { key: 4, value: "후쿠오카" },
-  { key: 5, value: "후카이도" },
+  { key: 4, value: "고베" },
+  { key: 5, value: "후쿠오카" },
+  { key: 6, value: "삿포로" },
 ];
 
 const categoryOption = [
-  { key: 1, value: "날씨" },
-  { key: 2, value: "숙소" },
-  { key: 3, value: "맛집" },
-  { key: 4, value: "교통" },
+  { key: 1, value: "음식점" },
+  { key: 2, value: "숙박" },
   { key: 5, value: "관광지" },
-  { key: 6, value: "자유토크" },
+  { key: 6, value: "자유 토크" },
+  { key: 3, value: "날씨" },
+  { key: 4, value: "교통" },
 ];
 
 const TravelTalkWrite = () => {
+  // 게시글 수정으로 들어온 경우 게시글 상세 데이터 조회
+  const { selectedPostData } = useTravelTalkPostDetailDataStore();
+  const hasEditableData =
+    Object.keys(selectedPostData).length > 0 ? true : false;
   const [isActiveButton, setIsActiveButton] = useState<boolean>(false);
-  const [titleValue, setTitleValue] = useState<string>("");
-  const [contentValue, setContentValue] = useState<string>("");
+  const [titleValue, setTitleValue] = useState<string>(
+    hasEditableData ? selectedPostData.title : ""
+  );
+  const [contentValue, setContentValue] = useState<string>(
+    hasEditableData ? selectedPostData.content : ""
+  );
   const [isFocused, setIsFocused] = useState<boolean>(false); // 포커스 상태 관리
-  const { selectBoxStates } = useTravelTalkStore();
+  const { selectBoxStates, setSelectBoxState } = useTravelTalkStore();
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  useEffect(() => {
+    if (hasEditableData) {
+      setSelectBoxState("writeRegion", selectedPostData.boardRes.region);
+      setSelectBoxState(
+        "writeCategory",
+        selectedPostData.boardRes.boardCategory
+      );
+    }
+  }, []);
 
   useEffect(() => {
     if (
@@ -54,7 +72,7 @@ const TravelTalkWrite = () => {
     }
   }, [selectBoxStates, titleValue, contentValue]);
 
-  // 게시글 등록 API 호출
+  /** 게시글 등록 API 호출 */
   const mutation = useMutation({
     mutationFn: InsertPostData,
     onSuccess: () => {
@@ -76,6 +94,31 @@ const TravelTalkWrite = () => {
     });
   };
 
+  /** 게시글 수정 */
+  const updatePostMutation = useMutation({
+    mutationFn: UpdatePostData,
+    onSuccess: () => {
+      router.push(`${URL.TRAVELTALK.DETAIL}/${selectedPostData.postId}`);
+      setSelectBoxState("writeRegion", "");
+      setSelectBoxState("writeCategory", "");
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkDetailData"],
+      });
+    },
+    onError: (error) => {
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
+  const onClickModifyButton = () => {
+    updatePostMutation.mutate({
+      postId: selectedPostData.postId,
+      title: titleValue,
+      content: contentValue,
+      region: selectBoxStates["writeRegion"],
+      boardCategory: selectBoxStates["writeCategory"],
+    });
+  };
+
   return (
     <div className="pt-[72px]">
       <div className="w-[1200px] pt-[35px] fixed bg-white z-[999]">
@@ -83,6 +126,8 @@ const TravelTalkWrite = () => {
           hasFilter={false}
           isActiveButton={isActiveButton}
           onClick={registerPost}
+          onClickModifyButton={onClickModifyButton}
+          hasEditableData={hasEditableData}
         />
       </div>
       <div className="grid grid-cols-6 gap-[24px] pt-[120px]">
