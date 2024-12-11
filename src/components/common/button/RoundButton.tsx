@@ -3,19 +3,25 @@ import { memo } from "react";
 interface PropsType {
   text: string;
   hasIcon: boolean;
+  onClick?: () => void;
 }
 
-const RoundButton = ({ text, hasIcon }: PropsType) => {
+const RoundButton = ({ text, hasIcon, onClick }: PropsType) => {
+  const onClickButton = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
   return (
-    <button className="h-[40px] text-gray-500 border border-gray-150 rounded-[50px] pt-[4px] pl-[16px] pb-[4px] pr-[16px]">
+    <button className="h-[40px] flex items-center text-gray-500 border border-gray-150 rounded-[50px] pt-[4px] pl-[16px] pb-[4px] pr-[16px]">
       {hasIcon && (
         <span
-          className={`w-[24px] h-[24px] mr-[4px] inline-block ${
-            hasIcon && "mt-[3px]"
-          } bg-gray-150`}
+          className={`w-[24px] h-[24px] mr-[4px] inline-block bg-gray-150`}
         ></span>
       )}
-      <span className={`${hasIcon && "relative top-[-6px]"}`}>{text}</span>
+      <p className={`whitespace-nowrap`} onClick={onClickButton}>
+        {text}
+      </p>
     </button>
   );
 };

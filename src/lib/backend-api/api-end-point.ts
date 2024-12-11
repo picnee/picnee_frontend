@@ -1,5 +1,5 @@
 import { Method } from "./types";
-import {  CreateTravelTalkParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
+import {  CreateTravelTalkParamsType, DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
   url: string;
   method: Method;
@@ -7,7 +7,6 @@ export type ApiEndpoint = {
 };
 
 export const API_ENDPOINT = {
-  
   travelTalk: {
     // 여행토크 리스트 조회
     getTravelTalkList: (requestParams: TravelTalkRequestParamsType) => {
@@ -22,6 +21,14 @@ export const API_ENDPOINT = {
       return {
         url: `posts`,
         method: Method.POST,
+        authorization: true,
+      }
+    },
+    // 여행토크 게시글 삭제
+    DeletePost: (requestParams:DeletePostParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}`,
+        method: Method.DELETE,
         authorization: true,
       }
     },
@@ -49,7 +56,7 @@ export const API_ENDPOINT = {
         authorization: true,
       }
     },
-    // 여행토크 댓글 - 답글 달기 등록
+    // 여행토크 댓글/대댓글 - 답글 달기 등록
     InsertReplyComment: (requestParams: InsertReplyCommentParamsType) => {
       return {
         url: `posts/${requestParams.postId}/comments/${requestParams.commentId}`,
@@ -57,6 +64,13 @@ export const API_ENDPOINT = {
         authorization: true,
       }
     },
-    
+    // 여행토크 댓글 삭제
+    DeleteReplyComment: (requestParams: DeleteReplyCommentParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}/comments/${requestParams.commentId}`,
+        method: Method.DELETE,
+        authorization: true,
+      }
+    },
   },
 } as const;
