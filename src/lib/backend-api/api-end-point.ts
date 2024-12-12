@@ -1,5 +1,5 @@
 import { Method } from "./types";
-import {  DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType, UpdatePostParamsType } from "@/types/travelTalk";
+import {  DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType, UpdatePostParamsType, UpdateReplyCommentParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
   url: string;
   method: Method;
@@ -69,6 +69,13 @@ export const API_ENDPOINT = {
       return {
         url: `posts/${requestParams.postId}/comments/${requestParams.commentId}`,
         method: Method.DELETE,
+      }
+    },
+    // 여행토크 댓글 수정
+    UpdateReplyComment: (requestParams: UpdateReplyCommentParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}/comments/${requestParams.commentId}`,
+        method: Method.PATCH,
       }
     },
   },
