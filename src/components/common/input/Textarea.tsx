@@ -86,7 +86,7 @@ const Textarea = ({
             ? "border-gray-150 focus:border-black"
             : "border-red focus:border-red"
         } rounded-sm p-[24px] ${
-          isShowPressInput && "pb-[24px]" // 입력이 있을 때, padding-bottom을 유지하도록 수정
+          isShowPressInput && "pb-[24px]"
         } focus:outline-none`}
         placeholder={placeholder}
         value={value}
@@ -101,13 +101,10 @@ const Textarea = ({
         }}
       />
       {infoText && (
-        <div className="mt-2 text-sm text-gray-500 flex justify-between">
-          <div>{infoText}</div>
+        <div className="mt-[-45px] mb-[45px] pr-[24px] text-sm text-gray-500 flex justify-end items-center w-full">
           {isShowCancelInput && (
             <p
-              className={`text-sm text-gray-300 font-600 relative top-[-59px] ${
-                isShowUpdateInput ? "left-[320px]" : "left-[330px]"
-              } cursor-pointer`}
+              className={`text-sm text-gray-300 font-600 cursor-pointer ml-4`}
               onClick={() => {
                 if (handleClickCancelButton) handleClickCancelButton();
               }}
@@ -119,9 +116,9 @@ const Textarea = ({
             <p
               className={`text-sm ${
                 value.length > 0 ? "text-black" : "text-gray-300"
-              } font-600 relative top-[-59px] right-[24px] ${
+              } font-600 ${
                 value.length > 0 ? "cursor-pointer" : "cursor-default"
-              } `}
+              } ml-4`}
               onClick={onClickInsertButton}
             >
               등록
@@ -131,14 +128,15 @@ const Textarea = ({
             <p
               className={`text-sm ${
                 value.length > 0 ? "text-black" : "text-gray-300"
-              } font-600 relative top-[-59px] right-[24px] ${
+              } font-600 ${
                 value.length > 0 ? "cursor-pointer" : "cursor-default"
-              } `}
+              } ml-4`}
               onClick={onClickUpdateButton}
             >
               수정
             </p>
           )}
+          {infoText}
         </div>
       )}
     </div>
