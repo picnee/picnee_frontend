@@ -25,8 +25,10 @@ interface PropsType {
   maxHeight?: string; // 최대 높이 추가
   isShowCancelInput?: boolean;
   isShowPressInput?: boolean;
+  isShowUpdateInput?: boolean;
   handleClickInsertButton?: () => void;
   handleClickCancelButton?: () => void;
+  handleClickUpdateButton?: () => void;
 }
 
 const Textarea = ({
@@ -44,8 +46,10 @@ const Textarea = ({
   paddingTop = "24px",
   isShowCancelInput = false,
   isShowPressInput = false,
+  isShowUpdateInput = false,
   handleClickInsertButton,
   handleClickCancelButton,
+  handleClickUpdateButton,
 }: PropsType) => {
   useEffect(() => {
     const textarea = document.getElementById(
@@ -64,6 +68,12 @@ const Textarea = ({
   const onClickInsertButton = () => {
     if (handleClickInsertButton) {
       handleClickInsertButton();
+    }
+  };
+
+  const onClickUpdateButton = () => {
+    if (handleClickUpdateButton) {
+      handleClickUpdateButton();
     }
   };
 
@@ -95,7 +105,9 @@ const Textarea = ({
           <div>{infoText}</div>
           {isShowCancelInput && (
             <p
-              className={`text-sm text-gray-300 font-600 relative top-[-59px] left-[340px] cursor-pointer`}
+              className={`text-sm text-gray-300 font-600 relative top-[-59px] ${
+                isShowUpdateInput ? "left-[320px]" : "left-[330px]"
+              } cursor-pointer`}
               onClick={() => {
                 if (handleClickCancelButton) handleClickCancelButton();
               }}
@@ -113,6 +125,18 @@ const Textarea = ({
               onClick={onClickInsertButton}
             >
               등록
+            </p>
+          )}
+          {isShowUpdateInput && (
+            <p
+              className={`text-sm ${
+                value.length > 0 ? "text-black" : "text-gray-300"
+              } font-600 relative top-[-59px] right-[24px] ${
+                value.length > 0 ? "cursor-pointer" : "cursor-default"
+              } `}
+              onClick={onClickUpdateButton}
+            >
+              수정
             </p>
           )}
         </div>
