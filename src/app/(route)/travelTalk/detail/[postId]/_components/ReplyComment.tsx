@@ -133,7 +133,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
         commentId: commentId,
       });
     }
-  }, []);
+  }, [postId, commentId]);
 
   const handleClickInsertButton = useCallback(() => {
     if (postId && commentId && replyComment) {
@@ -143,7 +143,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
         content: replyComment,
       });
     }
-  }, []);
+  }, [postId, commentId, replyComment]);
 
   const handleClickUpdateButton = useCallback(() => {
     if (postId && commentId && updateComment) {
@@ -153,7 +153,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
         content: updateComment,
       });
     }
-  }, []);
+  }, [postId, commentId, updateComment]);
 
   const onClickLike = useCallback(() => {
     if (postId && commentId) {
@@ -162,7 +162,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
         commentId: commentId,
       });
     }
-  }, []);
+  }, [postId, commentId]);
 
   return (
     <>
