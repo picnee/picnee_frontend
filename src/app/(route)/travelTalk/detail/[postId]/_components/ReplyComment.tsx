@@ -10,6 +10,7 @@ import { InsertReplyCommentData } from "../actions/InsertReplyCommentData";
 import { useUserStore } from "@/store/zustand/useUserStore";
 import { DeleteReplyCommentData } from "../actions/DeleteReplyCommentData";
 import { UpdateReplyCommentData } from "../actions/UpdateReplyCommentData";
+import { LikeCommentData } from "../actions/LikeCommentData";
 
 interface commentDataType {
   commentData: {
@@ -64,7 +65,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
   });
 
   /** 댓글 - 삭제 API */
-  const deleteReplyCommentmutation = useMutation({
+  const deleteReplyCommentMutation = useMutation({
     mutationFn: DeleteReplyCommentData,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -81,7 +82,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
   });
 
   /** 댓글 - 수정 API */
-  const updateReplyCommentmutation = useMutation({
+  const updateReplyCommentMutation = useMutation({
     mutationFn: UpdateReplyCommentData,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -89,6 +90,19 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
       });
       setIsOpenUpdateReplyBox(false);
       setShowReplyMenu(false);
+    },
+    onError: (error) => {
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
+
+  /** 댓글 - 좋아요 API */
+  const likeCommentMutaion = useMutation({
+    mutationFn: LikeCommentData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkComment"],
+      });
     },
     onError: (error) => {
       alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -107,21 +121,21 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
     setIsOpenUpdateReplyBox(true);
   }, []);
 
-  const handleClickDeleteButton = () => {
-    setShowReplyMenu!(false);
-    if (postId && commentId) {
-      deleteReplyCommentmutation.mutate({
-        postId: postId,
-        commentId: commentId,
-      });
-    }
-  };
-
   const handleClickReportButton = useCallback(() => {
     setShowReplyMenu!(false);
   }, []);
 
-  const handleClickInsertButton = () => {
+  const handleClickDeleteButton = useCallback(() => {
+    setShowReplyMenu!(false);
+    if (postId && commentId) {
+      deleteReplyCommentMutation.mutate({
+        postId: postId,
+        commentId: commentId,
+      });
+    }
+  }, []);
+
+  const handleClickInsertButton = useCallback(() => {
     if (postId && commentId && replyComment) {
       mutation.mutate({
         postId: postId,
@@ -129,17 +143,26 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
         content: replyComment,
       });
     }
-  };
+  }, []);
 
-  const handleClickUpdateButton = () => {
+  const handleClickUpdateButton = useCallback(() => {
     if (postId && commentId && updateComment) {
-      updateReplyCommentmutation.mutate({
+      updateReplyCommentMutation.mutate({
         postId: postId,
         commentId: commentId,
         content: updateComment,
       });
     }
-  };
+  }, []);
+
+  const onClickLike = useCallback(() => {
+    if (postId && commentId) {
+      likeCommentMutaion.mutate({
+        postId: postId,
+        commentId: commentId,
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -166,7 +189,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
             <p className="font-400 text-lg mb-[6px]">{commentData.content}</p>
             <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
               <p>{useFormatTimeAgo(commentData.createdAt)}</p>
-              <Like likeNum={commentData.likes} />
+              <Like likeNum={commentData.likes} onClick={onClickLike} />
               <p
                 className="cursor-pointer"
                 onClick={() => handleToggleReplyBox(commentData.commentId)}

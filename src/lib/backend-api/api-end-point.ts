@@ -1,5 +1,5 @@
 import { Method } from "./types";
-import {  DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType, UpdatePostParamsType, UpdateReplyCommentParamsType } from "@/types/travelTalk";
+import {  DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, LikeCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType, UpdatePostParamsType, UpdateReplyCommentParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
   url: string;
   method: Method;
@@ -76,6 +76,13 @@ export const API_ENDPOINT = {
       return {
         url: `posts/${requestParams.postId}/comments/${requestParams.commentId}`,
         method: Method.PATCH,
+      }
+    },
+     // 여행토크 댓글 좋아요
+     LikeComment: (requestParams: LikeCommentParamsType) => {
+      return {
+        url: `posts/${requestParams.postId}/comments/${requestParams.commentId}/like`,
+        method: Method.POST,
       }
     },
   },

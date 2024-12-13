@@ -58,3 +58,8 @@ export interface UpdateReplyCommentParamsType {
   commentId: string
   content: string
 }
+
+export interface LikeCommentParamsType {
+  postId: string
+  commentId: string
+}
