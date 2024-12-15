@@ -56,6 +56,10 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkDetailData"],
       });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
+      });
       setReplyComment("");
       setActiveReplyBoxId("");
     },
@@ -74,6 +78,10 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkDetailData"],
       });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
+      });
       setShowReplyMenu(false);
     },
     onError: () => {
@@ -87,6 +95,10 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkComment"],
+      });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
       });
       setIsOpenUpdateReplyBox(false);
       setShowReplyMenu(false);

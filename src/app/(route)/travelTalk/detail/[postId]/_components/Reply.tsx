@@ -55,6 +55,10 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkDetailData"],
       });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
+      });
       setReReplyCommentValue("");
       setActiveReplyBoxId("");
     },
@@ -73,6 +77,10 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkDetailData"],
       });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
+      });
     },
     onError: () => {
       alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -85,6 +93,10 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkComment"],
+      });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
       });
       setIsOpenUpdateReReplyBox("");
       setShowReReplyMenu("");

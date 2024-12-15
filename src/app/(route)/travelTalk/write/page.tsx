@@ -85,10 +85,6 @@ const TravelTalkWrite = () => {
       queryClient.invalidateQueries({
         queryKey: ["myTravelTalkPostsData"],
       });
-      // 내가 쓴 댓글 업데이트
-      queryClient.invalidateQueries({
-        queryKey: ["myTravelTalkCommentData"],
-      });
     },
     onError: (error) => {
       alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -118,13 +114,9 @@ const TravelTalkWrite = () => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkList"],
       });
-      // 내 게시글 데이터 업데이트
+      // 내가 쓴 게시글 업데이트
       queryClient.invalidateQueries({
-        queryKey: ["mytravelTalkPostsData"],
-      });
-      // 내가 쓴 댓글 업데이트
-      queryClient.invalidateQueries({
-        queryKey: ["myTravelTalkCommentData"],
+        queryKey: ["myTravelTalkPostsData"],
       });
     },
     onError: (error) => {
