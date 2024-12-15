@@ -193,6 +193,7 @@ const TravelTalkListDetailPage = () => {
             </div>
             <div className="mb-[0px] pl-[24px] pr-[24px]">
               <Textarea
+                id="top-comment"
                 varient="default"
                 value={comment}
                 setValue={setComment}

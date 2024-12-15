@@ -179,6 +179,7 @@ const TravelTalkWrite = () => {
           </div>
           <div className="">
             <Textarea
+              id="write-comment"
               value={contentValue}
               setValue={setContentValue}
               varient="default"

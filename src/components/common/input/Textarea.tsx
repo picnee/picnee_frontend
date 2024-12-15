@@ -2,13 +2,12 @@ import {
   Dispatch,
   FocusEventHandler,
   SetStateAction,
-  useState,
   useEffect,
   memo,
-  useCallback,
 } from "react";
 
 interface PropsType {
+  id: string; // 특정 textarea 자동 높이 조정을 위한 고유 ID
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
   setReply?: Dispatch<SetStateAction<boolean>>;
@@ -32,6 +31,7 @@ interface PropsType {
 }
 
 const Textarea = ({
+  id,
   value,
   setValue,
   setReply,
@@ -52,17 +52,15 @@ const Textarea = ({
   handleClickUpdateButton,
 }: PropsType) => {
   useEffect(() => {
-    const textarea = document.getElementById(
-      "dynamic-textarea"
-    ) as HTMLTextAreaElement;
+    const textarea = document.getElementById(id) as HTMLTextAreaElement;
     if (textarea) {
       textarea.style.height = `${height ? `${height}px` : "auto"}`; // 자동 높이 조정을 위해 우선 높이를 초기화
       textarea.style.height = `${textarea.scrollHeight}px`; // 내용에 맞춰 높이를 설정
     }
-  }, [value]);
+  }, [value, id]);
 
   const handleTextareaValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (setValue) setValue(e.target.value);
+    setValue(e.target.value);
   };
 
   const onClickInsertButton = () => {
@@ -80,7 +78,7 @@ const Textarea = ({
   return (
     <div className="relative">
       <textarea
-        id="dynamic-textarea"
+        id={id}
         className={`border ${
           varient === "default"
             ? "border-gray-150 focus:border-black"

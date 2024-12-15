@@ -202,6 +202,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
           // 수정 버튼 클릭 시 보이는 댓글 창
           <div className="col-span-11">
             <Textarea
+              id="update-comment"
               varient="default"
               value={updateComment}
               setValue={setUpdateComment}
@@ -254,6 +255,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
           <div className="col-span-1"></div>
           <div className="col-span-11 pr-[22px]">
             <Textarea
+              id="comment"
               varient="default"
               value={replyComment}
               setValue={setReplyComment}

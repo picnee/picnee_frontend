@@ -244,6 +244,7 @@ const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
                     isOpenUpdateReReplyBox === item.commentId && (
                       <div className="col-span-11">
                         <Textarea
+                          id="update-reply"
                           width="708px"
                           varient="default"
                           value={updateComment}
@@ -281,6 +282,7 @@ const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
                 <div className="col-span-1"></div>
                 <div className="col-span-11 pr-[22px]">
                   <Textarea
+                    id="reply"
                     width="795px"
                     varient="default"
                     value={reReplyCommentValue}
