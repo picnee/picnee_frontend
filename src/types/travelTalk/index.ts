@@ -7,6 +7,12 @@ export interface TravelTalkRequestParamsType {
 
 export interface MyPostsParamsType {
   boardCategory: string;
+  page: number;
+}
+
+export interface MyCommentParamsType {
+  boardCategory: string;
+  page: number;
 }
 
 export interface MyPostDataType {

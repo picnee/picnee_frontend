@@ -1,5 +1,5 @@
 import { Method } from "./types";
-import {  DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, LikeCommentParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType, UpdatePostParamsType, UpdateReplyCommentParamsType } from "@/types/travelTalk";
+import {  DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, LikeCommentParamsType, MyPostDataType, MyPostsParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType, UpdatePostParamsType, UpdateReplyCommentParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
   url: string;
   method: Method;
@@ -15,16 +15,17 @@ export const API_ENDPOINT = {
       }
     },
     // 여행토크 내가 쓴 글 데이터 조회
-    getMyPostsData: () => {
+    getMyPostsData: (requestParams: MyPostsParamsType) => {
       return {
-        url: `posts/my-posts`,
+        url: `posts/my-posts?page=${requestParams.page}`,
         method: Method.GET,
       }
     },
     // 여행토크 내가 쓴 댓글 데이터 조회
-    getMyCommentsData: () => {
+    getMyCommentsData: (requestParams: MyPostsParamsType) => {
+      console.log('ssss',requestParams.page)
       return {
-        url: `posts/my-comments`,
+        url: `posts/my-comments?page=${requestParams.page}`,
         method: Method.GET,
       }
     },
