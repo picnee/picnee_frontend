@@ -28,7 +28,7 @@ interface PropsData {
   commentId: string;
 }
 
-const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
+const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
   const queryClient = useQueryClient();
   // 로그인한 유저 정보
   const { user } = useUserStore();
@@ -310,4 +310,4 @@ const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
   );
 };
 
-export default memo(ReReplyComment);
+export default memo(Reply);

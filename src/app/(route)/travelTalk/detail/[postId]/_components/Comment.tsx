@@ -27,7 +27,7 @@ interface commentDataType {
   commentId: string;
 }
 
-const ReplyComment = ({ commentData, commentId }: commentDataType) => {
+const Comment = ({ commentData, commentId }: commentDataType) => {
   const queryClient = useQueryClient();
   // 게시글 고유 번호
   const { postId }: any = useParams();
@@ -281,4 +281,4 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
   );
 };
 
-export default memo(ReplyComment);
+export default memo(Comment);
