@@ -1,6 +1,6 @@
 import { memo } from "react";
-import ReplyComment from "./ReplyComment";
-import ReReplyComment from "./ReReplyComment";
+import Comment from "./Comment";
+import Reply from "./Reply";
 
 interface dataType {
   commentId: string;
@@ -29,12 +29,9 @@ const CommentList = ({ data }: PropsType) => {
         key={index}
       >
         {/* 댓글 */}
-        <ReplyComment commentData={item} commentId={item.commentId} />
+        <Comment commentData={item} commentId={item.commentId} />
         {/* 대댓글 */}
-        <ReReplyComment
-          reReplyCommentData={item.replies}
-          commentId={item.commentId}
-        />
+        <Reply reReplyCommentData={item.replies} commentId={item.commentId} />
       </div>
     ))
   );

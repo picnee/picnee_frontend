@@ -10,6 +10,7 @@ import { InsertReplyCommentData } from "../actions/InsertReplyCommentData";
 import { useParams } from "next/navigation";
 import { DeleteReplyCommentData } from "../actions/DeleteReplyCommentData";
 import { UpdateReplyCommentData } from "../actions/UpdateReplyCommentData";
+import { LikeCommentData } from "../actions/LikeCommentData";
 
 interface dataType {
   commentId: string;
@@ -27,7 +28,7 @@ interface PropsData {
   commentId: string;
 }
 
-const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
+const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
   const queryClient = useQueryClient();
   // 로그인한 유저 정보
   const { user } = useUserStore();
@@ -93,6 +94,19 @@ const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
     },
   });
 
+  /** 대댓글 - 좋아요 API */
+  const likeCommentMutaion = useMutation({
+    mutationFn: LikeCommentData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkComment"],
+      });
+    },
+    onError: (error) => {
+      alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
+
   // 대댓글 입력창 열기/닫기
   const handleToggleReplyBox = useCallback((replyId: string) => {
     setActiveReplyBoxId((prev) => (prev === replyId ? null : replyId));
@@ -143,6 +157,18 @@ const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
     [postId, updateComment]
   );
 
+  const onClickLike = useCallback(
+    (replyId: string) => {
+      if (postId && replyId) {
+        likeCommentMutaion.mutate({
+          postId: postId,
+          commentId: replyId,
+        });
+      }
+    },
+    [postId]
+  );
+
   return (
     <>
       {reReplyCommentData.map((item) => {
@@ -176,7 +202,10 @@ const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
                         </p>
                         <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
                           <p>{useFormatTimeAgo(item.createdAt)}</p>
-                          <Like likeNum={item.likes} />
+                          <Like
+                            likeNum={item.likes}
+                            onClick={() => onClickLike(item.commentId)}
+                          />
                           <p
                             className="cursor-pointer"
                             onClick={() => handleToggleReplyBox(item.commentId)}
@@ -215,6 +244,7 @@ const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
                     isOpenUpdateReReplyBox === item.commentId && (
                       <div className="col-span-11">
                         <Textarea
+                          id="update-reply"
                           width="708px"
                           varient="default"
                           value={updateComment}
@@ -250,8 +280,9 @@ const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
               // 댓글 - 답글 달기
               <div className="grid grid-cols-12">
                 <div className="col-span-1"></div>
-                <div className="col-span-11 pr-[22px]">
+                <div className="col-span-11 pr-[22px] pt-[24px]">
                   <Textarea
+                    id="reply"
                     width="795px"
                     varient="default"
                     value={reReplyCommentValue}
@@ -279,4 +310,4 @@ const ReReplyComment = ({ reReplyCommentData, commentId }: PropsData) => {
   );
 };
 
-export default memo(ReReplyComment);
+export default memo(Reply);

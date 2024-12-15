@@ -27,7 +27,7 @@ interface commentDataType {
   commentId: string;
 }
 
-const ReplyComment = ({ commentData, commentId }: commentDataType) => {
+const Comment = ({ commentData, commentId }: commentDataType) => {
   const queryClient = useQueryClient();
   // 게시글 고유 번호
   const { postId }: any = useParams();
@@ -202,6 +202,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
           // 수정 버튼 클릭 시 보이는 댓글 창
           <div className="col-span-11">
             <Textarea
+              id="update-comment"
               varient="default"
               value={updateComment}
               setValue={setUpdateComment}
@@ -252,8 +253,9 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
       {activeReplyBoxId === commentData.commentId && (
         <div className="grid grid-cols-12">
           <div className="col-span-1"></div>
-          <div className="col-span-11 pr-[22px]">
+          <div className="col-span-11 pr-[22px] pt-[24px]">
             <Textarea
+              id="comment"
               varient="default"
               value={replyComment}
               setValue={setReplyComment}
@@ -279,4 +281,4 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
   );
 };
 
-export default memo(ReplyComment);
+export default memo(Comment);
