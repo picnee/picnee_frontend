@@ -77,11 +77,17 @@ const TravelTalkWrite = () => {
     mutationFn: InsertPostData,
     onSuccess: () => {
       router.push(URL.TRAVELTALK.BASE);
+      // 게시글 업데이트
       queryClient.invalidateQueries({
         queryKey: ["travelTalkList"],
       });
+      // 내가 쓴 게시글 업데이트
       queryClient.invalidateQueries({
-        queryKey: ["mytravelTalkPostsData"],
+        queryKey: ["myTravelTalkPostsData"],
+      });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
       });
     },
     onError: (error) => {
@@ -115,6 +121,10 @@ const TravelTalkWrite = () => {
       // 내 게시글 데이터 업데이트
       queryClient.invalidateQueries({
         queryKey: ["mytravelTalkPostsData"],
+      });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
       });
     },
     onError: (error) => {

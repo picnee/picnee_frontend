@@ -30,7 +30,7 @@ export function GetTravelTalkListOptions(
 /** 여행 토크 내가 쓴 게시글 리스트 GET */
 export function GetMyPostsOptions(requestParams: MyPostsParamsType) {
   return {
-    queryKey: ["mytravelTalkPostsData"],
+    queryKey: ["myTravelTalkPostsData"],
     queryFn: () => GetMyPostsData(),
     staleTime: 1000 * 60 * 10, // 10분
     catchTime: 1000 * 60 * 60 * 24, // 24시간
@@ -41,7 +41,7 @@ export function GetMyPostsOptions(requestParams: MyPostsParamsType) {
 /** 여행 토크 내가 쓴 댓글 리스트 GET */
 export function GetMyCommentsOptions(requestParams: MyPostsParamsType) {
   return {
-    queryKey: ["mytravelTalkCommentData"],
+    queryKey: ["myTravelTalkCommentData"],
     queryFn: () => GetMyCommentsData(),
     staleTime: 1000 * 60 * 10, // 10분
     catchTime: 1000 * 60 * 60 * 24, // 24시간
