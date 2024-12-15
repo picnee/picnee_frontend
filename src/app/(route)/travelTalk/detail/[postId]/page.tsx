@@ -74,11 +74,21 @@ const TravelTalkListDetailPage = () => {
   const mutation = useMutation({
     mutationFn: InsertCommentData,
     onSuccess: () => {
+      // 게시글 업데이트
       queryClient.invalidateQueries({
         queryKey: ["travelTalkComment"],
       });
+      // 게시글 상세데이터 업데이트
       queryClient.invalidateQueries({
         queryKey: ["travelTalkDetailData"],
+      });
+      // 내가 쓴 게시글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkPostsData"],
+      });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
       });
       setComment("");
     },
@@ -91,11 +101,17 @@ const TravelTalkListDetailPage = () => {
   const deletePostMutation = useMutation({
     mutationFn: DeletePostData,
     onSuccess: () => {
+      // 게시글 업데이트
       queryClient.invalidateQueries({
         queryKey: ["travelTalkList"],
       });
+      // 내가 쓴 게시글 업데이트
       queryClient.invalidateQueries({
-        queryKey: ["mytravelTalkPostsData"],
+        queryKey: ["myTravelTalkPostsData"],
+      });
+      // 내가 쓴 댓글 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["myTravelTalkCommentData"],
       });
       router.push(URL.TRAVELTALK.BASE);
     },

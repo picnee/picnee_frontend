@@ -7,6 +7,7 @@ import { useState } from "react";
 import MyCommentTalkList from "./_components/MyCommentTalkList";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import {
+  GetMyCommentsOptions,
   GetMyPostsOptions,
   GetTravelTalkListOptions,
 } from "@/api/travelTalk/query-options";
@@ -26,7 +27,7 @@ const TravelTalk = () => {
   // sideBar 카테고리 전역상태
   const { selectCategoryStates } = useTravelTalkCategoryStore();
 
-  /** api 호출 */
+  /** 카테고리, 지역별 여행토크 API 호출 */
   const { data: getTravelTalkList }: UseQueryResult<any> = useQuery(
     GetTravelTalkListOptions({
       boardCategory:
@@ -42,6 +43,11 @@ const TravelTalk = () => {
   /** 내가 쓴 글 API 호출 */
   const { data: getMyPost }: UseQueryResult<any> = useQuery(
     GetMyPostsOptions({ boardCategory: selectCategoryStates })
+  );
+
+  /** 내가 쓴 댓글 API 호출 */
+  const { data: getMyComment }: UseQueryResult<any> = useQuery(
+    GetMyCommentsOptions({ boardCategory: selectCategoryStates })
   );
 
   const ITEMS = Array.from(
@@ -65,9 +71,7 @@ const TravelTalk = () => {
         </div>
         <div className="col-span-3">
           {selectCategoryStates === "내가 쓴 댓글" ? (
-            <MyCommentTalkList
-              data={getTravelTalkList && getTravelTalkList.content}
-            />
+            <MyCommentTalkList data={getMyComment && getMyComment.content} />
           ) : (
             <TalkList
               data={

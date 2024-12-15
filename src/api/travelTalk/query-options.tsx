@@ -9,6 +9,7 @@ import {
 } from "@/types/travelTalk";
 import { GetTravelTalkCommentData } from "@/app/(route)/travelTalk/detail/[postId]/actions/GetTravelTalkCommentData";
 import { GetMyPostsData } from "@/app/(route)/travelTalk/actions/GetMyPostsData";
+import { GetMyCommentsData } from "@/app/(route)/travelTalk/actions/GetMyCommentsData";
 
 /** 여행 토크 카테고리별 게시글 리스트 GET */
 export function GetTravelTalkListOptions(
@@ -29,11 +30,22 @@ export function GetTravelTalkListOptions(
 /** 여행 토크 내가 쓴 게시글 리스트 GET */
 export function GetMyPostsOptions(requestParams: MyPostsParamsType) {
   return {
-    queryKey: ["mytravelTalkPostsData"],
+    queryKey: ["myTravelTalkPostsData"],
     queryFn: () => GetMyPostsData(),
     staleTime: 1000 * 60 * 10, // 10분
     catchTime: 1000 * 60 * 60 * 24, // 24시간
     enabled: requestParams.boardCategory === "내가 쓴 글",
+  };
+}
+
+/** 여행 토크 내가 쓴 댓글 리스트 GET */
+export function GetMyCommentsOptions(requestParams: MyPostsParamsType) {
+  return {
+    queryKey: ["myTravelTalkCommentData"],
+    queryFn: () => GetMyCommentsData(),
+    staleTime: 1000 * 60 * 10, // 10분
+    catchTime: 1000 * 60 * 60 * 24, // 24시간
+    enabled: requestParams.boardCategory === "내가 쓴 댓글",
   };
 }
 
