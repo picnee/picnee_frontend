@@ -1,6 +1,7 @@
 export interface TravelTalkRequestParamsType {
   boardCategory: string;
   region: string;
+  sort: string
   page: number;
   }
 

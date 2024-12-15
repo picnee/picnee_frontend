@@ -10,7 +10,7 @@ export const API_ENDPOINT = {
     // 여행토크 리스트 조회
     getTravelTalkList: (requestParams: TravelTalkRequestParamsType) => {
       return {
-        url: `posts?boardCategory=${requestParams.boardCategory}&region=${requestParams.region}&page=${requestParams.page}`,
+        url: `posts?boardCategory=${requestParams.boardCategory}&region=${requestParams.region}&sort=${requestParams.sort}&page=${requestParams.page}`,
         method: Method.GET,
       }
     },
