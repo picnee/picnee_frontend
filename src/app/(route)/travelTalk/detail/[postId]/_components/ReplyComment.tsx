@@ -253,7 +253,7 @@ const ReplyComment = ({ commentData, commentId }: commentDataType) => {
       {activeReplyBoxId === commentData.commentId && (
         <div className="grid grid-cols-12">
           <div className="col-span-1"></div>
-          <div className="col-span-11 pr-[22px]">
+          <div className="col-span-11 pr-[22px] pt-[24px]">
             <Textarea
               id="comment"
               varient="default"
