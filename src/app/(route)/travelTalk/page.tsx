@@ -20,14 +20,21 @@ const TravelTalk = () => {
   // TravelTalkHeader 관련 상태
   const [selectedFilter, setSelectedFilter] = useState<string>("최신순");
   // Pagination 관련 상태
-  const [currentPage, setCurrentPage] = useState<number>(1); // 현재 선택된 페이지
-  const [myPostsPage, setMyPostsPage] = useState<number>(1); // 현재 선택된 페이지
-  const [myCommentsPage, setMyCommentsPage] = useState<number>(1); // 현재 선택된 페이지
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [myPostsPage, setMyPostsPage] = useState<number>(1);
+  const [myCommentsPage, setMyCommentsPage] = useState<number>(1);
   const itemsPerPage = 10; // 페이지별 아이템 수
   // sideBar 지역 전역상태
   const { selectBoxStates } = useTravelTalkStore();
   // sideBar 카테고리 전역상태
   const { selectCategoryStates } = useTravelTalkCategoryStore();
+
+  useEffect(() => {
+    // 최신순, 조회순, 댓글순 필터 선택 시 페이지 번호 초기화
+    setCurrentPage(1);
+    setMyPostsPage(1);
+    setMyCommentsPage(1);
+  }, [selectedFilter]);
 
   /** 카테고리, 지역별 여행토크 API 호출 */
   const { data: getTravelTalkList }: UseQueryResult<any> = useQuery(
