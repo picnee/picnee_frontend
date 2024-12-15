@@ -36,6 +36,12 @@ const TravelTalk = () => {
         selectBoxStates["sideBarRegion"] === "전체"
           ? ""
           : selectBoxStates["sideBarRegion"],
+      sort:
+        selectedFilter === "최신순"
+          ? "new"
+          : selectedFilter === "조회순"
+          ? "popular"
+          : "comment",
       page: 0,
     })
   );
