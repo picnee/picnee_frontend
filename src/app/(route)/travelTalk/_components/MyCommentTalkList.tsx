@@ -1,15 +1,15 @@
 import Sticker from "@/components/common/Sticker";
+import { URL } from "@/constants/url";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
+import { useRouter } from "next/navigation";
 
 interface dataType {
-  boardRes: { boardCategory: string; boardId: string; region: string };
-  commentsCount: number;
+  commentId: string;
   content: string;
   createdAt: string;
+  likes: number;
   postId: string;
-  title: string;
   userRes: { userId: string; nickName: string };
-  viewed: number;
 }
 
 interface MyCommentTalkListProps {
@@ -17,12 +17,20 @@ interface MyCommentTalkListProps {
 }
 
 const MyCommentTalkList = ({ data }: MyCommentTalkListProps) => {
+  const navigator = useRouter();
+
+  // console.log(data && data);
   return (
     <>
       {data &&
         data.map((item: dataType) => (
-          <div className="mb-[16px]" key={item.boardRes.boardId}>
-            <div className="w-[100%] h-[auto] p-[22px] border border-gray-150 rounded-m box-border">
+          <div className="mb-[16px]" key={item.commentId}>
+            <div
+              className="w-[100%] h-[auto] p-[22px] border border-gray-150 rounded-m box-border cursor-pointer hover:border-black transition-colors duration-300"
+              onClick={() => {
+                navigator.push(`${URL.TRAVELTALK.DETAIL}/${item.postId}`);
+              }}
+            >
               <div className="">
                 <div className="mb-[10px] flex justify-between">
                   <p
@@ -36,9 +44,9 @@ const MyCommentTalkList = ({ data }: MyCommentTalkListProps) => {
                   </p>
                 </div>
                 <div className="flex gap-[8px]">
-                  <Sticker title={item.boardRes.boardCategory} />
+                  <Sticker title={"카테고리"} />
                   <p className="font-400 text-lg text-gray-400 truncate max-w-[633px] whitespace-nowrap">
-                    {item.title}
+                    타이틀 데이터
                   </p>
                 </div>
               </div>

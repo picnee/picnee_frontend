@@ -14,10 +14,17 @@ export const API_ENDPOINT = {
         method: Method.GET,
       }
     },
-     // 여행토크 내가 쓴 글 데이터 조회
-     getMyPostsData: () => {
+    // 여행토크 내가 쓴 글 데이터 조회
+    getMyPostsData: () => {
       return {
         url: `posts/my-posts`,
+        method: Method.GET,
+      }
+    },
+    // 여행토크 내가 쓴 댓글 데이터 조회
+    getMyCommentsData: () => {
+      return {
+        url: `posts/my-comments`,
         method: Method.GET,
       }
     },
