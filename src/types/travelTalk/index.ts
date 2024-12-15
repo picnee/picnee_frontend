@@ -4,6 +4,28 @@ export interface TravelTalkRequestParamsType {
   page: number;
   }
 
+export interface MyPostsParamsType {
+  boardCategory: string;
+}
+
+export interface MyPostDataType {
+  boardRes: {
+    boardCategory: string;
+    boardId: string;
+    region: string;
+  };
+  commentsCount: number;
+  content: string;
+  createdAt: string;
+  postId: string;
+  title: string;
+  userRes: {
+    nickName: string;
+    userId: string;
+  };
+  viewed: 1;
+}
+
 export interface TravelTalkDetailPostParamsType {
   postId: string;
 }

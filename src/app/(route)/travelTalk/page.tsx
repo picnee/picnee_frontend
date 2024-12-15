@@ -3,11 +3,13 @@ import Pagination from "@/components/common/Pagination";
 import SideBarNav from "./_components/SideBarNav";
 import TalkList from "./_components/TalkList";
 import TravelTalkHeader from "./_components/TravelTalkHeader";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MyCommentTalkList from "./_components/MyCommentTalkList";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { API_ENDPOINT } from "@/lib/backend-api/api-end-point";
-import { GetTravelTalkListOptions } from "@/api/travelTalk/query-options";
+import {
+  GetMyPostsOptions,
+  GetTravelTalkListOptions,
+} from "@/api/travelTalk/query-options";
 import {
   useTravelTalkCategoryStore,
   useTravelTalkStore,
@@ -24,7 +26,7 @@ const TravelTalk = () => {
   // sideBar 카테고리 전역상태
   const { selectCategoryStates } = useTravelTalkCategoryStore();
 
-  // api 호출
+  /** api 호출 */
   const { data: getTravelTalkList }: UseQueryResult<any> = useQuery(
     GetTravelTalkListOptions({
       boardCategory:
@@ -35,6 +37,11 @@ const TravelTalk = () => {
           : selectBoxStates["sideBarRegion"],
       page: 0,
     })
+  );
+
+  /** 내가 쓴 글 API 호출 */
+  const { data: getMyPost }: UseQueryResult<any> = useQuery(
+    GetMyPostsOptions({ boardCategory: selectCategoryStates })
   );
 
   const ITEMS = Array.from(
@@ -57,14 +64,18 @@ const TravelTalk = () => {
           <SideBarNav />
         </div>
         <div className="col-span-3">
-          {selectBoxStates["sideBarCategory"] !== "내가 쓴 댓글" ? (
-            <TalkList
-              data={getTravelTalkList && getTravelTalkList.content}
-              selectedWriteMenu={selectBoxStates["sideBarCategory"]}
-            />
-          ) : (
+          {selectCategoryStates === "내가 쓴 댓글" ? (
             <MyCommentTalkList
               data={getTravelTalkList && getTravelTalkList.content}
+            />
+          ) : (
+            <TalkList
+              data={
+                selectCategoryStates === "내가 쓴 글"
+                  ? getMyPost && getMyPost.content
+                  : getTravelTalkList && getTravelTalkList.content
+              }
+              selectedWriteMenu={selectCategoryStates}
             />
           )}
           <div className="mt-[30px]">
