@@ -3,7 +3,7 @@ import Pagination from "@/components/common/Pagination";
 import SideBarNav from "./_components/SideBarNav";
 import TalkList from "./_components/TalkList";
 import TravelTalkHeader from "./_components/TravelTalkHeader";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MyCommentTalkList from "./_components/MyCommentTalkList";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import {
@@ -21,6 +21,8 @@ const TravelTalk = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>("최신순");
   // Pagination 관련 상태
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 선택된 페이지
+  const [myPostsPage, setMyPostsPage] = useState<number>(1); // 현재 선택된 페이지
+  const [myCommentsPage, setMyCommentsPage] = useState<number>(1); // 현재 선택된 페이지
   const itemsPerPage = 10; // 페이지별 아이템 수
   // sideBar 지역 전역상태
   const { selectBoxStates } = useTravelTalkStore();
@@ -42,24 +44,44 @@ const TravelTalk = () => {
           : selectedFilter === "조회순"
           ? "popular"
           : "comment",
-      page: 0,
+      page: currentPage - 1,
     })
   );
 
   /** 내가 쓴 글 API 호출 */
   const { data: getMyPost }: UseQueryResult<any> = useQuery(
-    GetMyPostsOptions({ boardCategory: selectCategoryStates })
+    GetMyPostsOptions({
+      boardCategory: selectCategoryStates,
+      page: myPostsPage - 1,
+    })
   );
 
   /** 내가 쓴 댓글 API 호출 */
   const { data: getMyComment }: UseQueryResult<any> = useQuery(
-    GetMyCommentsOptions({ boardCategory: selectCategoryStates })
+    GetMyCommentsOptions({
+      boardCategory: selectCategoryStates,
+      page: myCommentsPage - 1,
+    })
   );
 
-  const ITEMS = Array.from(
-    { length: getTravelTalkList && getTravelTalkList.content.length },
-    (_, i) => `Item ${i + 1}`
-  );
+  /** 카테고리별 페이지네이션 데이터 관리 */
+  const paginationData = () => {
+    if (selectCategoryStates === "내가 쓴 글") {
+      return { data: getMyPost, page: myPostsPage, setPage: setMyPostsPage };
+    } else if (selectCategoryStates === "내가 쓴 댓글") {
+      return {
+        data: getMyComment,
+        page: myCommentsPage,
+        setPage: setMyCommentsPage,
+      };
+    } else {
+      return {
+        data: getTravelTalkList,
+        page: currentPage,
+        setPage: setCurrentPage,
+      };
+    }
+  };
 
   return (
     <div className="pt-[72px]">
@@ -88,14 +110,16 @@ const TravelTalk = () => {
               selectedWriteMenu={selectCategoryStates}
             />
           )}
-          <div className="mt-[30px]">
-            <Pagination
-              totalItems={ITEMS.length}
-              itemsPerPage={itemsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </div>
+          {paginationData().data?.totalElements >= 10 && (
+            <div className="mt-[30px]">
+              <Pagination
+                totalItems={paginationData().data?.totalElements}
+                itemsPerPage={itemsPerPage}
+                currentPage={paginationData().page}
+                setCurrentPage={paginationData().setPage}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

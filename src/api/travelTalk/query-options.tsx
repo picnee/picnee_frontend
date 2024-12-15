@@ -2,6 +2,7 @@
 import { GetTravelTalkDetailData } from "@/app/(route)/travelTalk/detail/[postId]/actions/GetTravelTalkDetailData";
 import { GetTravelTalkListData } from "@/app/(route)/travelTalk/actions/GetTravelTalkListData";
 import {
+  MyCommentParamsType,
   MyPostsParamsType,
   TravelTalkCommentParamsType,
   TravelTalkDetailPostParamsType,
@@ -30,8 +31,8 @@ export function GetTravelTalkListOptions(
 /** 여행 토크 내가 쓴 게시글 리스트 GET */
 export function GetMyPostsOptions(requestParams: MyPostsParamsType) {
   return {
-    queryKey: ["myTravelTalkPostsData"],
-    queryFn: () => GetMyPostsData(),
+    queryKey: ["myTravelTalkPostsData", requestParams],
+    queryFn: () => GetMyPostsData(requestParams),
     staleTime: 1000 * 60 * 10, // 10분
     catchTime: 1000 * 60 * 60 * 24, // 24시간
     enabled: requestParams.boardCategory === "내가 쓴 글",
@@ -39,10 +40,10 @@ export function GetMyPostsOptions(requestParams: MyPostsParamsType) {
 }
 
 /** 여행 토크 내가 쓴 댓글 리스트 GET */
-export function GetMyCommentsOptions(requestParams: MyPostsParamsType) {
+export function GetMyCommentsOptions(requestParams: MyCommentParamsType) {
   return {
-    queryKey: ["myTravelTalkCommentData"],
-    queryFn: () => GetMyCommentsData(),
+    queryKey: ["myTravelTalkCommentData", requestParams],
+    queryFn: () => GetMyCommentsData(requestParams),
     staleTime: 1000 * 60 * 10, // 10분
     catchTime: 1000 * 60 * 60 * 24, // 24시간
     enabled: requestParams.boardCategory === "내가 쓴 댓글",
