@@ -94,6 +94,9 @@ const TravelTalkListDetailPage = () => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkList"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["mytravelTalkPostsData"],
+      });
       router.push(URL.TRAVELTALK.BASE);
     },
     onError: (error) => {

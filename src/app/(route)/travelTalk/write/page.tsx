@@ -80,6 +80,9 @@ const TravelTalkWrite = () => {
       queryClient.invalidateQueries({
         queryKey: ["travelTalkList"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["mytravelTalkPostsData"],
+      });
     },
     onError: (error) => {
       alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -101,8 +104,17 @@ const TravelTalkWrite = () => {
       router.push(`${URL.TRAVELTALK.DETAIL}/${selectedPostData.postId}`);
       setSelectBoxState("writeRegion", "");
       setSelectBoxState("writeCategory", "");
+      // 게시글 상세 데이터 업데이트
       queryClient.invalidateQueries({
         queryKey: ["travelTalkDetailData"],
+      });
+      // 게시글 데이터 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["travelTalkList"],
+      });
+      // 내 게시글 데이터 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ["mytravelTalkPostsData"],
       });
     },
     onError: (error) => {

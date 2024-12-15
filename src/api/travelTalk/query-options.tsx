@@ -2,13 +2,15 @@
 import { GetTravelTalkDetailData } from "@/app/(route)/travelTalk/detail/[postId]/actions/GetTravelTalkDetailData";
 import { GetTravelTalkListData } from "@/app/(route)/travelTalk/actions/GetTravelTalkListData";
 import {
+  MyPostsParamsType,
   TravelTalkCommentParamsType,
   TravelTalkDetailPostParamsType,
   TravelTalkRequestParamsType,
 } from "@/types/travelTalk";
 import { GetTravelTalkCommentData } from "@/app/(route)/travelTalk/detail/[postId]/actions/GetTravelTalkCommentData";
+import { GetMyPostsData } from "@/app/(route)/travelTalk/actions/GetMyPostsData";
 
-/** 여행 토크 게시글 리스트 GET */
+/** 여행 토크 카테고리별 게시글 리스트 GET */
 export function GetTravelTalkListOptions(
   requestParams: TravelTalkRequestParamsType
 ) {
@@ -17,6 +19,21 @@ export function GetTravelTalkListOptions(
     queryFn: () => GetTravelTalkListData(requestParams),
     staleTime: 1000 * 60 * 10, // 10분
     catchTime: 1000 * 60 * 60 * 24, // 24시간
+    enabled: !(
+      requestParams.boardCategory === "내가 쓴 글" ||
+      requestParams.boardCategory === "내가 쓴 댓글"
+    ),
+  };
+}
+
+/** 여행 토크 내가 쓴 게시글 리스트 GET */
+export function GetMyPostsOptions(requestParams: MyPostsParamsType) {
+  return {
+    queryKey: ["mytravelTalkPostsData"],
+    queryFn: () => GetMyPostsData(),
+    staleTime: 1000 * 60 * 10, // 10분
+    catchTime: 1000 * 60 * 60 * 24, // 24시간
+    enabled: requestParams.boardCategory === "내가 쓴 글",
   };
 }
 

@@ -14,6 +14,13 @@ export const API_ENDPOINT = {
         method: Method.GET,
       }
     },
+     // 여행토크 내가 쓴 글 데이터 조회
+     getMyPostsData: () => {
+      return {
+        url: `posts/my-posts`,
+        method: Method.GET,
+      }
+    },
     // 여행토크 게시글 등록
     InsertPost: (requestParams: InsertPostParamsType) => {
       return {
