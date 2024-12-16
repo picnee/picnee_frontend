@@ -93,7 +93,7 @@ const CommonButton: React.FC<
   const buttonTextColor = fontColor ? `text-${fontColor}` : "";
 
   const handleClickButton = () => {
-    if (onClick) {
+    if (onClick && variant !== "disabled_btn") {
       onClick();
     }
   };
