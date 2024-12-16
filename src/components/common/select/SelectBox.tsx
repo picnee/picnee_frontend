@@ -1,7 +1,14 @@
 "use client";
 import Icon from "@/public/svgs/Icon";
 import { useTravelTalkStore } from "@/store/zustand/useTravelTalkStore";
-import { Dispatch, SetStateAction, useState, useEffect, memo } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+  memo,
+  useRef,
+} from "react";
 
 interface PropsType {
   option: {
@@ -19,6 +26,7 @@ const SelectBox = ({
   placeHolder,
   uniqueKey,
 }: PropsType) => {
+  const selectBoxRef = useRef<HTMLDivElement>(null);
   // 옵션 show/hide 플래그
   const [showOption, setShowOption] = useState<boolean>(false);
   // 지역 전역상태관리
@@ -41,13 +49,27 @@ const SelectBox = ({
         setShowOption(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [showOption]);
+
+  /** 바깥 영역 클릭 시 옵션 숨김 */
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        selectBoxRef.current &&
+        !selectBoxRef.current.contains(event.target as Node)
+      ) {
+        setShowOption(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   /** 선택한 option 저장 함수 */
   const handleSelectedOption = (value: string) => {
@@ -86,6 +108,7 @@ const SelectBox = ({
       </div>
       {showOption && (
         <div
+          ref={selectBoxRef}
           className={`absolute h-auto bg-white border border-gray-200 mt-[10px] rounded-m pt-[8px] pb-[32px] pl-[24px] pr-[24px] shadow-selectShadow transition-all duration-300 ease-out transform ${
             showOption ? "opacity-100" : "opacity-0"
           }`}
