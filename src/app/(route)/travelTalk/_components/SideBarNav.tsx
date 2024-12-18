@@ -4,7 +4,6 @@ import SelectBox from "@/components/common/select/SelectBox";
 import { memo } from "react";
 
 const cityOption = [
-  { key: 0, value: "전체" },
   { key: 1, value: "도쿄" },
   { key: 2, value: "오사카" },
   { key: 3, value: "교토" },
