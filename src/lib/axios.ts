@@ -1,7 +1,7 @@
 import axios from "axios"
 import Cookies from 'js-cookie';
 
-const API_V1_BASE = 'http://ec2-43-201-110-116.ap-northeast-2.compute.amazonaws.com:8080/'
+const API_V1_BASE = 'http://www.picknee.co.kr:8080/'
 
 const axiosInstance = axios.create({
   baseURL: API_V1_BASE,
