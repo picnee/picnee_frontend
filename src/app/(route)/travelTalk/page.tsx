@@ -41,10 +41,7 @@ const TravelTalk = () => {
     GetTravelTalkListOptions({
       boardCategory:
         selectCategoryStates === "전체글" ? "" : selectCategoryStates,
-      region:
-        selectBoxStates["sideBarRegion"] === "전체"
-          ? ""
-          : selectBoxStates["sideBarRegion"],
+      region: selectBoxStates["sideBarRegion"],
       sort:
         selectedFilter === "최신순"
           ? "new"
