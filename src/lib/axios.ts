@@ -1,7 +1,7 @@
 import axios from "axios"
 import Cookies from 'js-cookie';
 
-const API_V1_BASE = '/api/'
+const API_V1_BASE = '/'
 
 const axiosInstance = axios.create({
   baseURL: API_V1_BASE,
