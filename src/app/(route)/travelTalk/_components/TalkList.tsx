@@ -5,6 +5,7 @@ import { URL } from "@/constants/url";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 import { useRouter } from "next/navigation";
 import { memo } from "react";
+
 interface dataType {
   postId: string;
   title: string;
