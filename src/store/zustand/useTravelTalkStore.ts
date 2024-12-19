@@ -18,7 +18,7 @@ interface PostDetailDataState {
 /** 여행토크 셀렉박스 전역상태관리 */
 export const useTravelTalkStore = create<MenuState>((set) => ({
   selectBoxStates: {
-    sideBarRegion: "전체",
+    sideBarRegion: "도쿄",
   },
   setSelectBoxState: (key, value) =>
     set((state) => ({
