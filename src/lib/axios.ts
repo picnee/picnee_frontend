@@ -1,14 +1,13 @@
 import axios from "axios"
 import Cookies from 'js-cookie';
 
-const API_V1_BASE = 'http://www.picknee.co.kr:8080/'
+const API_V1_BASE = '/api/'
 
 const axiosInstance = axios.create({
   baseURL: API_V1_BASE,
   headers: {
     "Content-Type": "application/json",
     Accept: 'application/json',
-    "Access-Control-Allow-Origin": API_V1_BASE,
   },
   withCredentials: true,
 });
