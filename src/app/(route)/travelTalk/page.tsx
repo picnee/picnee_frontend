@@ -88,7 +88,7 @@ const TravelTalk = () => {
   };
 
   return (
-    <div className="pt-[72px]">
+    <div className="">
       <div className="w-[1200px] pt-[35px] fixed bg-white z-[999]">
         <TravelTalkHeader
           hasFilter={true}

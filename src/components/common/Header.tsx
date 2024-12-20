@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
 import { useAuth } from "@/hooks/useAuth";
 import CommonButton from "./button/CommonButton";
@@ -47,6 +47,7 @@ const LocalNavBar = ({
 const Header = () => {
   const { isAuthenticated } = useAuth();
   const { user } = useUserStore();
+  const pathname = usePathname();
 
   // 페이지 이동
   const navigator = useRouter();
@@ -60,52 +61,54 @@ const Header = () => {
   };
 
   return (
-    <header className="flex flex-col justify-center fixed bg-white z-[999] h-[73px]">
-      <div className="border-b w-[100vw] flex justify-center pt-[15px] pb-[15px]">
-        <nav className="w-[1280px] flex items-center justify-between px-[40px] ">
-          <ul className="w-[1280px] flex gap-[32px] font-semibold  h-10 items-center text-center">
-            <li className="cursor-pointer">
-              <div className="w-[120px] h-[32px] bg-neutral-200 rounded-lg text-sm flex justify-center items-center">
-                Picnee
+    pathname !== URL.MAP.BASE && (
+      <header className="flex flex-col justify-center fixed bg-white z-[999] h-[73px]">
+        <div className="border-b w-[100vw] flex justify-center pt-[15px] pb-[15px]">
+          <nav className="w-[1280px] flex items-center justify-between px-[40px] ">
+            <ul className="w-[1280px] flex gap-[32px] font-semibold  h-10 items-center text-center">
+              <li className="cursor-pointer">
+                <div className="w-[120px] h-[32px] bg-neutral-200 rounded-lg text-sm flex justify-center items-center">
+                  Picnee
+                </div>
+              </li>
+              <li
+                className="cursor-pointer transition-all duration-200 text-neutral-600  hover:text-black "
+                onClick={() => handleNav(URL.MAP.BASE)}
+              >
+                지도
+              </li>
+              <li
+                className="cursor-pointer transition-all duration-200 hover:text-black text-neutral-600"
+                onClick={() => handleNav(URL.TRAVELTALK.BASE)}
+              >
+                여행토크
+              </li>
+              <div className="flex items-center justify-between mt-[18px] gap-[8px] ml-auto justify-items-end">
+                <CommonButton
+                  variant="solid_btn"
+                  size="ms"
+                  bgColor="gray-150"
+                  fontColor="black"
+                  fontSize="14px"
+                >
+                  리뷰 생성
+                </CommonButton>
+                <CommonButton
+                  variant="ghost_btn"
+                  onClick={handleLogin}
+                  size="ls"
+                  fontSize="14px"
+                >
+                  {isAuthenticated
+                    ? `환영합니다! ${user?.nickName}님`
+                    : "로그인 및 회원가입"}
+                </CommonButton>
               </div>
-            </li>
-            <li
-              className="cursor-pointer transition-all duration-200 text-neutral-600  hover:text-black "
-              onClick={() => handleNav(URL.MAIN.BASE)}
-            >
-              지도
-            </li>
-            <li
-              className="cursor-pointer transition-all duration-200 hover:text-black text-neutral-600"
-              onClick={() => handleNav(URL.TRAVELTALK.BASE)}
-            >
-              여행토크
-            </li>
-            <div className="flex items-center justify-between mt-[18px] gap-[8px] ml-auto justify-items-end">
-              <CommonButton
-                variant="solid_btn"
-                size="ms"
-                bgColor="gray-150"
-                fontColor="black"
-                fontSize="14px"
-              >
-                리뷰 생성
-              </CommonButton>
-              <CommonButton
-                variant="ghost_btn"
-                onClick={handleLogin}
-                size="ls"
-                fontSize="14px"
-              >
-                {isAuthenticated
-                  ? `환영합니다! ${user?.nickName}님`
-                  : "로그인 및 회원가입"}
-              </CommonButton>
-            </div>
-          </ul>
-        </nav>
-      </div>
-    </header>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    )
   );
 };
 

@@ -5,6 +5,9 @@ export const URL = {
   LOGIN: {
     BASE: "/login",
   },
+  MAP: {
+    BASE: "/map2",
+  },
   TRAVELTALK: {
     BASE: "/travelTalk",
     WRITE: "/travelTalk/write",
