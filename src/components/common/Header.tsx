@@ -71,7 +71,7 @@ const Header = () => {
             </li>
             <li
               className="cursor-pointer transition-all duration-200 text-neutral-600  hover:text-black "
-              onClick={() => handleNav(URL.MAIN.BASE)}
+              onClick={() => handleNav(URL.MAP.BASE)}
             >
               지도
             </li>
