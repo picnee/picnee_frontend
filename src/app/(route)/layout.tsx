@@ -21,7 +21,7 @@ export default function RootLayout({
           <AuthProvider>
             <Header />
             <div className="flex justify-center items-center w-full h-full">
-              <div className="w-[1440px] pl-[120px] pr-[120px] pb-[100px]">
+              <div className="w-[1440px] pl-[120px] pr-[120px] pb-[100px] mt-[73px]">
                 {children}
               </div>
             </div>
