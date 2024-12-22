@@ -28,7 +28,6 @@ const SearchList = ({ searchListData }: DataType) => {
               {searchListData.openState}
             </p>
             <div className="flex">
-              searchListData
               <div className="mt-[3px] mr-[3px]">
                 <Icon iconName="star" />
               </div>
@@ -37,7 +36,7 @@ const SearchList = ({ searchListData }: DataType) => {
             <p className="text-sm font-500 text-gray-500">
               리뷰
               <span className="text-sm font-600 text-black">
-                {searchListData.review}
+                &nbsp;{searchListData.review}
               </span>
             </p>
           </div>
