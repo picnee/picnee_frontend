@@ -194,6 +194,42 @@ const Icon = (props: IconProps) => {
         </svg>
       );
 
+    case "filterIcon":
+      return (
+        <svg
+          width="14"
+          height="10"
+          viewBox="0 0 14 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0.125 2.25H2.53125M13.875 2.25H5.96875"
+            stroke="#121314"
+            stroke-width="1.4"
+          />
+          <path
+            d="M0.125 7.75H8.03125M13.875 7.75H11.4688"
+            stroke="#121314"
+            stroke-width="1.4"
+          />
+          <circle
+            cx="9.75"
+            cy="7.75"
+            r="1.3625"
+            stroke="#121314"
+            stroke-width="1.4"
+          />
+          <circle
+            cx="4.25"
+            cy="2.25"
+            r="1.3625"
+            stroke="#121314"
+            stroke-width="1.4"
+          />
+        </svg>
+      );
+
     default:
       return <div></div>;
   }
