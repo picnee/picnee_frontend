@@ -138,7 +138,7 @@ const TravelTalkListDetailPage = () => {
   };
 
   return (
-    <div className="pt-[72px]">
+    <div>
       <div className="w-[1200px] pt-[35px] fixed bg-white z-[999]">
         <TravelTalkHeader hasFilter={false} isActiveButton={true} />
       </div>
