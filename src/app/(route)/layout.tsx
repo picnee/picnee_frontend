@@ -25,8 +25,8 @@ export default function RootLayout({
               <div
                 className={`${
                   pathname !== URL.MAP.BASE &&
-                  "w-[1440px] pl-[120px] pr-[120px]"
-                } pb-[100px] mt-[73px]`}
+                  "w-[1440px] pl-[120px] pr-[120px] pb-[100px]"
+                } mt-[73px]`}
               >
                 {children}
               </div>
