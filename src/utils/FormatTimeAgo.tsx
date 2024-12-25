@@ -1,4 +1,4 @@
-function useFormatTimeAgo(createdAt: string): string {
+function FormatTimeAgo(createdAt: string): string {
   // 날짜 문자열을 Date 객체로 변환
   const createdDate = new Date(createdAt);
 
@@ -23,4 +23,4 @@ function useFormatTimeAgo(createdAt: string): string {
   return `${daysDifference}일 전`;
 }
 
-export default useFormatTimeAgo;
+export default FormatTimeAgo;

@@ -3,7 +3,7 @@ import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
 import { memo, useCallback, useState } from "react";
 import ReplyMenu from "./ReplyMenu";
-import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
+import FormatTimeAgo from "@/utils/FormatTimeAgo";
 import { useUserStore } from "@/store/zustand/useUserStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InsertReplyCommentData } from "../actions/InsertReplyCommentData";
@@ -213,7 +213,7 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
                           {item.content}
                         </p>
                         <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
-                          <p>{useFormatTimeAgo(item.createdAt)}</p>
+                          <p>{FormatTimeAgo(item.createdAt)}</p>
                           <Like
                             likeNum={item.likes}
                             onClick={() => onClickLike(item.commentId)}
