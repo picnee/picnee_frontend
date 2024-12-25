@@ -1,9 +1,9 @@
 import Like from "@/components/common/Like";
 import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import ReplyMenu from "./ReplyMenu";
-import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
+import FormatTimeAgo from "@/utils/FormatTimeAgo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { InsertReplyCommentData } from "../actions/InsertReplyCommentData";
@@ -11,6 +11,7 @@ import { useUserStore } from "@/store/zustand/useUserStore";
 import { DeleteReplyCommentData } from "../actions/DeleteReplyCommentData";
 import { UpdateReplyCommentData } from "../actions/UpdateReplyCommentData";
 import { LikeCommentData } from "../actions/LikeCommentData";
+import useQueryParam from "@/hooks/useQueryParam";
 
 interface commentDataType {
   commentData: {
@@ -29,6 +30,8 @@ interface commentDataType {
 
 const Comment = ({ commentData, commentId }: commentDataType) => {
   const queryClient = useQueryClient();
+  // 내가 쓴 댓글 아이디
+  const myCommentId = useQueryParam("myComment");
   // 게시글 고유 번호
   const { postId }: any = useParams();
   // 로그인한 유저 정보
@@ -121,6 +124,19 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
     },
   });
 
+  /** 내가 쓴 댓글 위치로 스크롤 이동 */
+  useEffect(() => {
+    if (myCommentId !== null) {
+      const myCommentElement = document.getElementById(myCommentId);
+      if (myCommentElement) {
+        myCommentElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }
+  }, [myCommentId]);
+
   // 대댓글 입력창 열기/닫기 핸들러
   const handleToggleReplyBox = useCallback((commentId: string) => {
     setActiveReplyBoxId((prev) =>
@@ -179,10 +195,9 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
   return (
     <>
       <div
+        id={commentData.commentId}
         className={`grid grid-cols-12 pt-[24px] pl-[24px] pr-[24px] ${
-          user?.userId === commentData.userRes.userId
-            ? "bg-gray-50"
-            : "bg-white"
+          myCommentId === commentData.commentId ? "bg-gray-50" : "bg-white"
         } last:rounded-sm`}
       >
         <div className="col-span-1">
@@ -200,7 +215,7 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
             </p>
             <p className="font-400 text-lg mb-[6px]">{commentData.content}</p>
             <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
-              <p>{useFormatTimeAgo(commentData.createdAt)}</p>
+              <p>{FormatTimeAgo(commentData.createdAt)}</p>
               <Like likeNum={commentData.likes} onClick={onClickLike} />
               <p
                 className="cursor-pointer"
