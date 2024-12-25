@@ -12,6 +12,7 @@ import { DeleteReplyCommentData } from "../actions/DeleteReplyCommentData";
 import { UpdateReplyCommentData } from "../actions/UpdateReplyCommentData";
 import { LikeCommentData } from "../actions/LikeCommentData";
 import useQueryParam from "@/hooks/useQueryParam";
+import ScrollIntoView from "@/utils/ScrollIntoView";
 
 interface commentDataType {
   commentData: {
@@ -127,13 +128,7 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
   /** 내가 쓴 댓글 위치로 스크롤 이동 */
   useEffect(() => {
     if (myCommentId !== null) {
-      const myCommentElement = document.getElementById(myCommentId);
-      if (myCommentElement) {
-        myCommentElement.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
+      ScrollIntoView(myCommentId);
     }
   }, [myCommentId]);
 

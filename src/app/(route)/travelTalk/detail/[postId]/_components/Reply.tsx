@@ -1,7 +1,7 @@
 import Like from "@/components/common/Like";
 import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import ReplyMenu from "./ReplyMenu";
 import FormatTimeAgo from "@/utils/FormatTimeAgo";
 import { useUserStore } from "@/store/zustand/useUserStore";
@@ -11,6 +11,8 @@ import { useParams } from "next/navigation";
 import { DeleteReplyCommentData } from "../actions/DeleteReplyCommentData";
 import { UpdateReplyCommentData } from "../actions/UpdateReplyCommentData";
 import { LikeCommentData } from "../actions/LikeCommentData";
+import useQueryParam from "@/hooks/useQueryParam";
+import ScrollIntoView from "@/utils/ScrollIntoView";
 
 interface dataType {
   commentId: string;
@@ -30,6 +32,8 @@ interface PropsData {
 
 const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
   const queryClient = useQueryClient();
+  // 내가 쓴 댓글 아이디
+  const myCommentId = useQueryParam("myComment");
   // 로그인한 유저 정보
   const { user } = useUserStore();
   // 게시글 고유 번호
@@ -119,6 +123,13 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
     },
   });
 
+  /** 내가 쓴 대댓글 위치로 스크롤 이동 */
+  useEffect(() => {
+    if (myCommentId !== null) {
+      ScrollIntoView(myCommentId);
+    }
+  }, [myCommentId]);
+
   // 대댓글 입력창 열기/닫기
   const handleToggleReplyBox = useCallback((replyId: string) => {
     setActiveReplyBoxId((prev) => (prev === replyId ? null : replyId));
@@ -185,10 +196,10 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
     <>
       {reReplyCommentData.map((item) => {
         return (
-          <div key={item.commentId}>
+          <div key={item.commentId} id={item.commentId}>
             <div
               className={`grid grid-cols-12 ${
-                item.userRes.userId === user?.userId ? "bg-gray-50" : "bg-white"
+                myCommentId === item.commentId ? "bg-gray-50" : "bg-white"
               } pl-[24px] pr-[24px]`}
             >
               <div className="col-span-1"></div>
