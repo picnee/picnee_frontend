@@ -1,27 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import SideMenu from "./_components/SideMenu";
 import SearchPanel from "./_components/SearchPanel";
+import DetailList from "./_components/DetailList";
 
 const map = () => {
-  const [showSearchPanel, setShowSearchPanel] = useState<boolean>(false);
+  const [showSearchPanel, setShowSearchPanel] = useState<boolean>(true);
   const [selectedMenu, setSelectedMenu] = useState<string>("");
+  const [selectedSearchList, setSelectedSearchList] = useState<string>("h");
+
+  const handleSelectedSearchList = useCallback((value: string) => {
+    setSelectedSearchList(value);
+  }, []);
 
   return (
     <div className="w-[100vw] mt-[-73px] bg-gray-600">
       <div className="flex">
-        <div className="w-[72px]">
-          <SideMenu
-            setSelectedMenu={setSelectedMenu}
-            setShowSearchPanel={setShowSearchPanel}
-          />
-        </div>
+        <SideMenu
+          setSelectedMenu={setSelectedMenu}
+          setShowSearchPanel={setShowSearchPanel}
+        />
         {showSearchPanel && (
-          <div className="w-[440px] ">
-            <SearchPanel />
-          </div>
+          <SearchPanel handleSelectedSearchList={handleSelectedSearchList} />
         )}
+        {selectedSearchList && <DetailList />}
       </div>
     </div>
   );

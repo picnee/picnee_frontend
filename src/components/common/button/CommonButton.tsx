@@ -1,3 +1,4 @@
+import Icon from "@/public/svgs/Icon";
 import React from "react";
 
 export type ButtonVariant = "solid_btn" | "ghost_btn" | "disabled_btn";
@@ -17,6 +18,8 @@ interface CommonButtonType {
   bgColor?: string;
   fontColor?: string;
   onClick?: () => void;
+  hasIcon?: boolean;
+  iconName?: string;
 }
 
 const getButtonClasses = (
@@ -86,7 +89,10 @@ const CommonButton: React.FC<
   bgColor,
   fontColor,
   width,
+  height,
   onClick,
+  hasIcon = false,
+  iconName = "",
   ...props
 }) => {
   // Tailwind 클래스에서 유효한 색상값만 전달
@@ -106,6 +112,7 @@ const CommonButton: React.FC<
         transition-all duration-300
       `}
       style={{
+        height,
         fontSize,
         lineHeight,
         fontWeight,
@@ -120,7 +127,18 @@ const CommonButton: React.FC<
       onClick={handleClickButton}
       {...props}
     >
-      {children}
+      {hasIcon && (
+        <div className="flex justify-center gap-[10px]">
+          <span
+            className={`${
+              iconName === "" && "w-[24px] h-[24px] inline-block bg-gray-150"
+            }`}
+          >
+            {iconName && <Icon iconName={iconName} />}
+          </span>
+          {children}
+        </div>
+      )}
     </button>
   );
 };

@@ -1,5 +1,6 @@
 import SpeechBubble from "@/components/common/speechBubble/SpeechBubble";
 import Icon from "@/public/svgs/Icon";
+import { memo } from "react";
 
 interface DataType {
   searchListData: {
@@ -11,15 +12,24 @@ interface DataType {
     id: string;
     reviewText: string;
   };
+  handleSelectedSearchList: (value: string) => void;
 }
 
-const SearchList = ({ searchListData }: DataType) => {
+const SearchList = ({ searchListData, handleSelectedSearchList }: DataType) => {
   return (
-    <div className="pl-[20px] pr-[20px] pt-[16px] pb-[16px] hover:bg-[#F1F3F666] transition-colors duration-[300ms] cursor-pointer">
+    <div
+      className="pl-[20px] pr-[20px] pt-[16px] pb-[16px] hover:bg-[#F1F3F666] transition-colors duration-[300ms] cursor-pointer"
+      onClick={() => handleSelectedSearchList(searchListData.id)}
+    >
       <div className="flex justify-between">
         <div className="w-[80px] h-[80px] bg-gray-150 rounded-sm"></div>
         <div className="mt-[5px]">
-          <p className="text-lg font-500">{searchListData.title}</p>
+          <p
+            title={searchListData.title}
+            className="text-lg font-500 w-[265px] overflow-hidden text-ellipsis whitespace-nowrap"
+          >
+            {searchListData.title}
+          </p>
           <p className="text-sm font-500 text-gray-500">
             {searchListData.category}
           </p>
@@ -56,4 +66,4 @@ const SearchList = ({ searchListData }: DataType) => {
   );
 };
 
-export default SearchList;
+export default memo(SearchList);

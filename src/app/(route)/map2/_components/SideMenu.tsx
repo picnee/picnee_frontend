@@ -31,7 +31,7 @@ const SideMenu = ({ setSelectedMenu, setShowSearchPanel }: PropsType) => {
   };
 
   return (
-    <div className="bg-white border border-gray-150 pt-[25px] h-[100vh]">
+    <div className="w-[72px] bg-white border border-gray-150 pt-[25px] h-[100vh]">
       <div onClick={() => navigator.push(URL.MAIN.BASE)}>
         <span className="block w-[28px] h-[28px] bg-gray-100 m-auto mb-[10px]"></span>
         <p className="text-center pb-[10px] border-b border-b-gray-100 text-2xs font-400">
