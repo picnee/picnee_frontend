@@ -20,7 +20,8 @@ const config: Config = {
         'gray-500':'#828A8F',
 		'gray-900':'#242729',
 		'red' : '#FF0000',
-		'green' : '#00D900'
+		'green' : '#00D900',
+    'skyblue' : '#1AB6FF'
       },
       fontSize: {
         '6xl': [
