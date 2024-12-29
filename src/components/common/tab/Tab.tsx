@@ -11,9 +11,9 @@ const Tab = ({ list }: { list: string[] }) => {
         <p
           key={item}
           className={`font-600 ${
-            selectedTab === item ? "text-skyblue" : "text-gray-400"
-          } text-lg pb-[10px] cursor-pointer hover:text-skyblue ${
-            selectedTab === item && "border-b-2 border-b-skyblue"
+            selectedTab === item ? "text-primary-skyblue-400" : "text-gray-400"
+          } text-lg pb-[10px] cursor-pointer hover:text-primary-skyblue-400 ${
+            selectedTab === item && "border-b-2 border-b-primary-skyblue-400"
           }`}
           onClick={() => handleTab(item)}
         >

@@ -1,50 +1,30 @@
-import CommonButton from "@/components/common/button/CommonButton";
-import Icon from "@/public/svgs/Icon";
+import Tab from "@/components/common/tab/Tab";
 import { memo } from "react";
+import TipList from "./TipList";
+import InfoWithActions from "./InfoWithActions";
+import AboutPlace from "./AboutPlace";
+import CommonButton from "@/components/common/button/CommonButton";
+import Button from "@/components/common/button/Button";
 
 const DetailList = () => {
   return (
-    <div className="w-[384px] h-[670px] 2xl:h-[778px] mt-[130px] ml-[32px] rounded-m bg-white overflow-scroll">
+    <div className="w-[384px] h-[670px] 2xl:h-[785px] mt-[130px] ml-[32px] rounded-m bg-white overflow-scroll">
       <div className="h-[180px] bg-gray-100"></div>
-
-      <div className="pt-[20px] pb-[10px] pl-[24px] pr-[24px] border border-red">
-        <p className="font-500 text-3xl">Rojiura Curry SAMURAI - Harajuku</p>
-        <div className="flex gap-[10px]">
-          <p className="font-500 text-gray-400 text-base mr-[5px]">음식점</p>
-          <div className="flex">
-            <div className="mt-[4px] mr-[3px]">
-              <Icon iconName="star" />
-            </div>
-            <p className="text-base font-600">4.5</p>
-          </div>
-          <div className="flex">
-            <p className="font-500 text-gray-400 text-base">리뷰</p>
-            <p className="text-base font-600 ml-[5px]">24</p>
-          </div>
-        </div>
-        <div className="flex gap-[8px] mt-[22px]">
-          <CommonButton
-            variant="ghost_btn"
-            width="164px"
-            height="40px"
-            hasIcon={true}
-            iconName=""
-          >
-            저장
-          </CommonButton>
-          <CommonButton
-            variant="ghost_btn"
-            width="164px"
-            height="40px"
-            hasIcon={true}
-            iconName=""
-          >
-            공유
-          </CommonButton>
-        </div>
+      <InfoWithActions />
+      <Tab list={["정보", "리뷰", "사진"]} />
+      <AboutPlace />
+      <div className="w-[384px] h-[8px] bg-gray-100"></div>
+      <TipList />
+      <div className="border-b-2 border-gray-100"></div>
+      <div className="pt-[28px] pl-[24px] pb-[28px] pr-[24px]">
+        <Button
+          variant="ghost_btn"
+          hasIcon={false}
+          text="리뷰 작성하기"
+          width="336px"
+          height="56px"
+        />
       </div>
-
-      <div></div>
     </div>
   );
 };
