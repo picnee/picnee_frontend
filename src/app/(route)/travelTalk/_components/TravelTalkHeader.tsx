@@ -1,6 +1,6 @@
 "use client";
 
-import CommonButton from "@/components/common/button/CommonButton";
+import Button from "@/components/common/button/Button";
 import { URL } from "@/constants/url";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -91,13 +91,14 @@ const TravelTalkHeader = ({
         )}
       </div>
       <div>
-        <CommonButton
+        <Button
           variant={isActiveButton ? "solid_btn" : "disabled_btn"}
-          size="m"
+          hasIcon={false}
+          text={buttonText}
           onClick={onClickButton}
-        >
-          {buttonText}
-        </CommonButton>
+          width="98px"
+          height="43px"
+        />
       </div>
     </div>
   );
