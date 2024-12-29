@@ -11,17 +11,40 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-		'gray-50' : '#F1F3F64D',
-        'gray-100':'#F1F3F6',
-        'gray-150': '#E8E9EB', // 버튼 비활성화 색상
-        'gray-200':'#D2D5D6', // 버튼 비활성화 border 색상
-        'gray-300': '#B8BFC2', // 버튼 비활성화 텍스트 색상
-        'gray-400':'#A1A9AD',
-        'gray-500':'#828A8F',
-		'gray-900':'#242729',
-		'red' : '#FF0000',
-		'green' : '#00D900',
-    'skyblue' : '#1AB6FF'
+        'gray-30' : '#FBFCFE',
+		    'gray-50' : '#F8F9FC',
+        'gray-100':'#F2F4F7',
+        'gray-150': '#E7EAEF', // 버튼 비활성화 색상
+        'gray-200':'#D3D8DE', // 버튼 비활성화 border 색상
+        'gray-300': '#B8BEC7', // 버튼 비활성화 텍스트 색상
+        'gray-400':'#9DA5AF',
+        'gray-500':'#7C8897',
+        'gray-600':'#63707D',
+        'gray-700':'#4B535D',
+        'gray-800':'#32373E',
+		    'gray-900':'#23252A',
+		    'red' : '#FF0000',
+		    'green' : '#00D900',
+        'skyblue' : '#1AB6FF',
+      semantic: {
+        'green': '#00C73C',
+        'blue': '#3D84FF',
+        'red': '#FF4D4D',
+        'yellow': '#FFE433',
+      },
+      primary: {
+        'skyblue-30': '#F5FCFF',
+        'skyblue-50': '#E5F7FF',
+        'skyblue-100': '#B3E7FF',
+        'skyblue-200': '#80D7FF',
+        'skyblue-300': '#53CBFE',
+        'skyblue-400': '#1AB6FF',
+        'skyblue-500': '#00A5FE',
+        'skyblue-600': '#0091E5',
+        'skyblue-700': '#0573B8',
+        'skyblue-800': '#0B4065',
+        'skyblue-900': '#0F293D',
+      }, 
       },
       fontSize: {
         '6xl': [
