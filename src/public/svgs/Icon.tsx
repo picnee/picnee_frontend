@@ -148,6 +148,23 @@ const Icon = (props: IconProps) => {
         </svg>
       );
 
+    case "downArrowStroke":
+      return (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.625 7.5L10 13.125L4.375 7.5"
+            stroke="#9DA5AF"
+            strokeWidth="1.4"
+          />
+        </svg>
+      );
+
     case "upArrow":
       return (
         <svg
