@@ -25,7 +25,7 @@ const RoundButton = ({
         <span
           className={`${
             iconName === "" &&
-            "w-[24px] h-[24px] mr-[4px] inline-block bg-gray-150"
+            `w-[24px] h-[24px] ${text && "mr-[4px]"} inline-block bg-gray-150`
           }`}
         >
           {iconName && <Icon iconName={iconName} />}
