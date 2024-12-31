@@ -1,6 +1,11 @@
 import Icon from "@/public/svgs/Icon";
+import { memo } from "react";
 
-export type ButtonVariant = "solid_btn" | "ghost_btn" | "disabled_btn";
+export type ButtonVariant =
+  | "solid_btn"
+  | "ghost_btn"
+  | "ghost_btn_gray"
+  | "disabled_btn";
 
 interface Props {
   variant: ButtonVariant;
@@ -10,14 +15,21 @@ interface Props {
   text: string;
   width: string;
   height: string;
+  isClicked?: boolean;
 }
 
-const getButtonTypeCSS = (variant: ButtonVariant) => {
+const getButtonTypeCSS = (variant: ButtonVariant, isClicked?: boolean) => {
   switch (variant) {
     case "ghost_btn":
       return `
-      text-primary-skyblue-400 border border-primary-skyblue-400 hover:bg-gray-50
+      text-primary-skyblue-400 border border-primary-skyblue-400 hover:bg-gray-50 transition-colors duration-300
     `;
+    case "ghost_btn_gray":
+      return `
+        text-black font-600 border border-gray-200 hover:bg-gray-50 transition-colors duration-300 ${
+          isClicked && "text-primary-skyblue-400"
+        }
+      `;
     case "solid_btn":
       return `
       text-white bg-primary-skyblue-400
@@ -39,6 +51,7 @@ const CommonButton = ({
   text,
   width,
   height,
+  isClicked = false,
 }: Props) => {
   const handleClickButton = () => {
     if (onClick && variant !== "disabled_btn") {
@@ -49,7 +62,8 @@ const CommonButton = ({
   return (
     <button
       className={`w-[${width}] h-[${height}] rounded-m ${getButtonTypeCSS(
-        variant
+        variant,
+        isClicked
       )}`}
       style={{ width: width, height: height }}
       onClick={handleClickButton}
@@ -58,7 +72,10 @@ const CommonButton = ({
         {hasIcon && (
           <span
             className={`${
-              iconName === "" && "w-[24px] h-[24px] inline-block bg-gray-150"
+              iconName === "" &&
+              `w-[24px] h-[24px] inline-block ${
+                isClicked ? "border border-primary-skyblue-400" : "bg-gray-150"
+              } `
             }`}
           >
             {iconName && <Icon iconName={iconName} />}
@@ -70,4 +87,4 @@ const CommonButton = ({
   );
 };
 
-export default CommonButton;
+export default memo(CommonButton);

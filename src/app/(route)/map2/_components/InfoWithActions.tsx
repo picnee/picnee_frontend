@@ -1,7 +1,10 @@
 import CommonButton from "@/components/common/button/CommonButton";
 import Icon from "@/public/svgs/Icon";
+import { useState } from "react";
 
 const InfoWithActions = () => {
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+
   return (
     <div className="pt-[20px] pb-[10px] pl-[24px] pr-[24px]">
       <p className="font-500 text-3xl">Rojiura Curry SAMURAI - Harajuku</p>
@@ -20,15 +23,17 @@ const InfoWithActions = () => {
       </div>
       <div className="flex gap-[8px] mt-[22px]">
         <CommonButton
-          variant="ghost_btn"
+          variant="ghost_btn_gray"
           text="저장"
           width="164px"
           height="40px"
           hasIcon={true}
           iconName=""
+          onClick={() => setIsClicked((prev) => !prev)}
+          isClicked={isClicked}
         />
         <CommonButton
-          variant="ghost_btn"
+          variant="ghost_btn_gray"
           text="공유"
           width="164px"
           height="40px"
