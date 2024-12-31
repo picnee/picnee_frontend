@@ -4,7 +4,6 @@ import TipList from "./TipList";
 import InfoWithActions from "./InfoWithActions";
 import AboutPlace from "./AboutPlace";
 import CommonButton from "@/components/common/button/CommonButton";
-import Button from "@/components/common/button/Button";
 
 const DetailList = () => {
   return (
@@ -17,7 +16,7 @@ const DetailList = () => {
       <TipList />
       <div className="border-b-2 border-gray-100"></div>
       <div className="pt-[28px] pl-[24px] pb-[28px] pr-[24px]">
-        <Button
+        <CommonButton
           variant="ghost_btn"
           hasIcon={false}
           text="리뷰 작성하기"

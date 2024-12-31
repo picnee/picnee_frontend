@@ -21,22 +21,20 @@ const InfoWithActions = () => {
       <div className="flex gap-[8px] mt-[22px]">
         <CommonButton
           variant="ghost_btn"
+          text="저장"
           width="164px"
           height="40px"
           hasIcon={true}
           iconName=""
-        >
-          저장
-        </CommonButton>
+        />
         <CommonButton
           variant="ghost_btn"
+          text="공유"
           width="164px"
           height="40px"
           hasIcon={true}
           iconName=""
-        >
-          공유
-        </CommonButton>
+        />
       </div>
     </div>
   );

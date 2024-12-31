@@ -83,26 +83,19 @@ const Header = () => {
               >
                 여행토크
               </li>
-              <div className="flex items-center justify-between mt-[18px] gap-[8px] ml-auto justify-items-end">
-                <CommonButton
-                  variant="solid_btn"
-                  size="ms"
-                  bgColor="gray-150"
-                  fontColor="black"
-                  fontSize="14px"
-                >
-                  리뷰 생성
-                </CommonButton>
+              <div className="flex items-center justify-between gap-[25px] ml-auto justify-items-end">
+                <p className="cursor-pointer">리뷰 생성</p>
                 <CommonButton
                   variant="ghost_btn"
                   onClick={handleLogin}
-                  size="ls"
-                  fontSize="14px"
-                >
-                  {isAuthenticated
-                    ? `환영합니다! ${user?.nickName}님`
-                    : "로그인 및 회원가입"}
-                </CommonButton>
+                  text={
+                    isAuthenticated
+                      ? `환영합니다! ${user?.nickName}님`
+                      : "로그인 및 회원가입"
+                  }
+                  width="144px"
+                  height="40px"
+                />
               </div>
             </ul>
           </nav>
