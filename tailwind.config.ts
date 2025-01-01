@@ -127,9 +127,13 @@ const config: Config = {
       },
       boxShadow: {
         selectShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+        custom: '0px 1px 4px 0px rgba(0, 0, 0, 0.2)',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'), // line-clamp 플러그인
+    require('tailwind-scrollbar-hide'), // scrollbar-hide 플러그인
+  ],
 };
 export default config;
