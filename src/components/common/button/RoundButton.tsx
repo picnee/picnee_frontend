@@ -6,6 +6,13 @@ interface PropsType {
   hasIcon: boolean;
   iconName?: string;
   onClick?: () => void;
+  width?: string;
+  height?: string;
+  pt?: string;
+  pb?: string;
+  pl?: string;
+  pr?: string;
+  fontSize?: string;
 }
 
 const RoundButton = ({
@@ -13,6 +20,13 @@ const RoundButton = ({
   hasIcon = false,
   iconName = "",
   onClick,
+  width = "auto",
+  height = "40px",
+  pt = "4px",
+  pb = "4px",
+  pl = "16px",
+  pr = "16px",
+  fontSize,
 }: PropsType) => {
   const onClickButton = () => {
     if (onClick) {
@@ -20,7 +34,16 @@ const RoundButton = ({
     }
   };
   return (
-    <button className="h-[40px] flex items-center text-gray-500 border border-gray-150 rounded-[50px] pt-[4px] pl-[16px] pb-[4px] pr-[16px]">
+    <button
+      style={{
+        height: height,
+        paddingTop: pt,
+        paddingBottom: pb,
+        paddingLeft: pl,
+        paddingRight: pr,
+      }}
+      className="h-[40px] flex items-center text-gray-500 border border-gray-150 rounded-[50px] pt-[4px] pl-[16px] pb-[4px] pr-[16px]"
+    >
       {hasIcon && (
         <span
           className={`${
@@ -32,7 +55,11 @@ const RoundButton = ({
         </span>
       )}
       {text && (
-        <p className={`whitespace-nowrap`} onClick={onClickButton}>
+        <p
+          className={`whitespace-nowrap`}
+          onClick={onClickButton}
+          style={{ fontSize: fontSize }}
+        >
           {text}
         </p>
       )}
