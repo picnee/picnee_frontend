@@ -1,5 +1,5 @@
 import Icon from "@/public/svgs/Icon";
-import { memo } from "react";
+import { memo, useCallback, useMemo } from "react";
 
 export type ButtonVariant =
   | "solid_btn"
@@ -43,48 +43,54 @@ const getButtonTypeCSS = (variant: ButtonVariant, isClicked?: boolean) => {
   }
 };
 
-const CommonButton = ({
-  variant,
-  hasIcon = false,
-  iconName = "",
-  onClick,
-  text,
-  width,
-  height,
-  isClicked = false,
-}: Props) => {
-  const handleClickButton = () => {
-    if (onClick && variant !== "disabled_btn") {
-      onClick();
-    }
-  };
+const CommonButton = memo(
+  ({
+    variant,
+    hasIcon = false,
+    iconName = "",
+    onClick,
+    text,
+    width,
+    height,
+    isClicked = false,
+  }: Props) => {
+    const handleClickButton = useCallback(() => {
+      if (onClick && variant !== "disabled_btn") {
+        onClick();
+      }
+    }, [onClick, variant]);
 
-  return (
-    <button
-      className={`w-[${width}] h-[${height}] rounded-m ${getButtonTypeCSS(
-        variant,
-        isClicked
-      )}`}
-      style={{ width: width, height: height }}
-      onClick={handleClickButton}
-    >
-      <div className="flex justify-center gap-[6px] align-middle">
-        {hasIcon && (
-          <span
-            className={`${
-              iconName === "" &&
-              `w-[24px] h-[24px] inline-block ${
-                isClicked ? "border border-primary-skyblue-400" : "bg-gray-150"
-              } `
-            }`}
-          >
-            {iconName && <Icon iconName={iconName} />}
-          </span>
-        )}
-        <p>{text}</p>
-      </div>
-    </button>
-  );
-};
+    const style = useMemo(() => ({ width, height }), [width, height]);
 
-export default memo(CommonButton);
+    return (
+      <button
+        className={`w-[${width}] h-[${height}] rounded-m ${getButtonTypeCSS(
+          variant,
+          isClicked
+        )}`}
+        style={style}
+        onClick={handleClickButton}
+      >
+        <div className="flex justify-center gap-[6px] align-middle">
+          {hasIcon && (
+            <span
+              className={`${
+                iconName === "" &&
+                `w-[24px] h-[24px] inline-block ${
+                  isClicked
+                    ? "border border-primary-skyblue-400"
+                    : "bg-gray-150"
+                } `
+              }`}
+            >
+              {iconName && <Icon iconName={iconName} />}
+            </span>
+          )}
+          <p>{text}</p>
+        </div>
+      </button>
+    );
+  }
+);
+
+export default CommonButton;
