@@ -107,7 +107,7 @@ const TipList = () => {
           className="mb-[20px]"
           onClick={() => setShowAllList((prev) => !prev)}
         >
-          <RoundButton hasIcon={true} />
+          <RoundButton hasIcon={true} pl="10px" pr="10px" />
         </div>
       </div>
     </>
