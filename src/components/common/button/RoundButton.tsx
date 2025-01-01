@@ -43,6 +43,7 @@ const RoundButton = ({
         paddingRight: pr,
       }}
       className="h-[40px] flex items-center text-gray-500 border border-gray-150 rounded-[50px] pt-[4px] pl-[16px] pb-[4px] pr-[16px]"
+      onClick={onClickButton}
     >
       {hasIcon && (
         <span
@@ -55,11 +56,7 @@ const RoundButton = ({
         </span>
       )}
       {text && (
-        <p
-          className={`whitespace-nowrap`}
-          onClick={onClickButton}
-          style={{ fontSize: fontSize }}
-        >
+        <p className={`whitespace-nowrap`} style={{ fontSize: fontSize }}>
           {text}
         </p>
       )}
