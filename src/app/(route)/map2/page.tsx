@@ -8,7 +8,7 @@ import DetailList from "./_components/DetailList";
 const map = () => {
   const [showSearchPanel, setShowSearchPanel] = useState<boolean>(true);
   const [selectedMenu, setSelectedMenu] = useState<string>("");
-  const [selectedSearchList, setSelectedSearchList] = useState<string>("h");
+  const [selectedSearchList, setSelectedSearchList] = useState<string>("");
 
   const handleSelectedSearchList = useCallback((value: string) => {
     setSelectedSearchList(value);
@@ -24,7 +24,9 @@ const map = () => {
         {showSearchPanel && (
           <SearchPanel handleSelectedSearchList={handleSelectedSearchList} />
         )}
-        {selectedSearchList && <DetailList />}
+        {selectedSearchList && (
+          <DetailList handleSelectedSearchList={handleSelectedSearchList} />
+        )}
       </div>
     </div>
   );

@@ -1,15 +1,29 @@
 import Tab from "@/components/common/tab/Tab";
-import { memo } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import TipList from "./TipList";
 import InfoWithActions from "./InfoWithActions";
 import AboutPlace from "./AboutPlace";
 import CommonButton from "@/components/common/button/CommonButton";
 import Review from "./Review";
+import RoundButton from "@/components/common/button/RoundButton";
+import ScrollHeader from "./ScrollHeader";
 
-const DetailList = () => {
+interface Props {
+  handleSelectedSearchList: (value: string) => void;
+}
+
+const DetailList = ({ handleSelectedSearchList }: Props) => {
+  const divRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="w-[384px] h-[670px] 2xl:h-[785px] mt-[130px] ml-[32px] rounded-m bg-white overflow-y-scroll overflow-x-hidden">
-      <div className="h-[180px] bg-gray-100"></div>
+    <div
+      ref={divRef}
+      className="w-[384px] h-[670px] 2xl:h-[785px] mt-[130px] ml-[32px] rounded-m bg-white overflow-y-scroll overflow-x-hidden"
+    >
+      <ScrollHeader
+        divRef={divRef}
+        handleSelectedSearchList={handleSelectedSearchList}
+      />
       <InfoWithActions />
       <Tab list={["정보", "리뷰", "사진"]} />
       <AboutPlace />
