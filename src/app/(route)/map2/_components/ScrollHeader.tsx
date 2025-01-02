@@ -35,7 +35,7 @@ const ScrollHeader = ({ divRef, handleSelectedSearchList }: PropsType) => {
   return (
     <div className="h-[180px] bg-gray-100">
       {isScrolled ? (
-        <div className="flex w-[384px] h-[62px] p-[15px] fixed bg-white rounded-t-m">
+        <div className="flex w-[384px] h-[62px] p-[15px] fixed bg-white rounded-t-m z-[999]">
           <p className="w-[350px] font-500 text-lg">
             Rojiura Curry SAMURAI - Harajuku
           </p>
