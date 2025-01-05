@@ -1,6 +1,7 @@
 import RoundButton from "@/components/common/button/RoundButton";
 import SearchBox from "@/components/common/input/SearchBox";
 import SearchList from "./SearchList";
+import { Dispatch, SetStateAction, memo } from "react";
 
 const dummy = [
   {
@@ -55,9 +56,12 @@ const dummy = [
   },
 ];
 
-const SearchPanel = () => {
+interface PropsType {
+  handleSelectedSearchList: (value: string) => void;
+}
+const SearchPanel = ({ handleSelectedSearchList }: PropsType) => {
   return (
-    <div className="pt-[20px] h-[100vh] bg-white overflow-scroll">
+    <div className="w-[440px] pt-[20px] h-[100vh] bg-white overflow-scroll">
       <div className="mb-[40px] pl-[20px] pr-[20px]">
         <SearchBox
           width="100%"
@@ -76,11 +80,15 @@ const SearchPanel = () => {
       </div>
       <div className="border-t border-gray-150">
         {dummy.map((item) => (
-          <SearchList searchListData={item} key={item.id} />
+          <SearchList
+            searchListData={item}
+            key={item.id}
+            handleSelectedSearchList={handleSelectedSearchList}
+          />
         ))}
       </div>
     </div>
   );
 };
 
-export default SearchPanel;
+export default memo(SearchPanel);

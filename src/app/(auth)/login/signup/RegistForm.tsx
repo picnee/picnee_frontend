@@ -376,7 +376,7 @@ const RegistForm = () => {
   }, [nickNameRef.current]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)} className="mt-16">
+    <form onSubmit={handleSubmit(onSubmitHandler)} className="mt-[56px]">
       <div className="flex flex-col">
         <label htmlFor="email" className={labelStyle}>
           이메일
@@ -399,13 +399,11 @@ const RegistForm = () => {
           />
           <CommonButton
             variant={renderEmailProgress()}
-            size="m"
-            marginBottom="0"
             onClick={() => handleCheckEmail(1)}
-            disabled={!validateEmail()}
-          >
-            {isEmailCheck === "ing" ? "재전송" : "인증하기"}
-          </CommonButton>
+            text={isEmailCheck === "ing" ? "재전송" : "인증하기"}
+            width="98px"
+            height="48px"
+          />
         </div>
         {errors.email && errors.email.type === "pattern" && (
           <RegistErrorMsg>올바른 이메일 형식이 아닙니다</RegistErrorMsg>
@@ -557,17 +555,16 @@ const RegistForm = () => {
           </ul>
         </div>
       </div>
-      <CommonButton
-        variant={isRequired ? "solid_btn" : "disabled_btn"}
-        width="384px"
-        size="l"
-        marginTop="1.5rem"
-        marginBottom="0"
-        type="submit"
-        disabled={!isRequired}
-      >
-        회원가입하기
-      </CommonButton>
+      <div className="mt-[24px] mb-[24px]">
+        <CommonButton
+          variant={isRequired ? "solid_btn" : "disabled_btn"}
+          text="회원가입하기"
+          width="384px"
+          height="56px"
+          // type="submit"
+          // disabled={!isRequired}
+        />
+      </div>
     </form>
   );
 };

@@ -93,11 +93,12 @@ const TravelTalkHeader = ({
       <div>
         <CommonButton
           variant={isActiveButton ? "solid_btn" : "disabled_btn"}
-          size="m"
+          hasIcon={false}
+          text={buttonText}
           onClick={onClickButton}
-        >
-          {buttonText}
-        </CommonButton>
+          width="98px"
+          height="43px"
+        />
       </div>
     </div>
   );
