@@ -1,47 +1,39 @@
 import RoundButton from "@/components/common/button/RoundButton";
 import Icon from "@/public/svgs/Icon";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { BestReviewType } from "./Review";
+import ReviewByTypeData from "./ReviewByTypeData";
 
 const iconList = [{}, {}, {}, {}, {}];
-const reviewList = [
-  {
-    icon: "",
-    type: "좋앗던 점",
-    content:
-      "세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다.세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다.세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다.",
-  },
-  {
-    icon: "",
-    type: "아쉬웠던 점",
-    content:
-      "세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다.세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다.세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다.",
-  },
-  {
-    icon: "",
-    type: "장소 팁",
-    content:
-      "세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다.세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다.세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다. 세 줄 이상일 때 더 보기 버튼 추가됩니다.",
-  },
-];
 const categoryList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
-const ReviewList = () => {
-  const [showMoreStates, setShowMoreStates] = useState<boolean[]>(
-    new Array(reviewList.length).fill(false)
-  );
-
-  const handleClickMoreButton = (index: number) => {
-    setShowMoreStates(
-      showMoreStates.map((state, i) => (i === index ? !state : state))
-    );
-  };
+const ReviewList = ({ bestReviewData }: { bestReviewData: BestReviewType }) => {
+  const ReviewListByType = useCallback(() => {
+    return [
+      {
+        icon: "",
+        type: "좋앗던 점",
+        content: `${bestReviewData.touristSpotRes.goodPoints}${bestReviewData.touristSpotRes.goodPoints}${bestReviewData.touristSpotRes.goodPoints}${bestReviewData.touristSpotRes.goodPoints}${bestReviewData.touristSpotRes.goodPoints}${bestReviewData.touristSpotRes.goodPoints}`,
+      },
+      {
+        icon: "",
+        type: "아쉬웠던 점",
+        content: `${bestReviewData.touristSpotRes.lowPoints}`,
+      },
+      {
+        icon: "",
+        type: "장소 팁",
+        content: `${bestReviewData.touristSpotRes.placeTips}`,
+      },
+    ];
+  }, [bestReviewData]);
 
   return (
     <>
       <div className="pt-[24px] mr-[24px] ml-[24px]">
         <div className="flex gap-[8px] items-center mb-[13px]">
           <div className="w-[37px] h-[37px] bg-gray-200 rounded-full"></div>
-          <div>피크니</div>
+          <div>{bestReviewData.touristSpotRes.userRes.nickName}</div>
           <div>
             <RoundButton
               text="1등 리뷰"
@@ -52,6 +44,9 @@ const ReviewList = () => {
               pl="8px"
               pr="8px"
               fontSize="12px"
+              borderColor="#1AB6FF"
+              textColor="#1AB6FF"
+              bgColor="#E5F7FF"
             />
           </div>
           <div className="ml-auto">
@@ -67,28 +62,8 @@ const ReviewList = () => {
           ))}
           <p className="ml-[4px] text-gray-400 text-sm font-500">• 3일 전</p>
         </div>
-        {reviewList.map((item, index) => (
-          <div key={item.type}>
-            <div className="flex gap-[8px] mb-[8px]">
-              <div className="w-[22px] h-[22px] bg-gray-100"></div>
-              <p className="font-600 text-xs text-gray-400">{item.type}</p>
-            </div>
-            <div className="">
-              <p
-                className={`font-400 text-base ${
-                  !showMoreStates[index] && "line-clamp-3"
-                }`}
-              >
-                {item.content}
-              </p>
-            </div>
-            <button
-              className="text-primary-skyblue-400 text-base font-600 mb-[12px]"
-              onClick={() => handleClickMoreButton(index)}
-            >
-              {showMoreStates[index] ? "접기" : "더보기"}
-            </button>
-          </div>
+        {ReviewListByType().map((item, index) => (
+          <ReviewByTypeData item={item} key={index} />
         ))}
       </div>
       <div className="w-full overflow-x-auto mb-[22px] mt-[10px] ml-[24px] scrollbar-hide">
