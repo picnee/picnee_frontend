@@ -1,7 +1,31 @@
 import { useState } from "react";
 import ReviewList from "./ReviewList";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { GetMapBestReviewListOptions } from "@/api/map/query-options";
 
 const reviewData = [{}, {}, {}];
+
+export interface BestReviewType {
+  touristSpotRes: {
+    createdAt: string;
+    goodPoints: string;
+    lowPoints: string;
+    userRes: {
+      nickName: string;
+      userId: string;
+    };
+    placeRes: {
+      lat: string;
+      lng: string;
+      placeId: string;
+      placeName: string;
+      types: string;
+    };
+    placeTips: string;
+    rating: number;
+    reviewId: string;
+  };
+}
 
 const Review = () => {
   const [activeButton, setActiveButton] = useState<string>("베스트 리뷰");
@@ -9,6 +33,15 @@ const Review = () => {
   const handleClickButton = (type: string) => {
     setActiveButton(type);
   };
+
+  /** 리뷰 상세 API 호츌 */
+  const { data: bestReviewData }: UseQueryResult<BestReviewType[]> = useQuery(
+    GetMapBestReviewListOptions({
+      placeId: "123456",
+    })
+  );
+
+  console.log(bestReviewData && bestReviewData);
 
   return (
     <div>
@@ -44,9 +77,13 @@ const Review = () => {
           </p>
         </div>
       </div>
-      {reviewData.map((item, index) => (
-        <ReviewList key={index} />
-      ))}
+      {bestReviewData &&
+        bestReviewData.map((item: BestReviewType) => (
+          <ReviewList
+            key={item.touristSpotRes.createdAt}
+            bestReviewData={item}
+          />
+        ))}
     </div>
   );
 };

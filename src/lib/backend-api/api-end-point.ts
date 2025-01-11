@@ -1,3 +1,4 @@
+import { MapBestRevieParamsType } from "@/types/map";
 import { Method } from "./types";
 import {  DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, LikeCommentParamsType, MyPostDataType, MyPostsParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType, UpdatePostParamsType, UpdateReplyCommentParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
@@ -101,4 +102,12 @@ export const API_ENDPOINT = {
       }
     },
   },
+  map: {
+    BastReview: (requestParams: MapBestRevieParamsType) => {
+      return {
+        url: `/reviews/${requestParams.placeId}/popular_review`,
+        method:Method.GET
+      }
+    }
+  }
 } as const;
