@@ -13,6 +13,9 @@ interface PropsType {
   pl?: string;
   pr?: string;
   fontSize?: string;
+  borderColor?: string;
+  textColor?: string;
+  bgColor?: string;
 }
 
 const RoundButton = ({
@@ -27,6 +30,9 @@ const RoundButton = ({
   pl = "16px",
   pr = "16px",
   fontSize,
+  borderColor,
+  textColor,
+  bgColor,
 }: PropsType) => {
   const onClickButton = () => {
     if (onClick) {
@@ -41,6 +47,9 @@ const RoundButton = ({
         paddingBottom: pb,
         paddingLeft: pl,
         paddingRight: pr,
+        border: `1px solid ${borderColor}`,
+        color: textColor,
+        backgroundColor: bgColor,
       }}
       className="h-[40px] flex items-center text-gray-500 border border-gray-150 rounded-[50px] pt-[4px] pl-[16px] pb-[4px] pr-[16px]"
       onClick={onClickButton}
