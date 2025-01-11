@@ -1,6 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useRef } from "react";
 
 export default function QueryProvider({
@@ -22,6 +23,7 @@ export default function QueryProvider({
 
   return (
     <QueryClientProvider client={queryClientRef.current}>
+      <ReactQueryDevtools initialIsOpen={true} />
       {children}
     </QueryClientProvider>
   );
