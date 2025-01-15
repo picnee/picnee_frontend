@@ -3,11 +3,18 @@ import Icon from "@/public/svgs/Icon";
 import { useCallback, useState } from "react";
 import { BestReviewType } from "./Review";
 import ReviewByTypeData from "./ReviewByTypeData";
+import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 
 const iconList = [{}, {}, {}, {}, {}];
 const categoryList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
-const ReviewList = ({ bestReviewData }: { bestReviewData: BestReviewType }) => {
+const ReviewList = ({
+  bestReviewData,
+  type,
+}: {
+  bestReviewData: BestReviewType;
+  type: string;
+}) => {
   const ReviewListByType = useCallback(() => {
     return [
       {
@@ -35,19 +42,21 @@ const ReviewList = ({ bestReviewData }: { bestReviewData: BestReviewType }) => {
           <div className="w-[37px] h-[37px] bg-gray-200 rounded-full"></div>
           <div>{bestReviewData.touristSpotRes.userRes.nickName}</div>
           <div>
-            <RoundButton
-              text="1등 리뷰"
-              hasIcon={false}
-              height="22px"
-              pt="0px"
-              pb="0px"
-              pl="8px"
-              pr="8px"
-              fontSize="12px"
-              borderColor="#1AB6FF"
-              textColor="#1AB6FF"
-              bgColor="#E5F7FF"
-            />
+            {type === "베스트 리뷰" && (
+              <RoundButton
+                text="1등 리뷰"
+                hasIcon={false}
+                height="22px"
+                pt="0px"
+                pb="0px"
+                pl="8px"
+                pr="8px"
+                fontSize="12px"
+                borderColor="#1AB6FF"
+                textColor="#1AB6FF"
+                bgColor="#E5F7FF"
+              />
+            )}
           </div>
           <div className="ml-auto">
             <Icon iconName="moreIcon" />
@@ -60,7 +69,9 @@ const ReviewList = ({ bestReviewData }: { bestReviewData: BestReviewType }) => {
               className="w-[20px] h-[20px] border border-gray-400 rounded-[4px]"
             ></span>
           ))}
-          <p className="ml-[4px] text-gray-400 text-sm font-500">• 3일 전</p>
+          <p className="ml-[4px] text-gray-400 text-sm font-500">
+            • {useFormatTimeAgo(bestReviewData.touristSpotRes.createdAt)}
+          </p>
         </div>
         {ReviewListByType().map((item, index) => (
           <ReviewByTypeData item={item} key={index} />
