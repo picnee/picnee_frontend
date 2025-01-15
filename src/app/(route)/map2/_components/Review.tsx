@@ -1,7 +1,60 @@
 import { useState } from "react";
 import ReviewList from "./ReviewList";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import {
+  GetMapAllReviewListOptions,
+  GetMapBestReviewListOptions,
+} from "@/api/map/query-options";
 
 const reviewData = [{}, {}, {}];
+
+export interface BestReviewType {
+  touristSpotRes: {
+    createdAt: string;
+    goodPoints: string;
+    lowPoints: string;
+    userRes: {
+      nickName: string;
+      userId: string;
+    };
+    placeRes: {
+      lat: string;
+      lng: string;
+      placeId: string;
+      placeName: string;
+      types: string;
+    };
+    placeTips: string;
+    rating: number;
+    reviewId: string;
+  };
+}
+
+export interface AllReviewType {
+  content: [
+    {
+      touristSpotRes: {
+        createdAt: string;
+        goodPoints: string;
+        lowPoints: string;
+        userRes: {
+          nickName: string;
+          userId: string;
+        };
+        placeRes: {
+          lat: string;
+          lng: string;
+          placeId: string;
+          placeName: string;
+          types: string;
+        };
+        placeTips: string;
+        rating: number;
+        reviewId: string;
+      };
+    }
+  ];
+}
 
 const Review = () => {
   const [activeButton, setActiveButton] = useState<string>("베스트 리뷰");
@@ -9,6 +62,22 @@ const Review = () => {
   const handleClickButton = (type: string) => {
     setActiveButton(type);
   };
+
+  /** 베스트 리뷰 API 호츌 */
+  const { data: bestReviewData }: UseQueryResult<BestReviewType[]> = useQuery(
+    GetMapBestReviewListOptions({
+      placeId: "123456",
+    })
+  );
+
+  /** 전체 리뷰 API 호츌 */
+  const { data: totalReviewData }: UseQueryResult<AllReviewType> = useQuery(
+    GetMapAllReviewListOptions({
+      placeId: "123456",
+    })
+  );
+
+  console.log(totalReviewData && totalReviewData.content);
 
   return (
     <div>
@@ -44,9 +113,24 @@ const Review = () => {
           </p>
         </div>
       </div>
-      {reviewData.map((item, index) => (
-        <ReviewList key={index} />
-      ))}
+      {activeButton === "베스트 리뷰" &&
+        bestReviewData &&
+        bestReviewData.map((item: BestReviewType) => (
+          <ReviewList
+            key={item.touristSpotRes.createdAt}
+            bestReviewData={item}
+            type="베스트 리뷰"
+          />
+        ))}
+      {activeButton === "리뷰" &&
+        totalReviewData &&
+        totalReviewData.content.map((item: BestReviewType) => (
+          <ReviewList
+            key={item.touristSpotRes.createdAt}
+            bestReviewData={item}
+            type="리뷰"
+          />
+        ))}
     </div>
   );
 };
