@@ -246,7 +246,7 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
                             <Icon iconName="moreIcon" />
                           </div>
                           {showReReplyMenu === item.commentId && (
-                            <ReplyMenu
+                            <MoreMenu
                               isMyComment={item.userRes.userId === user?.userId}
                               handleCloseMenu={() => setShowReReplyMenu("")}
                               handleClickModifyButton={() => {

@@ -260,7 +260,7 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
                 <Icon iconName="moreIcon" />
               </div>
               {showReplyMenu && (
-                <ReplyMenu
+                <MoreMenu
                   isMyComment={user?.userId === commentData.userRes.userId}
                   handleCloseMenu={() => setShowReplyMenu(false)}
                   handleClickModifyButton={handleClickModifyButton}

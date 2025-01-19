@@ -4,6 +4,9 @@ import { useCallback, useState } from "react";
 import { BestReviewType } from "./Review";
 import ReviewByTypeData from "./ReviewByTypeData";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
+import MoreMenu from "../../travelTalk/detail/[postId]/_components/MoreMenu";
+import { useUserStore } from "@/store/zustand/useUserStore";
+import ConfirmModal from "@/components/modal/ConfirmModal";
 
 const iconList = [{}, {}, {}, {}, {}];
 const categoryList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
@@ -11,10 +14,19 @@ const categoryList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 const ReviewList = ({
   bestReviewData,
   type,
+  rank,
 }: {
   bestReviewData: BestReviewType;
   type: string;
+  rank?: number;
 }) => {
+  // 현재 활성화된 리뷰 더보기 메뉴 show/hide 상태 관리
+  const [showMoreMenu, setShowMoreMenu] = useState<string>("");
+  // 로그인한 유저 정보
+  const { user } = useUserStore();
+  // 삭제 확인 모달
+  const [isShowConfirmModal, setIsShowConfirmModal] = useState<boolean>(false);
+
   const ReviewListByType = useCallback(() => {
     return [
       {
@@ -44,7 +56,9 @@ const ReviewList = ({
           <div>
             {type === "베스트 리뷰" && (
               <RoundButton
-                text="1등 리뷰"
+                text={
+                  rank === 0 ? "1등 리뷰" : rank === 1 ? "2등 리뷰" : "3등 리뷰"
+                }
                 hasIcon={false}
                 height="22px"
                 pt="0px"
@@ -52,14 +66,35 @@ const ReviewList = ({
                 pl="8px"
                 pr="8px"
                 fontSize="12px"
-                borderColor="#1AB6FF"
-                textColor="#1AB6FF"
-                bgColor="#E5F7FF"
+                borderColor={rank === 0 ? "#1AB6FF" : "#0DDBFF"}
+                textColor={rank === 0 ? "#1AB6FF" : "#00CCF5"}
+                bgColor={rank === 0 ? "#E5F7FF" : "#E0FBFF"}
               />
             )}
           </div>
-          <div className="ml-auto">
-            <Icon iconName="moreIcon" />
+          <div
+            className="relative w-[17px] h-[6px] ml-auto cursor-pointer"
+            onClick={() =>
+              setShowMoreMenu(bestReviewData.touristSpotRes.reviewId)
+            }
+          >
+            <div>
+              <Icon iconName="moreIcon" />
+            </div>
+            {showMoreMenu === bestReviewData.touristSpotRes.reviewId && (
+              <MoreMenu
+                isMyComment={
+                  // bestReviewData.touristSpotRes.userRes.userId === user?.userId
+                  true
+                }
+                handleCloseMenu={() => setShowMoreMenu("")}
+                handleClickModifyButton={() => {
+                  console.log("수정");
+                }}
+                handleClickDeleteButton={() => setIsShowConfirmModal(true)}
+                handleClickReportButton={() => console.log("신고요")}
+              />
+            )}
           </div>
         </div>
         <div className="flex gap-[2px] items-center mb-[16px]">
@@ -102,6 +137,9 @@ const ReviewList = ({
           별로에요 <span className="font-500 text-sm text-gray-300">0</span>
         </button>
       </div>
+
+      {/* 삭제 확인용 모달 */}
+      {/* {isShowConfirmModal && <ConfirmModal />} */}
     </>
   );
 };

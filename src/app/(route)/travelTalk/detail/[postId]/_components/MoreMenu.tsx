@@ -8,7 +8,7 @@ interface PropsType {
   handleCloseMenu: () => void;
 }
 
-const ReplyMenu = ({
+const MoreMenu = ({
   isMyComment,
   handleClickModifyButton,
   handleClickDeleteButton,
@@ -33,7 +33,7 @@ const ReplyMenu = ({
   return (
     <div
       ref={menuRef}
-      className="reply-menu absolute z-[99] w-[120px] h-[auto] p-[20px] top-[20px] right-[0px] 
+      className="absolute z-[99] w-[120px] h-[auto] p-[20px] top-[20px] right-[0px] 
         shadow-[0px_2px_16px_rgba(0,0,0,0.25)] rounded-m bg-white"
     >
       {isMyComment ? (
@@ -57,4 +57,4 @@ const ReplyMenu = ({
   );
 };
 
-export default memo(ReplyMenu);
+export default memo(MoreMenu);

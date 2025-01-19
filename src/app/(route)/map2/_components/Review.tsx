@@ -115,11 +115,12 @@ const Review = () => {
       </div>
       {activeButton === "베스트 리뷰" &&
         bestReviewData &&
-        bestReviewData.map((item: BestReviewType) => (
+        bestReviewData.map((item: BestReviewType, index: number) => (
           <ReviewList
             key={item.touristSpotRes.createdAt}
             bestReviewData={item}
             type="베스트 리뷰"
+            rank={index}
           />
         ))}
       {activeButton === "리뷰" &&
