@@ -2,7 +2,7 @@ import Like from "@/components/common/Like";
 import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
 import { memo, useCallback, useState } from "react";
-import ReplyMenu from "./ReplyMenu";
+import MoreMenu from "./MoreMenu";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
@@ -250,7 +250,7 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
                 <Icon iconName="moreIcon" />
               </div>
               {showReplyMenu && (
-                <ReplyMenu
+                <MoreMenu
                   isMyComment={user?.userId === commentData.userRes.userId}
                   handleCloseMenu={() => setShowReplyMenu(false)}
                   handleClickModifyButton={handleClickModifyButton}

@@ -4,6 +4,9 @@ import { useCallback, useState } from "react";
 import { BestReviewType } from "./Review";
 import ReviewByTypeData from "./ReviewByTypeData";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
+import MoreMenu from "../../travelTalk/detail/[postId]/_components/MoreMenu";
+import { useUserStore } from "@/store/zustand/useUserStore";
+import ConfirmModal from "@/components/modal/ConfirmModal";
 
 const iconList = [{}, {}, {}, {}, {}];
 const categoryList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
@@ -17,6 +20,13 @@ const ReviewList = ({
   type: string;
   rank?: number;
 }) => {
+  // 현재 활성화된 리뷰 더보기 메뉴 show/hide 상태 관리
+  const [showMoreMenu, setShowMoreMenu] = useState<string>("");
+  // 로그인한 유저 정보
+  const { user } = useUserStore();
+  // 삭제 확인 모달
+  const [isShowConfirmModal, setIsShowConfirmModal] = useState<boolean>(false);
+
   const ReviewListByType = useCallback(() => {
     return [
       {
@@ -62,8 +72,29 @@ const ReviewList = ({
               />
             )}
           </div>
-          <div className="ml-auto">
-            <Icon iconName="moreIcon" />
+          <div
+            className="relative w-[17px] h-[6px] ml-auto cursor-pointer"
+            onClick={() =>
+              setShowMoreMenu(bestReviewData.touristSpotRes.reviewId)
+            }
+          >
+            <div>
+              <Icon iconName="moreIcon" />
+            </div>
+            {showMoreMenu === bestReviewData.touristSpotRes.reviewId && (
+              <MoreMenu
+                isMyComment={
+                  // bestReviewData.touristSpotRes.userRes.userId === user?.userId
+                  true
+                }
+                handleCloseMenu={() => setShowMoreMenu("")}
+                handleClickModifyButton={() => {
+                  console.log("수정");
+                }}
+                handleClickDeleteButton={() => setIsShowConfirmModal(true)}
+                handleClickReportButton={() => console.log("신고요")}
+              />
+            )}
           </div>
         </div>
         <div className="flex gap-[2px] items-center mb-[16px]">
@@ -106,6 +137,9 @@ const ReviewList = ({
           별로에요 <span className="font-500 text-sm text-gray-300">0</span>
         </button>
       </div>
+
+      {/* 삭제 확인용 모달 */}
+      {/* {isShowConfirmModal && <ConfirmModal />} */}
     </>
   );
 };
