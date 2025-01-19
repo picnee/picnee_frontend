@@ -11,9 +11,11 @@ const categoryList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 const ReviewList = ({
   bestReviewData,
   type,
+  rank,
 }: {
   bestReviewData: BestReviewType;
   type: string;
+  rank?: number;
 }) => {
   const ReviewListByType = useCallback(() => {
     return [
@@ -44,7 +46,9 @@ const ReviewList = ({
           <div>
             {type === "베스트 리뷰" && (
               <RoundButton
-                text="1등 리뷰"
+                text={
+                  rank === 0 ? "1등 리뷰" : rank === 1 ? "2등 리뷰" : "3등 리뷰"
+                }
                 hasIcon={false}
                 height="22px"
                 pt="0px"
@@ -52,9 +56,9 @@ const ReviewList = ({
                 pl="8px"
                 pr="8px"
                 fontSize="12px"
-                borderColor="#1AB6FF"
-                textColor="#1AB6FF"
-                bgColor="#E5F7FF"
+                borderColor={rank === 0 ? "#1AB6FF" : "#0DDBFF"}
+                textColor={rank === 0 ? "#1AB6FF" : "#00CCF5"}
+                bgColor={rank === 0 ? "#E5F7FF" : "#E0FBFF"}
               />
             )}
           </div>
