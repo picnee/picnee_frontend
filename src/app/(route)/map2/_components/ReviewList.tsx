@@ -84,8 +84,8 @@ const ReviewList = ({
             {showMoreMenu === bestReviewData.touristSpotRes.reviewId && (
               <MoreMenu
                 isMyComment={
-                  // bestReviewData.touristSpotRes.userRes.userId === user?.userId
-                  true
+                  bestReviewData.touristSpotRes.userRes.userId === user?.userId
+                  // true
                 }
                 handleCloseMenu={() => setShowMoreMenu("")}
                 handleClickModifyButton={() => {
