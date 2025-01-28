@@ -10,7 +10,7 @@ import { DeleteReviewData } from "./actions/DeleteReviewData";
 
 export interface DeletePropsType {
   isShowConfirmModal: boolean;
-  reviewId: string;
+  reviewId?: string;
 }
 const map = () => {
   const queryClient = useQueryClient();
@@ -74,7 +74,7 @@ const map = () => {
       {reviewData.isShowConfirmModal && (
         <ConfirmModal
           text="댓글을 삭제하시겠습니까?"
-          setReviewData={setReviewData}
+          setConfirmData={setReviewData}
           onClick={handleDeleteButton}
         />
       )}

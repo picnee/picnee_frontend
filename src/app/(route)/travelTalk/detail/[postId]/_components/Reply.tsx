@@ -2,7 +2,6 @@ import Like from "@/components/common/Like";
 import Textarea from "@/components/common/input/Textarea";
 import Icon from "@/public/svgs/Icon";
 import { memo, useCallback, useEffect, useState } from "react";
-import ReplyMenu from "./ReplyMenu";
 import FormatTimeAgo from "@/utils/FormatTimeAgo";
 import { useUserStore } from "@/store/zustand/useUserStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import { UpdateReplyCommentData } from "../actions/UpdateReplyCommentData";
 import { LikeCommentData } from "../actions/LikeCommentData";
 import useQueryParam from "@/hooks/useQueryParam";
 import ScrollIntoView from "@/utils/ScrollIntoView";
+import MoreMenu from "./MoreMenu";
 
 interface dataType {
   commentId: string;
