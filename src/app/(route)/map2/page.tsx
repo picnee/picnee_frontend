@@ -73,7 +73,7 @@ const map = () => {
       {/* 삭제 확인용 모달 */}
       {reviewData.isShowConfirmModal && (
         <ConfirmModal
-          text="댓글을 삭제하시겠습니까?"
+          text="리뷰를 삭제하시겠습니까?"
           setConfirmData={setReviewData}
           onClick={handleDeleteButton}
         />
