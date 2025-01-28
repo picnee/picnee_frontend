@@ -25,7 +25,7 @@ const ConfirmModal = ({ text, setConfirmData, onClick }: PropsType) => {
             onClick={() =>
               setConfirmData({
                 isShowConfirmModal: false,
-                reviewId: "",
+                id: "",
               })
             }
           />

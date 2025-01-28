@@ -94,7 +94,7 @@ const ReviewList = ({
                 handleClickDeleteButton={() =>
                   setReviewData({
                     isShowConfirmModal: true,
-                    reviewId: bestReviewData.touristSpotRes.reviewId,
+                    id: bestReviewData.touristSpotRes.reviewId,
                   })
                 }
                 handleClickReportButton={() => console.log("신고요")}

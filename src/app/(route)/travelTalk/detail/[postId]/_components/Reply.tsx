@@ -13,6 +13,8 @@ import { LikeCommentData } from "../actions/LikeCommentData";
 import useQueryParam from "@/hooks/useQueryParam";
 import ScrollIntoView from "@/utils/ScrollIntoView";
 import MoreMenu from "./MoreMenu";
+import ConfirmModal from "@/components/modal/ConfirmModal";
+import { DeletePropsType } from "@/app/(route)/map2/page";
 
 interface dataType {
   commentId: string;
@@ -48,6 +50,12 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
     useState<string>("");
   // 수정 댓글 내용
   const [updateComment, setUpdateComment] = useState<string>("");
+  // 대댓글 삭제 확인 모달
+  const [confirmCommentModal, setConfirmCommentModal] =
+    useState<DeletePropsType>({
+      isShowConfirmModal: false,
+      id: "",
+    });
 
   /** 대댓글 - 답글 달기 */
   const mutation = useMutation({
@@ -85,6 +93,7 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
       queryClient.invalidateQueries({
         queryKey: ["myTravelTalkCommentData"],
       });
+      setConfirmCommentModal({ isShowConfirmModal: false, id: "" });
     },
     onError: () => {
       alert("요청 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -140,7 +149,7 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
     setIsOpenUpdateReReplyBox(id);
   }, []);
 
-  const handleClickDeleteButton = useCallback(
+  const handleDeleteButton = useCallback(
     (replyId: string) => {
       setShowReReplyMenu!("");
       if (postId && replyId) {
@@ -254,7 +263,10 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
                                 setUpdateComment(item.content);
                               }}
                               handleClickDeleteButton={() =>
-                                handleClickDeleteButton(item.commentId)
+                                setConfirmCommentModal({
+                                  isShowConfirmModal: true,
+                                  id: item.commentId,
+                                })
                               }
                               handleClickReportButton={handleClickReportButton}
                             />
@@ -329,6 +341,16 @@ const Reply = ({ reReplyCommentData, commentId }: PropsData) => {
           </div>
         );
       })}
+      {confirmCommentModal.isShowConfirmModal && (
+        <ConfirmModal
+          text="대댓글을 삭제하시겠습니까?"
+          setConfirmData={setConfirmCommentModal}
+          onClick={() => {
+            if (confirmCommentModal.id)
+              handleDeleteButton(confirmCommentModal.id);
+          }}
+        />
+      )}
     </>
   );
 };

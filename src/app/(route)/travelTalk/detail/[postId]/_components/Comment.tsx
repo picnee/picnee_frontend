@@ -13,6 +13,8 @@ import { LikeCommentData } from "../actions/LikeCommentData";
 import useQueryParam from "@/hooks/useQueryParam";
 import ScrollIntoView from "@/utils/ScrollIntoView";
 import MoreMenu from "./MoreMenu";
+import ConfirmModal from "@/components/modal/ConfirmModal";
+import { DeletePropsType } from "@/app/(route)/map2/page";
 
 interface commentDataType {
   commentData: {
@@ -49,6 +51,11 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
   const [updateComment, setUpdateComment] = useState<string>(
     commentData.content
   );
+  // 댓글 삭제 확인 모달
+  const [confirmCommentModal, setConfirmCommentModal] =
+    useState<DeletePropsType>({
+      isShowConfirmModal: false,
+    });
 
   /** 댓글 - 답글 달기 API */
   const mutation = useMutation({
@@ -148,7 +155,7 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
     setShowReplyMenu!(false);
   }, []);
 
-  const handleClickDeleteButton = useCallback(() => {
+  const handleDeleteButton = useCallback(() => {
     setShowReplyMenu!(false);
     if (postId && commentId) {
       deleteReplyCommentMutation.mutate({
@@ -264,7 +271,9 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
                   isMyComment={user?.userId === commentData.userRes.userId}
                   handleCloseMenu={() => setShowReplyMenu(false)}
                   handleClickModifyButton={handleClickModifyButton}
-                  handleClickDeleteButton={handleClickDeleteButton}
+                  handleClickDeleteButton={() =>
+                    setConfirmCommentModal({ isShowConfirmModal: true })
+                  }
                   handleClickReportButton={handleClickReportButton}
                 />
               )}
@@ -298,6 +307,13 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
             />
           </div>
         </div>
+      )}
+      {confirmCommentModal.isShowConfirmModal && (
+        <ConfirmModal
+          text="댓글을 삭제하시겠습니까?"
+          setConfirmData={setConfirmCommentModal}
+          onClick={handleDeleteButton}
+        />
       )}
     </>
   );
