@@ -6,7 +6,7 @@ interface PropsType {
 const Sticker = ({ title }: PropsType) => {
   return (
     <div className="text-sm pl-[8px] pr-[8px] text-gray-400 bg-gray-100 rounded-xs inline-block h-[24px]">
-      <p className="text-center">{title}</p>
+      <p className="text-center mt-[1.5px]">{title}</p>
     </div>
   );
 };

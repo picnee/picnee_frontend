@@ -18,7 +18,7 @@ import {
   GetTravelTalkCommentOptions,
   GetTravelTalkDetailPostOptions,
 } from "@/api/travelTalk/query-options";
-import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
+import FormatTimeAgo from "@/utils/FormatTimeAgo";
 import { InsertCommentData } from "./actions/InsertCommentData";
 import { useUserStore } from "@/store/zustand/useUserStore";
 import { DeletePostData } from "./actions/DeletePostData";
@@ -169,7 +169,7 @@ const TravelTalkListDetailPage = () => {
                   <p>•</p>
                   <p>
                     {getDetailPostData &&
-                      useFormatTimeAgo(getDetailPostData.createdAt)}
+                      FormatTimeAgo(getDetailPostData.createdAt)}
                   </p>
                 </div>
                 <div className="mb-[40px]">
