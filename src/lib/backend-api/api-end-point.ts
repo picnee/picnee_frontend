@@ -1,4 +1,4 @@
-import { MapAllRevieParamsType, MapBestRevieParamsType } from "@/types/map";
+import { DeleteReviewParamsType, MapAllRevieParamsType, MapBestRevieParamsType } from "@/types/map";
 import { Method } from "./types";
 import {  DeletePostParamsType, DeleteReplyCommentParamsType, InsertCommentParamsType, InsertPostParamsType, InsertReplyCommentParamsType, LikeCommentParamsType, MyPostDataType, MyPostsParamsType, TravelTalkCommentParamsType, TravelTalkDetailPostParamsType, TravelTalkRequestParamsType, UpdatePostParamsType, UpdateReplyCommentParamsType } from "@/types/travelTalk";
 export type ApiEndpoint = {
@@ -116,6 +116,13 @@ export const API_ENDPOINT = {
         url: `/reviews/place/${requestParams.placeId}`,
         method:Method.GET
       }
-    }
+    },
+    // 지도 - 리뷰 삭제
+    DeleteReview: (requestParams:DeleteReviewParamsType) => {
+      return {
+        url: `reviews/${requestParams.reviewId}`,
+        method: Method.DELETE,
+      }
+    },
   }
 } as const;

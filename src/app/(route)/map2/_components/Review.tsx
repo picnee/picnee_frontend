@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import ReviewList from "./ReviewList";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import {
   GetMapAllReviewListOptions,
   GetMapBestReviewListOptions,
 } from "@/api/map/query-options";
+import { DeletePropsType } from "../page";
 
 const reviewData = [{}, {}, {}];
 
@@ -56,7 +57,11 @@ export interface AllReviewType {
   ];
 }
 
-const Review = () => {
+interface PropsType {
+  setReviewData: Dispatch<SetStateAction<DeletePropsType>>;
+}
+
+const Review = ({ setReviewData }: PropsType) => {
   const [activeButton, setActiveButton] = useState<string>("베스트 리뷰");
 
   const handleClickButton = (type: string) => {
@@ -121,6 +126,7 @@ const Review = () => {
             bestReviewData={item}
             type="베스트 리뷰"
             rank={index}
+            setReviewData={setReviewData}
           />
         ))}
       {activeButton === "리뷰" &&
@@ -130,6 +136,7 @@ const Review = () => {
             key={item.touristSpotRes.createdAt}
             bestReviewData={item}
             type="리뷰"
+            setReviewData={setReviewData}
           />
         ))}
     </div>

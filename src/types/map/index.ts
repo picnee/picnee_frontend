@@ -8,3 +8,6 @@ export interface MapAllRevieParamsType {
   page?: string
 }
   
+export interface DeleteReviewParamsType {
+  reviewId: string
+}
