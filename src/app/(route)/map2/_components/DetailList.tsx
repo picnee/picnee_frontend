@@ -1,5 +1,12 @@
 import Tab from "@/components/common/tab/Tab";
-import { memo, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  memo,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import TipList from "./TipList";
 import InfoWithActions from "./InfoWithActions";
 import AboutPlace from "./AboutPlace";
@@ -7,12 +14,14 @@ import CommonButton from "@/components/common/button/CommonButton";
 import Review from "./Review";
 import RoundButton from "@/components/common/button/RoundButton";
 import ScrollHeader from "./ScrollHeader";
+import { DeletePropsType } from "../page";
 
 interface Props {
   handleSelectedSearchList: (value: string) => void;
+  setReviewData: Dispatch<SetStateAction<DeletePropsType>>;
 }
 
-const DetailList = ({ handleSelectedSearchList }: Props) => {
+const DetailList = ({ handleSelectedSearchList, setReviewData }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -39,7 +48,7 @@ const DetailList = ({ handleSelectedSearchList }: Props) => {
           height="56px"
         />
       </div>
-      <Review />
+      <Review setReviewData={setReviewData} />
     </div>
   );
 };

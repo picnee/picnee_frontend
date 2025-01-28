@@ -1,12 +1,13 @@
 import RoundButton from "@/components/common/button/RoundButton";
 import Icon from "@/public/svgs/Icon";
-import { useCallback, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { BestReviewType } from "./Review";
 import ReviewByTypeData from "./ReviewByTypeData";
 import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 import MoreMenu from "../../travelTalk/detail/[postId]/_components/MoreMenu";
 import { useUserStore } from "@/store/zustand/useUserStore";
 import ConfirmModal from "@/components/modal/ConfirmModal";
+import { DeletePropsType } from "../page";
 
 const iconList = [{}, {}, {}, {}, {}];
 const categoryList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
@@ -15,17 +16,17 @@ const ReviewList = ({
   bestReviewData,
   type,
   rank,
+  setReviewData,
 }: {
   bestReviewData: BestReviewType;
   type: string;
   rank?: number;
+  setReviewData: Dispatch<SetStateAction<DeletePropsType>>;
 }) => {
   // 현재 활성화된 리뷰 더보기 메뉴 show/hide 상태 관리
   const [showMoreMenu, setShowMoreMenu] = useState<string>("");
   // 로그인한 유저 정보
   const { user } = useUserStore();
-  // 삭제 확인 모달
-  const [isShowConfirmModal, setIsShowConfirmModal] = useState<boolean>(false);
 
   const ReviewListByType = useCallback(() => {
     return [
@@ -91,7 +92,12 @@ const ReviewList = ({
                 handleClickModifyButton={() => {
                   console.log("수정");
                 }}
-                handleClickDeleteButton={() => setIsShowConfirmModal(true)}
+                handleClickDeleteButton={() =>
+                  setReviewData({
+                    isShowConfirmModal: true,
+                    reviewId: bestReviewData.touristSpotRes.reviewId,
+                  })
+                }
                 handleClickReportButton={() => console.log("신고요")}
               />
             )}
@@ -137,9 +143,6 @@ const ReviewList = ({
           별로에요 <span className="font-500 text-sm text-gray-300">0</span>
         </button>
       </div>
-
-      {/* 삭제 확인용 모달 */}
-      {/* {isShowConfirmModal && <ConfirmModal />} */}
     </>
   );
 };
