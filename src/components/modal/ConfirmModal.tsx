@@ -5,11 +5,11 @@ import { DeletePropsType } from "@/app/(route)/map2/page";
 
 interface PropsType {
   text: string;
-  setReviewData: Dispatch<SetStateAction<DeletePropsType>>;
+  setConfirmData: Dispatch<SetStateAction<DeletePropsType>>;
   onClick: () => void;
 }
 
-const ConfirmModal = ({ text, setReviewData, onClick }: PropsType) => {
+const ConfirmModal = ({ text, setConfirmData, onClick }: PropsType) => {
   return (
     <div className="fixed z-[9999] inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
       <div className="absolute top-[35%] left-[35%] bg-white w-[440px] h-[177px] rounded-m p-[20px]">
@@ -23,9 +23,9 @@ const ConfirmModal = ({ text, setReviewData, onClick }: PropsType) => {
             width="194px"
             height="40px"
             onClick={() =>
-              setReviewData({
+              setConfirmData({
                 isShowConfirmModal: false,
-                reviewId: "",
+                id: "",
               })
             }
           />

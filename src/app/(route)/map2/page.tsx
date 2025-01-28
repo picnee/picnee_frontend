@@ -10,7 +10,7 @@ import { DeleteReviewData } from "./actions/DeleteReviewData";
 
 export interface DeletePropsType {
   isShowConfirmModal: boolean;
-  reviewId: string;
+  id?: string;
 }
 const map = () => {
   const queryClient = useQueryClient();
@@ -20,7 +20,7 @@ const map = () => {
   // 리뷰 데이터 - 모달 활성화 여부, 리뷰ID
   const [reviewData, setReviewData] = useState<DeletePropsType>({
     isShowConfirmModal: false,
-    reviewId: "",
+    id: "",
   });
 
   const handleSelectedSearchList = useCallback((value: string) => {
@@ -46,8 +46,8 @@ const map = () => {
   });
 
   const handleDeleteButton = () => {
-    if (reviewData.reviewId) {
-      mutation.mutate({ reviewId: reviewData.reviewId });
+    if (reviewData.id) {
+      mutation.mutate({ reviewId: reviewData.id });
     }
   };
 
@@ -73,8 +73,8 @@ const map = () => {
       {/* 삭제 확인용 모달 */}
       {reviewData.isShowConfirmModal && (
         <ConfirmModal
-          text="댓글을 삭제하시겠습니까?"
-          setReviewData={setReviewData}
+          text="리뷰를 삭제하시겠습니까?"
+          setConfirmData={setReviewData}
           onClick={handleDeleteButton}
         />
       )}

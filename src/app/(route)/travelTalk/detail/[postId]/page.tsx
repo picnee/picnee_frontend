@@ -24,12 +24,18 @@ import { useUserStore } from "@/store/zustand/useUserStore";
 import { DeletePostData } from "./actions/DeletePostData";
 import { URL } from "@/constants/url";
 import { useTravelTalkPostDetailDataStore } from "@/store/zustand/useTravelTalkStore";
+import ConfirmModal from "@/components/modal/ConfirmModal";
+import { DeletePropsType } from "@/app/(route)/map2/page";
 
 const TravelTalkListDetailPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   // 댓글 관련 상태
   const [comment, setComment] = useState<string>("");
+  // 게시글 삭제 확인 모달
+  const [postData, setPostData] = useState<DeletePropsType>({
+    isShowConfirmModal: false,
+  });
   // 게시글 고유 번호
   const { postId }: any = useParams();
   // 로그인한 유저 정보
@@ -126,7 +132,7 @@ const TravelTalkListDetailPage = () => {
     }
   };
 
-  const deletePost = () => {
+  const handleDeleteButton = () => {
     if (postId) {
       deletePostMutation.mutate({ postId: postId });
     }
@@ -138,105 +144,121 @@ const TravelTalkListDetailPage = () => {
   };
 
   return (
-    <div>
-      <div className="w-[1200px] pt-[35px] fixed bg-white z-[999]">
-        <TravelTalkHeader hasFilter={false} isActiveButton={true} />
-      </div>
-      <div className="grid grid-cols-4 gap-[24px] pt-[120px]">
-        <div className="col-span-1">
-          <SideBarNav />
+    <>
+      <div>
+        <div className="w-[1200px] pt-[35px] fixed bg-white z-[999]">
+          <TravelTalkHeader hasFilter={false} isActiveButton={true} />
         </div>
-        <div className="col-span-3">
-          <div className="border border-gray-150 box-border pt-[24px] pb-[0px] rounded-sm">
-            <div className="pl-[24px] pr-[24px]">
-              <div className="mb-[24px]">
-                <Sticker
-                  title={
-                    getDetailPostData &&
-                    getDetailPostData.boardRes.boardCategory
+        <div className="grid grid-cols-4 gap-[24px] pt-[120px]">
+          <div className="col-span-1">
+            <SideBarNav />
+          </div>
+          <div className="col-span-3">
+            <div className="border border-gray-150 box-border pt-[24px] pb-[0px] rounded-sm">
+              <div className="pl-[24px] pr-[24px]">
+                <div className="mb-[24px]">
+                  <Sticker
+                    title={
+                      getDetailPostData &&
+                      getDetailPostData.boardRes.boardCategory
+                    }
+                  />
+                </div>
+                <div>
+                  <p className="font-600 text-4xl mb-[7px]">
+                    {getDetailPostData && getDetailPostData.title}
+                  </p>
+                  <div className="flex gap-[8px] text-sm text-gray-500 items-center mb-[24px]">
+                    <div className="w-[28px] h-[28px] bg-gray-150 rounded-full"></div>
+                    <p>
+                      {getDetailPostData && getDetailPostData.userRes.nickName}
+                    </p>
+                    <p>•</p>
+                    <p>
+                      {getDetailPostData &&
+                        FormatTimeAgo(getDetailPostData.createdAt)}
+                    </p>
+                  </div>
+                  <div className="mb-[40px]">
+                    <div className="text-lg font-400">
+                      <p>{getDetailPostData && getDetailPostData.content}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-4 mb-[16px] pl-[24px] pr-[24px]">
+                <div className="col-span-3 mt-[10px]">
+                  <Watch
+                    watchNum={getDetailPostData && getDetailPostData.viewed}
+                  />
+                </div>
+                <div className="col-span-1 flex gap-[10px] justify-end">
+                  <RoundButton text="공유" hasIcon={true} />
+                  {isMyPost ? (
+                    <>
+                      <RoundButton
+                        text="수정"
+                        hasIcon={false}
+                        onClick={updatePost}
+                      />
+                      <RoundButton
+                        text="삭제"
+                        hasIcon={false}
+                        onClick={() =>
+                          setPostData({
+                            isShowConfirmModal: true,
+                          })
+                        }
+                      />
+                    </>
+                  ) : (
+                    <RoundButton text="신고" hasIcon={false} />
+                  )}
+                </div>
+              </div>
+              <div className="ml-[24px] mr-[24px] mb-[20px] mt-[32px] border border-gray-100"></div>
+              <div className="flex gap-[8px] mb-[16px] pl-[24px] pr-[24px]">
+                <div className="w-[24px] h-[24px] bg-gray-150"></div>
+                <p>
+                  댓글 {getDetailPostData && getDetailPostData.commentsCount}
+                </p>
+              </div>
+              <div className="mb-[0px] pl-[24px] pr-[24px]">
+                <Textarea
+                  id="top-comment"
+                  varient="default"
+                  value={comment}
+                  setValue={setComment}
+                  handleClickInsertButton={onClickInsertButton}
+                  placeholder="댓글을 기입해 주세요."
+                  backgroundColor="#F1F3F6"
+                  paddingTop="45px"
+                  isShowPressInput={true}
+                  infoText={
+                    <div className="absolute left-[24px] top-[0px] pt-[18px] text-2xl text-gray-400">
+                      <p className="text-sm text-gray-600 font-600">
+                        {getDetailPostData &&
+                          getDetailPostData.userRes.nickName}
+                      </p>
+                    </div>
                   }
                 />
               </div>
               <div>
-                <p className="font-600 text-4xl mb-[7px]">
-                  {getDetailPostData && getDetailPostData.title}
-                </p>
-                <div className="flex gap-[8px] text-sm text-gray-500 items-center mb-[24px]">
-                  <div className="w-[28px] h-[28px] bg-gray-150 rounded-full"></div>
-                  <p>
-                    {getDetailPostData && getDetailPostData.userRes.nickName}
-                  </p>
-                  <p>•</p>
-                  <p>
-                    {getDetailPostData &&
-                      FormatTimeAgo(getDetailPostData.createdAt)}
-                  </p>
-                </div>
-                <div className="mb-[40px]">
-                  <div className="text-lg font-400">
-                    <p>{getDetailPostData && getDetailPostData.content}</p>
-                  </div>
-                </div>
+                <CommentList data={getCommentData && getCommentData} />
               </div>
-            </div>
-            <div className="grid grid-cols-4 mb-[16px] pl-[24px] pr-[24px]">
-              <div className="col-span-3 mt-[10px]">
-                <Watch
-                  watchNum={getDetailPostData && getDetailPostData.viewed}
-                />
-              </div>
-              <div className="col-span-1 flex gap-[10px] justify-end">
-                <RoundButton text="공유" hasIcon={true} />
-                {isMyPost ? (
-                  <>
-                    <RoundButton
-                      text="수정"
-                      hasIcon={false}
-                      onClick={updatePost}
-                    />
-                    <RoundButton
-                      text="삭제"
-                      hasIcon={false}
-                      onClick={deletePost}
-                    />
-                  </>
-                ) : (
-                  <RoundButton text="신고" hasIcon={false} />
-                )}
-              </div>
-            </div>
-            <div className="ml-[24px] mr-[24px] mb-[20px] mt-[32px] border border-gray-100"></div>
-            <div className="flex gap-[8px] mb-[16px] pl-[24px] pr-[24px]">
-              <div className="w-[24px] h-[24px] bg-gray-150"></div>
-              <p>댓글 {getDetailPostData && getDetailPostData.commentsCount}</p>
-            </div>
-            <div className="mb-[0px] pl-[24px] pr-[24px]">
-              <Textarea
-                id="top-comment"
-                varient="default"
-                value={comment}
-                setValue={setComment}
-                handleClickInsertButton={onClickInsertButton}
-                placeholder="댓글을 기입해 주세요."
-                backgroundColor="#F1F3F6"
-                paddingTop="45px"
-                isShowPressInput={true}
-                infoText={
-                  <div className="absolute left-[24px] top-[0px] pt-[18px] text-2xl text-gray-400">
-                    <p className="text-sm text-gray-600 font-600">
-                      {getDetailPostData && getDetailPostData.userRes.nickName}
-                    </p>
-                  </div>
-                }
-              />
-            </div>
-            <div>
-              <CommentList data={getCommentData && getCommentData} />
             </div>
           </div>
         </div>
       </div>
-    </div>
+      {postData.isShowConfirmModal && (
+        <ConfirmModal
+          text="게시글을 삭제하시겠습니까?"
+          setConfirmData={setPostData}
+          onClick={handleDeleteButton}
+        />
+      )}
+    </>
   );
 };
 
