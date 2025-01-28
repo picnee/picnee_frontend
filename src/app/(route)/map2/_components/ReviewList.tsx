@@ -3,11 +3,10 @@ import Icon from "@/public/svgs/Icon";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { BestReviewType } from "./Review";
 import ReviewByTypeData from "./ReviewByTypeData";
-import useFormatTimeAgo from "@/hooks/useFormatTimeAgo";
 import MoreMenu from "../../travelTalk/detail/[postId]/_components/MoreMenu";
 import { useUserStore } from "@/store/zustand/useUserStore";
-import ConfirmModal from "@/components/modal/ConfirmModal";
 import { DeletePropsType } from "../page";
+import FormatTimeAgo from "@/utils/FormatTimeAgo";
 
 const iconList = [{}, {}, {}, {}, {}];
 const categoryList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
@@ -111,7 +110,7 @@ const ReviewList = ({
             ></span>
           ))}
           <p className="ml-[4px] text-gray-400 text-sm font-500">
-            • {useFormatTimeAgo(bestReviewData.touristSpotRes.createdAt)}
+            • {FormatTimeAgo(bestReviewData.touristSpotRes.createdAt)}
           </p>
         </div>
         {ReviewListByType().map((item, index) => (
