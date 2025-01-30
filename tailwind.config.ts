@@ -128,6 +128,7 @@ const config: Config = {
       boxShadow: {
         selectShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
         custom: '0px 1px 4px 0px rgba(0, 0, 0, 0.2)',
+        DarkShadow: '0 10px 30px rgba(0, 0, 0, 0.3)', // 커스텀 그림자 추가
       },
     },
   },
