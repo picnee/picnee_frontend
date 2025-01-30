@@ -27,7 +27,7 @@ const DetailList = ({ handleSelectedSearchList, setReviewData }: Props) => {
   return (
     <div
       ref={divRef}
-      className="w-[384px] h-[670px] 2xl:h-[785px] mt-[130px] ml-[32px] rounded-m bg-white overflow-y-scroll overflow-x-hidden"
+      className="w-[384px] h-[670px] 2xl:h-[785px] mt-[130px] ml-[32px] rounded-m bg-white overflow-y-scroll overflow-x-hidden shadow-DarkShadow"
     >
       <ScrollHeader
         divRef={divRef}
