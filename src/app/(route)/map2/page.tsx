@@ -7,6 +7,7 @@ import DetailList from "./_components/DetailList";
 import ConfirmModal from "@/components/modal/ConfirmModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DeleteReviewData } from "./actions/DeleteReviewData";
+import GoogleMapComponent from "./_components/GoogleMap";
 
 export interface DeletePropsType {
   isShowConfirmModal: boolean;
@@ -53,8 +54,12 @@ const map = () => {
 
   return (
     <>
-      <div className="w-[100vw] mt-[-73px] bg-gray-600">
-        <div className="flex">
+      <div className="relative w-[100vw] mt-[-73px]">
+        {/* Google Map을 배경으로 설정 */}
+        <GoogleMapComponent />
+
+        {/* Foreground UI (앞쪽 UI) */}
+        <div className="flex relative z-10">
           <SideMenu
             setSelectedMenu={setSelectedMenu}
             setShowSearchPanel={setShowSearchPanel}
