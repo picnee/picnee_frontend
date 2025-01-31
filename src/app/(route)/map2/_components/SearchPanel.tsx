@@ -1,7 +1,8 @@
 import RoundButton from "@/components/common/button/RoundButton";
 import SearchBox from "@/components/common/input/SearchBox";
 import SearchList from "./SearchList";
-import { Dispatch, SetStateAction, memo } from "react";
+import { Dispatch, SetStateAction, memo, useRef, useState } from "react";
+import { Autocomplete, LoadScriptNext } from "@react-google-maps/api";
 
 const dummy = [
   {
@@ -58,18 +59,75 @@ const dummy = [
 
 interface PropsType {
   handleSelectedSearchList: (value: string) => void;
+  googleMapsApiKey: string | undefined;
+  setMapCenter: Dispatch<
+    SetStateAction<{
+      lat: number;
+      lng: number;
+    }>
+  >;
+  setMarkerPosition: Dispatch<
+    SetStateAction<{
+      lat: number;
+      lng: number;
+    }>
+  >;
 }
-const SearchPanel = ({ handleSelectedSearchList }: PropsType) => {
+
+// 📍 도쿄 기본 중심 좌표
+const defaultCenter = {
+  lat: 35.682839,
+  lng: 139.759455,
+};
+
+const SearchPanel = ({
+  handleSelectedSearchList,
+  googleMapsApiKey,
+  setMapCenter,
+  setMarkerPosition,
+}: PropsType) => {
+  // Autocomplete input 참조
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+  // 장소 검색 시 호출될 함수
+  const onPlaceChanged = () => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+      if (place.geometry) {
+        const newLocation = {
+          lat: place.geometry.location?.lat() || defaultCenter.lat,
+          lng: place.geometry.location?.lng() || defaultCenter.lng,
+        };
+        setMapCenter(newLocation);
+        setMarkerPosition(newLocation);
+      }
+    }
+  };
+
   return (
     <div className="w-[440px] pt-[20px] h-[100vh] bg-white overflow-scroll">
-      <div className="mb-[40px] pl-[20px] pr-[20px]">
-        <SearchBox
-          width="100%"
-          height="50px"
-          placeholder="지도 검색"
-          sticker="도쿄"
-        />
-      </div>
+      {googleMapsApiKey && (
+        <div className="mb-[40px] pl-[20px] pr-[20px]">
+          <LoadScriptNext
+            googleMapsApiKey={googleMapsApiKey}
+            libraries={["places"]}
+          >
+            <Autocomplete
+              onLoad={(autocomplete) =>
+                (autocompleteRef.current = autocomplete)
+              }
+              onPlaceChanged={onPlaceChanged}
+            >
+              <SearchBox
+                width="100%"
+                height="50px"
+                placeholder="지도 검색"
+                sticker="도쿄"
+              />
+            </Autocomplete>
+          </LoadScriptNext>
+        </div>
+      )}
       <div className="mb-[20px] pl-[20px] pr-[20px]">
         <p className="font-600 text-3xl mb-[10px]">도쿄에 방문 예정이신가요?</p>
         <div className="flex gap-[6px]">
