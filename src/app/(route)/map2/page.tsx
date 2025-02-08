@@ -75,6 +75,8 @@ const map = () => {
             googleMapsApiKey={googleMapsApiKey}
             mapCenter={mapCenter}
             markerPosition={markerPosition}
+            setMapCenter={setMapCenter}
+            setMarkerPosition={setMarkerPosition}
           />
         </div>
 
@@ -106,6 +108,14 @@ const map = () => {
           )}
         </div>
       </div>
+      {/* 삭제 확인용 모달 */}
+      {reviewData.isShowConfirmModal && (
+        <ConfirmModal
+          text="리뷰를 삭제하시겠습니까?"
+          setConfirmData={setReviewData}
+          onClick={handleDeleteButton}
+        />
+      )}
     </>
   );
 };

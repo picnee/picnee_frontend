@@ -185,7 +185,11 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
     }
   }, [postId, commentId, updateComment]);
 
+  const [isClickedLikeButton, setIsClickedKikeButton] =
+    useState<boolean>(false);
+
   const onClickLike = useCallback(() => {
+    setIsClickedKikeButton((prev) => !prev);
     if (postId && commentId) {
       likeCommentMutaion.mutate({
         postId: postId,
@@ -218,7 +222,11 @@ const Comment = ({ commentData, commentId }: commentDataType) => {
             <p className="font-400 text-lg mb-[6px]">{commentData.content}</p>
             <div className="flex gap-[20px] font-400 text-sm text-gray-500 mb-[24px]">
               <p>{FormatTimeAgo(commentData.createdAt)}</p>
-              <Like likeNum={commentData.likes} onClick={onClickLike} />
+              <Like
+                likeNum={commentData.likes}
+                onClick={onClickLike}
+                isClickedLikeButton={isClickedLikeButton}
+              />
               <p
                 className="cursor-pointer"
                 onClick={() => handleToggleReplyBox(commentData.commentId)}
