@@ -39,6 +39,7 @@ const RoundButton = ({
       onClick();
     }
   };
+
   return (
     <button
       style={{
@@ -56,10 +57,9 @@ const RoundButton = ({
     >
       {hasIcon && (
         <span
-          className={`${
-            iconName === "" &&
-            `w-[24px] h-[24px] ${text && "mr-[4px]"} inline-block bg-gray-150`
-          }`}
+          className={`${`w-[20px] h-[20px] ${
+            text && "mr-[4px]"
+          } inline-block`}`}
         >
           {iconName && <Icon iconName={iconName} />}
         </span>

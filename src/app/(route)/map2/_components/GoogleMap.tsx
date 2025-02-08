@@ -1,40 +1,82 @@
 import { GoogleMap, LoadScriptNext, Marker } from "@react-google-maps/api";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 const containerStyle = {
   width: "100vw",
   height: "100vh",
 };
 
-// 📍 도쿄 기본 중심 좌표
-const defaultCenter = {
-  lat: 35.682839,
-  lng: 139.759455,
-};
+interface PropsType {
+  mapCenter: {
+    lat: number;
+    lng: number;
+  };
+  markerPosition: { lat: number; lng: number };
+  googleMapsApiKey: string | undefined;
+  setMapCenter: Dispatch<
+    SetStateAction<{
+      lat: number;
+      lng: number;
+    }>
+  >;
+  setMarkerPosition: Dispatch<
+    SetStateAction<{
+      lat: number;
+      lng: number;
+    }>
+  >;
+}
 
-const GoogleMapComponent = () => {
-  // 지도 중심 상태 관리 (기본값: 도쿄)
-  const [mapCenter, setMapCenter] = useState(defaultCenter);
-  // 검색한 위치의 마커 상태
-  const [markerPosition, setMarkerPosition] = useState(defaultCenter);
+const GoogleMapComponent = ({
+  mapCenter,
+  markerPosition,
+  googleMapsApiKey,
+  setMapCenter,
+  setMarkerPosition,
+}: PropsType) => {
+  const [markerAnimation, setMarkerAnimation] =
+    useState<google.maps.Animation | null>(null);
+
+  // 사용자가 지도를 클릭하면 해당 위치로 마커 이동
+  const handleMapClick = (event: google.maps.MapMouseEvent) => {
+    if (event.latLng) {
+      const clickedLocation = {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      };
+
+      setMarkerPosition(clickedLocation);
+      setMarkerAnimation(google.maps.Animation.BOUNCE); // 클릭 시 마커 애니메이션 설정
+
+      // 2초 후 애니메이션 해제
+      setTimeout(() => {
+        setMarkerAnimation(null);
+      }, 100);
+    }
+  };
 
   return (
-    <div className="absolute top-0 left-0 w-full h-full z-0">
-      {/* Google Maps API 로드 */}
-      <LoadScriptNext
-        googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || ""}
-        libraries={["places"]}
-      >
-        {/* Google 지도 렌더링 */}
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={mapCenter}
-          zoom={15}
+    <div className="relative w-full h-full">
+      {googleMapsApiKey && (
+        <LoadScriptNext
+          googleMapsApiKey={googleMapsApiKey}
+          libraries={["places"]}
         >
-          {/* 선택한 위치에 마커 표시 */}
-          <Marker position={markerPosition} />
-        </GoogleMap>
-      </LoadScriptNext>
+          {/* Google 지도 렌더링 */}
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={mapCenter}
+            zoom={15}
+            onClick={handleMapClick} // 지도 클릭 이벤트 추가
+          >
+            {/* 선택한 위치에 마커 표시 */}
+            <Marker
+              position={markerPosition}
+              animation={markerAnimation ?? undefined}
+            />
+          </GoogleMap>
+        </LoadScriptNext>
+      )}
     </div>
   );
 };

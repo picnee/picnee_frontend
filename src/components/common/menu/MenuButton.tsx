@@ -1,3 +1,4 @@
+import Icon from "@/public/svgs/Icon";
 import { useTravelTalkCategoryStore } from "@/store/zustand/useTravelTalkStore";
 import { useRouter } from "next/navigation";
 import { memo } from "react";
@@ -6,6 +7,7 @@ interface PropsType {
   option: {
     key: number;
     value: string;
+    iconName: string;
   }[];
 }
 
@@ -32,7 +34,9 @@ const MenuButton = ({ option }: PropsType) => {
             }}
           >
             <div className="flex gap-[16px]">
-              <div className="w-[28px] h-[28px] appearance-none bg-gray-150"></div>
+              <div className="w-[24px] h-[24px] appearance-none">
+                <Icon iconName={item.iconName} />
+              </div>
               <p className="text-lg font-600 text-center">{item.value}</p>
             </div>
           </div>

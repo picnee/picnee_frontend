@@ -193,7 +193,7 @@ const TravelTalkListDetailPage = () => {
                   />
                 </div>
                 <div className="col-span-1 flex gap-[10px] justify-end">
-                  <RoundButton text="공유" hasIcon={true} />
+                  <RoundButton text="공유" hasIcon={true} iconName="share" />
                   {isMyPost ? (
                     <>
                       <RoundButton

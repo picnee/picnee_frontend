@@ -13,6 +13,13 @@ export interface DeletePropsType {
   isShowConfirmModal: boolean;
   id?: string;
 }
+
+// 📍 도쿄 기본 중심 좌표
+const defaultCenter = {
+  lat: 35.682839,
+  lng: 139.759455,
+};
+
 const map = () => {
   const queryClient = useQueryClient();
   const [showSearchPanel, setShowSearchPanel] = useState<boolean>(true);
@@ -52,26 +59,52 @@ const map = () => {
     }
   };
 
+  // 지도 API key
+  const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
+  // 지도 중심 상태 관리 (기본값: 도쿄)
+  const [mapCenter, setMapCenter] = useState(defaultCenter);
+  // 검색한 위치의 마커 상태
+  const [markerPosition, setMarkerPosition] = useState(defaultCenter);
+
   return (
     <>
-      <div className="relative w-[100vw] mt-[-73px]">
-        {/* Google Map을 배경으로 설정 */}
-        <GoogleMapComponent />
-
-        {/* Foreground UI (앞쪽 UI) */}
-        <div className="flex relative z-10">
-          <SideMenu
-            setSelectedMenu={setSelectedMenu}
-            setShowSearchPanel={setShowSearchPanel}
+      <div className="relative w-[100vw] h-[100vh] mt-[-72px]">
+        {/* Google Map을 배경으로 설정 (클릭 가능) */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
+          <GoogleMapComponent
+            googleMapsApiKey={googleMapsApiKey}
+            mapCenter={mapCenter}
+            markerPosition={markerPosition}
+            setMapCenter={setMapCenter}
+            setMarkerPosition={setMarkerPosition}
           />
+        </div>
+
+        {/* Foreground UI (앞쪽 UI, 클릭 차단 X) */}
+        <div className="relative flex z-10 border border-red pointer-events-none">
+          <div className="pointer-events-auto">
+            <SideMenu
+              setSelectedMenu={setSelectedMenu}
+              setShowSearchPanel={setShowSearchPanel}
+            />
+          </div>
           {showSearchPanel && (
-            <SearchPanel handleSelectedSearchList={handleSelectedSearchList} />
+            <div className="pointer-events-auto">
+              <SearchPanel
+                handleSelectedSearchList={handleSelectedSearchList}
+                googleMapsApiKey={googleMapsApiKey}
+                setMapCenter={setMapCenter}
+                setMarkerPosition={setMarkerPosition}
+              />
+            </div>
           )}
           {selectedSearchList && (
-            <DetailList
-              handleSelectedSearchList={handleSelectedSearchList}
-              setReviewData={setReviewData}
-            />
+            <div className="pointer-events-auto">
+              <DetailList
+                handleSelectedSearchList={handleSelectedSearchList}
+                setReviewData={setReviewData}
+              />
+            </div>
           )}
         </div>
       </div>
